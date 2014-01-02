@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Cómo crear tu blog en GitHub Pages"
-date: 2013-12-18 10:20:12 +0100
+date: 2014-01-02 10:20:12 +0100
 comments: true
 categories: webdevelop
 tags:
