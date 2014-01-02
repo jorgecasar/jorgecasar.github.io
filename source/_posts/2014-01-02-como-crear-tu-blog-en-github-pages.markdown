@@ -88,6 +88,14 @@ rake install['THEME_NAME']
 rake generate
 {% endhighlight %}
 
+Personalmente prefiero incluir las themes como submodulos, pero tened en cuenta que gh-pages no incluye módulos de manera recursiva, únicamente los de primer nivel, así que si la template tiene submódulos no podréis incluirla como submódulo puesto que los submódulos de la template no se instalarán al desplegarla como gh-pages.
+
+{% highlight plain %}
+git submodule add GIT_URL .themes/THEME_NAME
+rake install['THEME_NAME']
+rake generate
+{% endhighlight %}
+
 ### Desplegar en GitHub
 Una vez que tenemos una primera versión de nuestro blog podemos desplegarlo en GitHub. Recuerda que primero has de crear el repositorio con nombre `username.github.io`. Una vez que lo tienes tendrás que configurar tu clon de Octopress para que puedas hacer los commits a tu repositorio. Para ello exite el comando, el cual te preguntará por la url de tu repositorio y configurará todo lo necesario para usar tu blog como GitHub Page.
 
@@ -124,3 +132,17 @@ git add .
 git commit -m 'My new GitHub Page'
 git push origin source
 {% endhighlight %}
+
+### Tu primer post
+
+Ahora que tienes el entorno configurado en local y delplegado en GitHub es hora de escribir tu primer post. Todos los post se encuentan en la carpeta ```_posts``` y deben tener el siguiente formato ```aaaa-mm-dd-title.MARKUP```, donde ```MARKUP``` es la extensión del formato elegido, en nuestro caso será ```md```. El formato del nombre del fichero es requerimiento de Jekyll, así que a cumplirlo a rajatabla.
+
+Si estás usando Octopres los post se encuentran en ```source/_posts``` y puedes automatizar la creación de nuevos artículos usando el sigueinte comando:
+
+{% highlight plain %}
+rake new_post["title"]
+{% endhighlight %}
+
+El contenido será renderizado el motor de markup que hayas elegido, pero adicionalmente dispones de todas las [características de las templates liquid](https://github.com/Shopify/liquid/wiki/Liquid-for-Designers) descritas en la [documentación de Jekyll](http://jekyllrb.com/docs/variables/).
+
+Puedes definir el separador del estracto usando la variable de configuración ```excerpt_separator```, en caso de estar usando Octopress el separador por defecto es: ```<!-- more -->```.
