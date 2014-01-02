@@ -4,7 +4,7 @@
   <title><![CDATA[Jorge del Casar]]></title>
   <link href="http://jorgecasar.github.io/atom.xml" rel="self"/>
   <link href="http://jorgecasar.github.io/"/>
-  <updated>2014-01-02T14:29:40+01:00</updated>
+  <updated>2014-01-02T14:51:03+01:00</updated>
   <id>http://jorgecasar.github.io/</id>
   <author>
     <name><![CDATA[Jorge del Casar]]></name>
@@ -117,6 +117,15 @@ rake generate</code></pre>
 </div>
 
 
+<p>Personalmente prefiero incluir las themes como submodulos, pero tened en cuenta que gh-pages no incluye módulos de manera recursiva, únicamente los de primer nivel, así que si la template tiene submódulos no podréis incluirla como submódulo puesto que los submódulos de la template no se instalarán al desplegarla como gh-pages.</p>
+
+<div>
+  <pre><code class='plain'>git submodule add GIT_URL .themes/THEME_NAME
+rake install[&#39;THEME_NAME&#39;]
+rake generate</code></pre>
+</div>
+
+
 <h3>Desplegar en GitHub</h3>
 
 <p>Una vez que tenemos una primera versión de nuestro blog podemos desplegarlo en GitHub. Recuerda que primero has de crear el repositorio con nombre <code>username.github.io</code>. Una vez que lo tienes tendrás que configurar tu clon de Octopress para que puedas hacer los commits a tu repositorio. Para ello exite el comando, el cual te preguntará por la url de tu repositorio y configurará todo lo necesario para usar tu blog como GitHub Page.</p>
@@ -161,6 +170,21 @@ git commit -m &#39;My new GitHub Page&#39;
 git push origin source</code></pre>
 </div>
 
+
+<h3>Tu primer post</h3>
+
+<p>Ahora que tienes el entorno configurado en local y delplegado en GitHub es hora de escribir tu primer post. Todos los post se encuentan en la carpeta <code>_posts</code> y deben tener el siguiente formato <code>aaaa-mm-dd-title.MARKUP</code>, donde <code>MARKUP</code> es la extensión del formato elegido, en nuestro caso será <code>md</code>. El formato del nombre del fichero es requerimiento de Jekyll, así que a cumplirlo a rajatabla.</p>
+
+<p>Si estás usando Octopres los post se encuentran en <code>source/_posts</code> y puedes automatizar la creación de nuevos artículos usando el sigueinte comando:</p>
+
+<div>
+  <pre><code class='plain'>rake new_post[&quot;title&quot;]</code></pre>
+</div>
+
+
+<p>El contenido será renderizado el motor de markup que hayas elegido, pero adicionalmente dispones de todas las <a href="https://github.com/Shopify/liquid/wiki/Liquid-for-Designers">características de las templates liquid</a> descritas en la <a href="http://jekyllrb.com/docs/variables/">documentación de Jekyll</a>.</p>
+
+<p>Puedes definir el separador del estracto usando la variable de configuración <code>excerpt_separator</code>, en caso de estar usando Octopress el separador por defecto es: <code>&lt;!-- more --&gt;</code>.</p>
 ]]></content>
   </entry>
   
