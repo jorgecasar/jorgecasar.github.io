@@ -17,6 +17,12 @@
                 <li {% if page.navbar == 'Archives' %}class="active"{% endif %}>
                     <a href="{{ root_url }}/blog/archives">Archives</a>
                 </li>
+                <li {% if page.navbar == 'Repos' %}class="active"{% endif %}>
+                    <a href="{{ root_url }}/repos">Repos</a>
+                </li>
+                <li {% if page.navbar == 'Talks' %}class="active"{% endif %}>
+                    <a href="{{ root_url }}/talks">Talks</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
