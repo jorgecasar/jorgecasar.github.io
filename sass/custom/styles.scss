@@ -18,3 +18,30 @@ html, body {
 footer[role=contentinfo] {
     height: 60px;
 }
+
+ul#markdown-toc {
+  list-style: none;
+  float: right;
+  @include shadow-box;
+  background-color: white;
+}
+.blog-index #markdown-toc {
+  display: none;
+}
+
+article img {
+  padding: 0.5em;
+  background-color: #FFF;
+}
+article img.dark {
+  background-color:#333;
+}
+article img.pull-left {
+  margin: 0 1em 1em 0;
+}
+article img.pull-right {
+  margin: 0 0 1em 1em;
+}
+figure.code, .gist-file, pre {
+  overflow: auto;
+}
