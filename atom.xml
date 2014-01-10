@@ -4,7 +4,7 @@
   <title><![CDATA[Jorge del Casar]]></title>
   <link href="http://jorgecasar.github.io/atom.xml" rel="self"/>
   <link href="http://jorgecasar.github.io/"/>
-  <updated>2014-01-02T17:30:46+01:00</updated>
+  <updated>2014-01-10T19:17:57+01:00</updated>
   <id>http://jorgecasar.github.io/</id>
   <author>
     <name><![CDATA[Jorge del Casar]]></name>
@@ -14,40 +14,224 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Desarrollar webapps realtime: Creación]]></title>
+    <link href="http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-creacion/"/>
+    <updated>2014-01-10T10:30:09+01:00</updated>
+    <id>http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-creacion</id>
+    <content type="html"><![CDATA[<p><img class="center" src="http://sailsjs.org/images/image_squidhome.png" title="Designed for developers by Giant Squid" alt="Giant Squid" /></p>
+
+<ul id="markdown-toc">
+  <li><a href="#crear-proyecto-con-sailsjs">Crear proyecto con Sails.js</a>    <ul>
+      <li><a href="#requisitos">Requisitos</a></li>
+      <li><a href="#instalacin">Instalación</a></li>
+      <li><a href="#crear-un-nuevo-proyecto">Crear un nuevo proyecto</a></li>
+    </ul>
+  </li>
+  <li><a href="#crear-un-repositorio-git">Crear un repositorio git</a>    <ul>
+      <li><a href="#repositorio-git-remoto-en-github">Repositorio git remoto en GitHub</a></li>
+      <li><a href="#primer-commit">Primer commit</a></li>
+    </ul>
+  </li>
+  <li><a href="#despliegue-en-heroku">Despliegue en Heroku</a>    <ul>
+      <li><a href="#requisitos-1">Requisitos</a></li>
+      <li><a href="#configuracin-local">Configuración local</a></li>
+      <li><a href="#crear-una-aplicacin-en-heroku">Crear una aplicación en Heroku</a></li>
+      <li><a href="#desplegar-el-cdigo">Desplegar el código</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Hace unos meses descubrí Sails, un framework MVC para Node basado en Express que te facilita la creación de aplicaciones web realtime mediante Websockets. Así que no me extraña que el slogan sea:</p>
+<blockquote><p>THE WEB FRAMEWORK OF YOUR DREAMS.<br />Designed for developers by Giant Squid.</p><footer><strong>Mike McNeil,</strong> <cite><a href="http://sailsjs.org/">Creator of sails.js</a></cite></footer></blockquote>
+<!-- more -->
+
+<h2 id="crear-proyecto-con-sailsjs">Crear proyecto con Sails.js</h2>
+
+<div class="alert alert-info">
+    Podrás encontrar el código fuente de este artículo en: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp en GitHub</a>
+</div>
+
+<h3 id="requisitos">Requisitos</h3>
+<p><img class="pull-right dark" src="http://nodejs.org/images/logo.png" title="'Node.js'" />
+Obviamente necesitamos tener <a href="http://nodejs.org/">Node.js</a>. En mi caso, tengo la ultima versión estable, la 0.10.24, puesto que voy a desplegar en Heroku y acepta cualquier versión superior a la 0.8.5. Os recomiendo revisar qué versión hay instalada en el servidor donde vayáis a hacer despligue de producción. Para comprobar la versión que tienes en local ejecuta en la consola: <code>node -v</code>. Para gestionar la versión de node os recomiendo el paquete <a href="https://npmjs.org/package/n"><code>n</code> de npm</a>. Lo instalais globalmente para tenerlo disponible desde cualquier parte y luego podrás instalar la versión última versión estable con el comando <code>sudo n stable</code></p>
+
+<h3 id="instalacin">Instalación</h3>
+<p>Para instalar <a href="http://sailsjs.org/">Sails.js</a> simplemente instalamos globalmente el paquete</p>
+
+<div>
+  <pre><code class="plain">$ sudo npm -g install sails</code></pre>
+</div>
+
+<h3 id="crear-un-nuevo-proyecto">Crear un nuevo proyecto</h3>
+<p>Para hacerlo simplemente tendremos que llamar al commando <code>new</code> el cual nos creará un proyecto sails en la carpeta <code>&lt;appName&gt;</code> en el directorio desde donde ejecutemos el comando.</p>
+
+<div>
+  <pre><code class="plain">$ sails new &lt;appName&gt; [--linker]
+$ cd &lt;appName&gt;</code></pre>
+</div>
+
+<p>También existe la opción de usar un enlazador de recursos automático añadiendo la flag <code>--linker</code>. Esto instalará una tarea de <a href="http://gruntjs.com/">Grunt</a> llamada <a href="https://github.com/balderdashy/grunt-sails-linker">grunt-sails-linker</a> que automatiza la adición de etiquetas html basadas en ficheros. Incluyendo la flag sails creará el <code>Gruntfile.js</code> implementando esta tarea de Grunt.</p>
+
+<p>Una vez tenemos el proyecto y en el directorio del proyecto simplemente tenemos que lanzar el servidor:</p>
+
+<div>
+  <pre><code class="plain">$ sails lift</code></pre>
+</div>
+
+<p>Una vez lanzado vemos que el barco ha zarpado y podemos ver nuestra web app en <a href="http://localhost:1337">http://localhost:1337</a></p>
+
+<h2 id="crear-un-repositorio-git">Crear un repositorio git</h2>
+<p><img class="pull-right" src="http://git-scm.com/images/logo@2x.png" title="'Git'" />
+Es muy recomendable tener un control de versiones aunque sea simplemente en local para poder desacer cambios y tener un flujo de trabajo controlado.</p>
+
+<div>
+  <pre><code class="plain">$ git init</code></pre>
+</div>
+
+<p>Además, quien sabe si mañana no eres tu solo el que toca el código. Así que inicializamos nuestro git y enviamos nuestro lo que llevamos. Os recomiendo echarle un ojo al <a href="http://nvie.com/posts/a-successful-git-branching-model/">modelo de ramificación Git acertado</a>.</p>
+
+<p><img class="center" src="http://nvie.com/img/2009/12/Screen-shot-2009-12-24-at-11.32.03.png" title="'A successful Git branching model'" /></p>
+
+<p>De momento vamos a crear únicamente las ramas <code>master</code> y <code>develop</code> para nuestro proyecto y según vayamos necesitando las demás las vamos creado a partir de la rama que corresponda.</p>
+
+<div>
+  <pre><code class="plain">$ git checkout -b master &amp;&amp; git checkout -b develop</code></pre>
+</div>
+
+<p>De esta manera nos quedamos en la rama <code>develop</code> para empezar ahí nuestro proyecto y cuando tengamos algo estable lo combinaremos con la rama <code>master</code>.</p>
+
+<h3 id="repositorio-git-remoto-en-github">Repositorio git remoto en GitHub</h3>
+<p>En mi caso voy a usar <a href="http://github.com">GitHub</a> para compartir mi código con todos vosotros. Creamos nuestro nuevo repositorio en GitHub e incluimos la url del repositorio a nuestro proyecto:</p>
+
+<div>
+  <pre><code class="plain">$ git remote add origin &lt;git_url&gt;</code></pre>
+</div>
+
+<h3 id="primer-commit">Primer commit</h3>
+<p>Ahora que tenemos nuestro repositorio git es hora de hacer nuestro primer commit:</p>
+
+<div>
+  <pre><code class="plain">$ git add .
+$ git commit -m &quot;First commit&quot;
+$ git push -u origin develop</code></pre>
+</div>
+
+<h2 id="despliegue-en-heroku">Despliegue en Heroku</h2>
+<p><img class="pull-right" src="https://d1lpkba4w1baqt.cloudfront.net/heroku-logo-light-300x100.png" title="'Heroku'" />
+Una vez tenemos nuestro proyecto funcionando vamos a ver si nos funciona correctamente en el servidor de producción, en mi caso <a href="http://heroku.com">Heroku</a>. Voy a describir los pasos claves, pero si tienes algún problema puedes echarle un ojo <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Empezar con Node.js en Heroku</a> y <a href="https://devcenter.heroku.com/articles/git">Desplegando con git</a> para obtener información adicional.</p>
+
+<h3 id="requisitos-1">Requisitos</h3>
+<p>Antes de empezar necesitaremos un par de cosas primero:</p>
+
+<ol>
+  <li><a href="https://id.heroku.com/signup/devcenter">Crear una cuenta en Heroku</a></li>
+  <li>Instalar las <a href="https://toolbelt.heroku.com/">Heroku Toolbelt</a></li>
+</ol>
+
+<h3 id="configuracin-local">Configuración local</h3>
+<p>Después de instalar las Toolbelt podrás usar el comando <code>heroku</code> en tu consola. Así vamos a registrarnos en heroku y configurar nuestro entorno:</p>
+
+<div>
+  <pre><code class="shell">$ heroku login</code></pre>
+</div>
+
+<p>Nos pedirá nuestro nombre de usuario, contraseña y si queremos crear una llave pública SSH (<em>SSH public key</em>) para poder publicar nuestro código posteriormente.</p>
+
+<p>Es recomendable indicar en el &#8220;`package.json&#8220; la versión de node que queremos utilizar para evitar problemas y asegurarnos que estamos usando una versión que soportomos.</p>
+
+<p>~~~ json
+“engines”: {
+    “node”: “0.10.x”
+}
+~~</p>
+
+<p>Heroku usa el fichero <em>Procfile</em> para indicar los comandos que va a ejecutar tu aplicación, así que le tenemos que indicar que queremos un comando de tipo web y que ejecute nuestro script node:</p>
+
+<div>
+  <pre><code class="plain">web: node app.js</code></pre>
+</div>
+
+<p>Ahora podemos arrancar nuestra aplicación usando <a href="https://github.com/ddollar/foreman">Foreman</a>, que lo tendrás instalado como parte de las ToolBelt:</p>
+
+<div>
+  <pre><code class="shell">$ foreman start</code></pre>
+</div>
+
+<p>Seguramente te de un error porque no encuentra el módulo <code>sails</code>, así que instala las dependencias para tener una copia de sails en node_modules, puesto que al tenerlo instalado globalmente foreman no lo encuentra.</p>
+
+<div>
+  <pre><code class="shell">$ npm install</code></pre>
+</div>
+
+<p>Si todo funciona correctamente, subimos nuestro nuevo fichero al repositorio:</p>
+
+<div>
+  <pre><code class="plain">$ git add .
+$ git commit -m &quot;Added Procfile&quot;
+$ git push origin develop</code></pre>
+</div>
+
+<h3 id="crear-una-aplicacin-en-heroku">Crear una aplicación en Heroku</h3>
+<p>Heroku utiliza git para la gestión del código, así que tendremos que crear la aplicación en Heroku y poner una referencia en nuestra lista de repositorios remotos.</p>
+
+<div>
+  <pre><code class="shell">$ heroku apps:create &lt;appName&gt; -remote &lt;remote&gt; --region eu</code></pre>
+</div>
+
+<p>Esto creará una aplicación <code>&lt;appName&gt;</code> en Heroku, creará un repositorio remoto llamado <code>&lt;remote&gt;</code> (por defecto, heroku) e indicamos que nuestra región es Europa.</p>
+
+<p>Si tenemos la aplicación creada en Heroku, podemos añadirla como repositorio remoto:</p>
+<div>
+  <pre><code class="shell">$ heroku git:remote -a &lt;appName&gt;</code></pre>
+</div>
+
+<p>Debido a que tenemos la rama maestra y la de desarrollo, y Heroku sólo tiene en cuenta la rama master para los despliegues en sus servidores, recomiendo crear otra app en Heroku para desarrollo. Yo lo he hecho añadiendo <code>-dev</code> tanto al nombre de la app con al nombre del repositorio remoto.</p>
+
+<div>
+  <pre><code class="shell">$ heroku apps:create &lt;appName&gt;-dev -remote &lt;remote&gt;-dev --region eu</code></pre>
+</div>
+
+<h3 id="desplegar-el-cdigo">Desplegar el código</h3>
+<p><img class="pull-left no-border" src="http://sailsjs.org/images/image_devInTub.png" title="'Sails lift'" />
+Hasta ahora solo hemos subido el código a la rama <code>develop</code> por lo que tendremos que desplegar en la rama master de <code>heroku-dev</code>.</p>
+
+<div>
+  <pre><code class="shell">$ git push heroku-dev develop:master</code></pre>
+</div>
+
+<p>Veremos como detecta que es una aplicación Node.js, instala las dependencias, cachea node_modules para futuros despliegues, construye el entorno, parsea el Procfile comprime y lanza. Ahora podemos ver nuestra webapp en el entorno de pre-producción <a href="http://building-realtime-webapp-dev.herokuapp.com">http://building-realtime-webapp-dev.herokuapp.com</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Cómo crear tu blog en GitHub Pages]]></title>
     <link href="http://jorgecasar.github.io/blog/como-crear-tu-blog-en-github-pages/"/>
     <updated>2014-01-02T10:20:12+01:00</updated>
     <id>http://jorgecasar.github.io/blog/como-crear-tu-blog-en-github-pages</id>
-    <content type="html"><![CDATA[<p>Qué mejor manera de inaugurar este blog que contando cómo lo he hecho. <a href="http://github.com/">Github</a> ofrece gratuitamente las <a href="http://pages.github.com/">Github Pages</a>, las cuales permiten crear páginas webs para tus proyectos, usuario y organizaciones. La mayoría de la gente conoce las páginas de los proyectos, pero también se pueden crear páginas de usuario y de organizaciones.</p>
+    <content type="html"><![CDATA[<p>Qué mejor manera de inaugurar este blog que contando cómo lo he hecho. <a href="http://github.com/">Github</a> ofrece gratuitamente las <a href="http://pages.github.com/">Github Pages</a>, las cuales permiten crear páginas webs para tus proyectos, usuario y organizaciones. La mayoría de la gente conoce las páginas de los proyectos, pero también se pueden crear páginas de usuario y de organizaciones.
+<!-- more --></p>
 
-<!-- more -->
-
-
-<h2>Crear una GitHub Page</h2>
-
-<p>Las páginas de proyectos se pueden crear automáticamente desde los ajustes (<em>settings</em>) de tu proyecto presionando el botón <em>&ldquo;Automatic Page Generator&rdquo;</em> y siguiendo los pasos. Esto creará una nueva rama en tu proyecto llamada gh-page la cual se desplegará cada vez que hagas un push en dicha rama.  por lo que también puedes crearlas manualmente, sincronizar tu rama master con gh-pages o reemplazar la rama master por gh-pages. De una forma similar se pueden crear páginas para los usuarios y para las organizaciones, en este caso, hay que crear un repositorio llamado <em>username.github.io</em> dónde <em>username</em> es tu nombre de usuario o el nombre de la organización en GitHub. Asegurate de escribir correctamente el <em>username</em>, porque si no no funcionará. Lo que describo en este artículo también es aplicable a las páginas de proyecto, pero nos centraremos en las de usuario y organización.</p>
+<h2 id="crear-una-github-page">Crear una GitHub Page</h2>
+<p>Las páginas de proyectos se pueden crear automáticamente desde los ajustes (<em>settings</em>) de tu proyecto presionando el botón <em>“Automatic Page Generator”</em> y siguiendo los pasos. Esto creará una nueva rama en tu proyecto llamada gh-page la cual se desplegará cada vez que hagas un push en dicha rama.  por lo que también puedes crearlas manualmente, sincronizar tu rama master con gh-pages o reemplazar la rama master por gh-pages. De una forma similar se pueden crear páginas para los usuarios y para las organizaciones, en este caso, hay que crear un repositorio llamado <em>username.github.io</em> dónde <em>username</em> es tu nombre de usuario o el nombre de la organización en GitHub. Asegurate de escribir correctamente el <em>username</em>, porque si no no funcionará. Lo que describo en este artículo también es aplicable a las páginas de proyecto, pero nos centraremos en las de usuario y organización.</p>
 
 <p>Las GitHub Pages usan <a href="http://jekyllrb.com/">Jekyll</a>, un generador de sitios estáticos simple, con conciencia de blog, en Ruby. Para ello se necesita un directorio donde almacenar los ficheros de texto sin procesar y mediante conversores escupe una página estática completa lista para publicar en tu servidor. Los textos sin procesar utilizan sintaxis <a href="http://es.wikipedia.org/wiki/Markdown">Markdown</a> y con ello nos olvidamos de las bases de datos pudiéndonos centrar en el contenido.</p>
 
-<h2>Crear el entorno de desarrollo local</h2>
-
+<h2 id="crear-el-entorno-de-desarrollo-local">Crear el entorno de desarrollo local</h2>
 <p>Antes de ponerse a subir contenido a las GitHub Pages es recomendable tener un entorno en local para previsualizar los cambios y así evitar hacer push innecesarios y esperar a que se actualice la GitHub Page para ver si lo hemos hecho bien. Para instalar Jekyll necesitamos:</p>
 
 <ol>
-<li><a href="http://www.ruby-lang.org/en/downloads/">Ruby</a></li>
-<li><a href="http://rubygems.org/pages/download">RubyGems</a></li>
+  <li><a href="http://www.ruby-lang.org/en/downloads/">Ruby</a></li>
+  <li><a href="http://rubygems.org/pages/download">RubyGems</a></li>
 </ol>
-
 
 <p>Una vez lo tenemos, instalamos la gema jekyll con <code>gem install jekyll</code>, la cual utilizará <a href="http://github.com/bhollis/maruku">Maruku</a> para Markdown, pero si quieres puedes utilizar LaTeX, RDiscount o Kramdown, pero no obstante, recomiendo dejar Maruku.
 El siguiente paso sería crear nuestro blog, para lo cual tenemos 2 opciones, utilizar Jekyll directamente o utilizar un framework como Octopress. Veamos cada una de las opciones.</p>
 
-<h3>Crear tu blog con Jekyll</h3>
-
+<h3 id="crear-tu-blog-con-jekyll">Crear tu blog con Jekyll</h3>
 <p>Jekyll nos ofrece la posibilidad de crear el esqueleto de nuestro blog mediante el comando <code>jekyll new username.github.io</code> y creará una carpeta llamada username.github.io, recordad que username es vuestro nombre de usuario u organización de GitHub. Esto genera la estructura siguiente:</p>
 
 <div>
-  <pre><code class='plain'>.
+  <pre><code class="plain">.
 ├── _config.yml
 ├── _layouts
 |   ├── default.html
@@ -60,127 +244,121 @@ El siguiente paso sería crear nuestro blog, para lo cual tenemos 2 opciones, ut
 └── index.html</code></pre>
 </div>
 
-
 <p>Luego podemos ir creando más carpetas y ficheros, pero estos son los básicos para empezar:</p>
 
 <ul>
-<li><strong>_congi.yml</strong>: almacena los datos de configuración. Muchas de estas opciones pueden ser especificadas desde la linea de comandos, pero es más fácil especificarlas aquí así no tienes que recordarlas.</li>
-<li><strong>layouts</strong>: Son las plantillas <a href="http://wiki.shopify.com/Liquid">Liquid</a> que envuelven los artículos. Las layouts se eligen en cada artículo mediantes la <a href="http://jekyllrb.com/docs/frontmatter/">información preeliminar en YAML</a>. El tag  se usa para inyectar el contenido en la página web.</li>
-<li><strong>_posts</strong>: Aqí se encuentra el contenido dinámico, por así decirlo. El formato de estos archivos es importante, y debe seguir el formato: año-mes-día-título.MARKUP. Los enlaces permanentes se pueden personalizar para cada artículo, pero la fecha y el lenguaje de marcado están determinados únicamente por el nombre del archivo.</li>
+  <li><strong>_congi.yml</strong>: almacena los datos de configuración. Muchas de estas opciones pueden ser especificadas desde la linea de comandos, pero es más fácil especificarlas aquí así no tienes que recordarlas.</li>
+  <li><strong>layouts</strong>: Son las plantillas <a href="http://wiki.shopify.com/Liquid">Liquid</a> que envuelven los artículos. Las layouts se eligen en cada artículo mediantes la <a href="http://jekyllrb.com/docs/frontmatter/">información preeliminar en YAML</a>. El tag  se usa para inyectar el contenido en la página web.</li>
+  <li><strong>_posts</strong>: Aqí se encuentra el contenido dinámico, por así decirlo. El formato de estos archivos es importante, y debe seguir el formato: año-mes-día-título.MARKUP. Los enlaces permanentes se pueden personalizar para cada artículo, pero la fecha y el lenguaje de marcado están determinados únicamente por el nombre del archivo.</li>
 </ul>
-
 
 <p>Con esto es suficiente para empezar a crear tu blog, pero puedes aprender más sobre <a href="http://jekyllrb.com/docs/templates/">plantillas</a>, <a href="http://jekyllrb.com/docs/permalinks/">enlaces permanentes</a>, <a href="http://jekyllrb.com/docs/pagination/">paginación</a> y <a href="http://jekyllrb.com/docs/plugins/">plugins</a> leyendo la <a href="http://jekyllrb.com/docs/home/">documentación de Jekyll</a>.</p>
 
-<h3>Crear tu blog con Octopress</h3>
-
+<h3 id="crear-tu-blog-con-octopress">Crear tu blog con Octopress</h3>
 <p>Si no queremos empezar desde cero creando nuestras propias plantillas HTML, CSS y Javascript, podemos utilizar <a href="http://octopress.org/">Octopress</a>, un framework de blogs para hackers. Octopress viene con:</p>
 
 <ul>
-<li>Una plantilla HTML5 semántico</li>
-<li>Un diseño mobile first responsive</li>
-<li>Construido con soporte a para Twitter, Google Plus One, comentarios Disqus, Pinboard, Delicious y Google Analytics</li>
-<li>Una fácil estrategia de despliegue usando Github Pages o Rsync</li>
-<li>Construido en apoyo a los servidores POW y Rack</li>
-<li>Tematización fácil con Compass y Sass</li>
-<li>Un resaltado de sintaxis Beautiful Solarized</li>
+  <li>Una plantilla HTML5 semántico</li>
+  <li>Un diseño mobile first responsive</li>
+  <li>Construido con soporte a para Twitter, Google Plus One, comentarios Disqus, Pinboard, Delicious y Google Analytics</li>
+  <li>Una fácil estrategia de despliegue usando Github Pages o Rsync</li>
+  <li>Construido en apoyo a los servidores POW y Rack</li>
+  <li>Tematización fácil con Compass y Sass</li>
+  <li>Un resaltado de sintaxis Beautiful Solarized</li>
 </ul>
-
 
 <p>Además existen plugins creados por Octopress o por la comunidad de Jeklly con algunas mejoras. Puedes consultar el <a href="http://octopress.org/docs/plugins/">listado de plugins</a> si quieres conocerlos.</p>
 
 <p>Para empezar con Octupus debes comprobar que tienes Ruby 1.9.3 o superior, puedes comprobarlo escribiendo en la consola <code>ruby --version</code>. Una vez comprabdo ejecutamos los siguientes pasos:</p>
 
 <ul>
-<li><p>Clonamos el repositorio: <div>
-<pre><code class='plain'>git clone git://github.com/imathis/octopress.git username.github.io</code></pre>
-</div></p></li>
-<li><p>Instalamos las dependencias: <div>
-<pre><code class='plain'>gem install bundler
+  <li>Clonamos el repositorio: &lt;div&gt;
+    <pre><code class="plain">git clone git://github.com/imathis/octopress.git username.github.io</code></pre>
+  </li>
+</ul>
+<p>&lt;/div&gt;</p>
+
+<ul>
+  <li>Instalamos las dependencias: &lt;div&gt;
+    <pre><code class="plain">gem install bundler
 rbenv rehash  # Si usas rbenv, rehash para poder ejecutar el comando bundle
 bundle install</code></pre>
-</div></p></li>
-<li><p>Instalar la plantilla por defecto: <div>
-<pre><code class='plain'>rake install</code></pre>
-</div></p></li>
+  </li>
 </ul>
+<p>&lt;/div&gt;</p>
 
+<ul>
+  <li>Instalar la plantilla por defecto: &lt;div&gt;
+    <pre><code class="plain">rake install</code></pre>
+  </li>
+</ul>
+<p>&lt;/div&gt;</p>
 
-<h4>Plantillas Octopress</h4>
-
+<h4 id="plantillas-octopress">Plantillas Octopress</h4>
 <p>Si queremos instalar una plantilla diferente a la que viene por defecto puedes echar un ojo a lista de plantillas en <a href="http://opthemes.com/">Opthemes</a> e instalarla siguiend estos pasos:</p>
 
 <div>
-  <pre><code class='plain'>git clone GIT_URL .themes/THEME_NAME
+  <pre><code class="plain">git clone GIT_URL .themes/THEME_NAME
 rake install[&#39;THEME_NAME&#39;]
 rake generate</code></pre>
 </div>
-
 
 <p>Personalmente prefiero incluir las themes como submodulos, pero tened en cuenta que gh-pages no incluye módulos de manera recursiva, únicamente los de primer nivel, así que si la template tiene submódulos no podréis incluirla como submódulo puesto que los submódulos de la template no se instalarán al desplegarla como gh-pages.</p>
 
 <div>
-  <pre><code class='plain'>git submodule add GIT_URL .themes/THEME_NAME
+  <pre><code class="plain">git submodule add GIT_URL .themes/THEME_NAME
 rake install[&#39;THEME_NAME&#39;]
 rake generate</code></pre>
 </div>
 
-
-<h3>Desplegar en GitHub</h3>
-
+<h3 id="desplegar-en-github">Desplegar en GitHub</h3>
 <p>Una vez que tenemos una primera versión de nuestro blog podemos desplegarlo en GitHub. Recuerda que primero has de crear el repositorio con nombre <code>username.github.io</code>. Una vez que lo tienes tendrás que configurar tu clon de Octopress para que puedas hacer los commits a tu repositorio. Para ello exite el comando, el cual te preguntará por la url de tu repositorio y configurará todo lo necesario para usar tu blog como GitHub Page.</p>
 
 <div>
-  <pre><code class='plain'>rake setup_github_pages</code></pre>
+  <pre><code class="plain">rake setup_github_pages</code></pre>
 </div>
-
 
 <p>Este comando realiza lo siguiente:</p>
 
 <ol>
-<li>Solicita la url de tu repositorio (HTTP o SSH)</li>
-<li>Cambia el nombre del puntero remoto <em>imathis/octopress</em> de <code>origen</code> a <code>octopress</code></li>
-<li>Añade tu repositorio Github Pages como <code>origin</code></li>
-<li>Cambia la rama activa de <code>master</code> a <code>source</code></li>
-<li>Configura la url de tu blog de ​​acuerdo a tu repositorio</li>
-<li>Configura de una rama <code>master</code> en el directorio <code>_deploy</code> para el despliegue</li>
+  <li>Solicita la url de tu repositorio (HTTP o SSH)</li>
+  <li>Cambia el nombre del puntero remoto <em>imathis/octopress</em> de <code>origen</code> a <code>octopress</code></li>
+  <li>Añade tu repositorio Github Pages como <code>origin</code></li>
+  <li>Cambia la rama activa de <code>master</code> a <code>source</code></li>
+  <li>Configura la url de tu blog de ​​acuerdo a tu repositorio</li>
+  <li>Configura de una rama <code>master</code> en el directorio <code>_deploy</code> para el despliegue</li>
 </ol>
-
 
 <p>Una vez configurado el entorno para trabajar con GitHub Pages podemos previsualizar el resultado ejecutando el comando:</p>
 
 <div>
-  <pre><code class='plain'>rake preview</code></pre>
+  <pre><code class="plain">rake preview</code></pre>
 </div>
-
 
 <p>Y cuando hemos comprobado que está todo listo para subirlo a GitHub debemos generar el contenido estático y desplegarlo:</p>
 
 <div>
-  <pre><code class='plain'>rake generate
+  <pre><code class="plain">rake generate
 rake deploy</code></pre>
 </div>
-
 
 <p>Y no olvides subir el código fuente de tu blog:</p>
 
 <div>
-  <pre><code class='plain'>git add .
+  <pre><code class="plain">git add .
 git commit -m &#39;My new GitHub Page&#39;
 git push origin source</code></pre>
 </div>
 
-
-<h3>Tu primer post</h3>
+<h3 id="tu-primer-post">Tu primer post</h3>
 
 <p>Ahora que tienes el entorno configurado en local y delplegado en GitHub es hora de escribir tu primer post. Todos los post se encuentan en la carpeta <code>_posts</code> y deben tener el siguiente formato <code>aaaa-mm-dd-title.MARKUP</code>, donde <code>MARKUP</code> es la extensión del formato elegido, en nuestro caso será <code>md</code>. El formato del nombre del fichero es requerimiento de Jekyll, así que a cumplirlo a rajatabla.</p>
 
 <p>Si estás usando Octopres los post se encuentran en <code>source/_posts</code> y puedes automatizar la creación de nuevos artículos usando el sigueinte comando:</p>
 
 <div>
-  <pre><code class='plain'>rake new_post[&quot;title&quot;]</code></pre>
+  <pre><code class="plain">rake new_post[&quot;title&quot;]</code></pre>
 </div>
-
 
 <p>El contenido será renderizado el motor de markup que hayas elegido, pero adicionalmente dispones de todas las <a href="https://github.com/Shopify/liquid/wiki/Liquid-for-Designers">características de las templates liquid</a> descritas en la <a href="http://jekyllrb.com/docs/variables/">documentación de Jekyll</a>.</p>
 

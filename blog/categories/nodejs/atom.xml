@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: NodeJS | Jorge del Casar]]></title>
+  <link href="http://jorgecasar.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
+  <link href="http://jorgecasar.github.io/"/>
+  <updated>2014-01-10T19:17:57+01:00</updated>
+  <id>http://jorgecasar.github.io/</id>
+  <author>
+    <name><![CDATA[Jorge del Casar]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Desarrollar webapps realtime: Creación]]></title>
+    <link href="http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-creacion/"/>
+    <updated>2014-01-10T10:30:09+01:00</updated>
+    <id>http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-creacion</id>
+    <content type="html"><![CDATA[<p><img class="center" src="http://sailsjs.org/images/image_squidhome.png" title="‘Designed for developers by Giant Squid’ ‘Giant Squid’" ></p>
+
+<ul id="markdown-toc">
+  <li><a href="#crear-proyecto-con-sailsjs">Crear proyecto con Sails.js</a>    <ul>
+      <li><a href="#requisitos">Requisitos</a></li>
+      <li><a href="#instalacin">Instalación</a></li>
+      <li><a href="#crear-un-nuevo-proyecto">Crear un nuevo proyecto</a></li>
+    </ul>
+  </li>
+  <li><a href="#crear-un-repositorio-git">Crear un repositorio git</a>    <ul>
+      <li><a href="#repositorio-git-remoto-en-github">Repositorio git remoto en GitHub</a></li>
+      <li><a href="#primer-commit">Primer commit</a></li>
+    </ul>
+  </li>
+  <li><a href="#despliegue-en-heroku">Despliegue en Heroku</a>    <ul>
+      <li><a href="#requisitos-1">Requisitos</a></li>
+      <li><a href="#configuracin-local">Configuración local</a></li>
+      <li><a href="#crear-una-aplicacin-en-heroku">Crear una aplicación en Heroku</a></li>
+      <li><a href="#desplegar-el-cdigo">Desplegar el código</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Hace unos meses descubrí Sails, un framework MVC para Node basado en Express que te facilita la creación de aplicaciones web realtime mediante Websockets. Así que no me extraña que el slogan sea:
+<blockquote><p>THE WEB FRAMEWORK OF YOUR DREAMS.<br/>Designed for developers by Giant Squid.</p><footer><strong>Mike McNeil,</strong> <cite><a href='http://sailsjs.org/'>Creator of sails.js</a></cite></footer></blockquote>
+<!-- more --></p>
+
+<h2 id="crear-proyecto-con-sailsjs">Crear proyecto con Sails.js</h2>
+
+<div class="alert alert-info">
+    Podrás encontrar el código fuente de este artículo en: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp en GitHub</a>
+</div>
+
+<h3 id="requisitos">Requisitos</h3>
+<p><img class="pull-right dark" src="http://nodejs.org/images/logo.png" title="‘Node.js’" >
+Obviamente necesitamos tener <a href="http://nodejs.org/">Node.js</a>. En mi caso, tengo la ultima versión estable, la 0.10.24, puesto que voy a desplegar en Heroku y acepta cualquier versión superior a la 0.8.5. Os recomiendo revisar qué versión hay instalada en el servidor donde vayáis a hacer despligue de producción. Para comprobar la versión que tienes en local ejecuta en la consola: <code>node -v</code>. Para gestionar la versión de node os recomiendo el paquete <a href="https://npmjs.org/package/n"><code>n</code> de npm</a>. Lo instalais globalmente para tenerlo disponible desde cualquier parte y luego podrás instalar la versión última versión estable con el comando <code>sudo n stable</code></p>
+
+<h3 id="instalacin">Instalación</h3>
+<p>Para instalar <a href="http://sailsjs.org/">Sails.js</a> simplemente instalamos globalmente el paquete</p>
+
+<p><div>
+  <pre><code class='plain'>$ sudo npm -g install sails</code></pre>
+</div>
+</p>
+
+<h3 id="crear-un-nuevo-proyecto">Crear un nuevo proyecto</h3>
+<p>Para hacerlo simplemente tendremos que llamar al commando <code>new</code> el cual nos creará un proyecto sails en la carpeta <code>&lt;appName&gt;</code> en el directorio desde donde ejecutemos el comando.</p>
+
+<p><div>
+  <pre><code class='plain'>$ sails new &lt;appname&gt; [--linker]
+$ cd &lt;appname&gt;</code></pre>
+</div>
+</appname></appname></p>
+
+<p>También existe la opción de usar un enlazador de recursos automático añadiendo la flag <code>--linker</code>. Esto instalará una tarea de <a href="http://gruntjs.com/">Grunt</a> llamada <a href="https://github.com/balderdashy/grunt-sails-linker">grunt-sails-linker</a> que automatiza la adición de etiquetas html basadas en ficheros. Incluyendo la flag sails creará el <code>Gruntfile.js</code> implementando esta tarea de Grunt.</p>
+
+<p>Una vez tenemos el proyecto y en el directorio del proyecto simplemente tenemos que lanzar el servidor:</p>
+
+<p><div>
+  <pre><code class='plain'>$ sails lift</code></pre>
+</div>
+</p>
+
+<p>Una vez lanzado vemos que el barco ha zarpado y podemos ver nuestra web app en <a href="http://localhost:1337">http://localhost:1337</a></p>
+
+<h2 id="crear-un-repositorio-git">Crear un repositorio git</h2>
+<p><img class="pull-right" src="http://git-scm.com/images/logo@2x.png" title="‘Git’" >
+Es muy recomendable tener un control de versiones aunque sea simplemente en local para poder desacer cambios y tener un flujo de trabajo controlado.</p>
+
+<p><div>
+  <pre><code class='plain'>$ git init</code></pre>
+</div>
+</p>
+
+<p>Además, quien sabe si mañana no eres tu solo el que toca el código. Así que inicializamos nuestro git y enviamos nuestro lo que llevamos. Os recomiendo echarle un ojo al <a href="http://nvie.com/posts/a-successful-git-branching-model/">modelo de ramificación Git acertado</a>.</p>
+
+<p><img class="center" src="http://nvie.com/img/2009/12/Screen-shot-2009-12-24-at-11.32.03.png" title="‘A successful Git branching model’" ></p>
+
+<p>De momento vamos a crear únicamente las ramas <code>master</code> y <code>develop</code> para nuestro proyecto y según vayamos necesitando las demás las vamos creado a partir de la rama que corresponda.</p>
+
+<p><div>
+  <pre><code class='plain'>$ git checkout -b master &amp;amp;&amp;amp; git checkout -b develop</code></pre>
+</div>
+</p>
+
+<p>De esta manera nos quedamos en la rama <code>develop</code> para empezar ahí nuestro proyecto y cuando tengamos algo estable lo combinaremos con la rama <code>master</code>.</p>
+
+<h3 id="repositorio-git-remoto-en-github">Repositorio git remoto en GitHub</h3>
+<p>En mi caso voy a usar <a href="http://github.com">GitHub</a> para compartir mi código con todos vosotros. Creamos nuestro nuevo repositorio en GitHub e incluimos la url del repositorio a nuestro proyecto:</p>
+
+<p><div>
+  <pre><code class='plain'>$ git remote add origin &lt;git_url&gt;</code></pre>
+</div>
+</git_url></p>
+
+<h3 id="primer-commit">Primer commit</h3>
+<p>Ahora que tenemos nuestro repositorio git es hora de hacer nuestro primer commit:</p>
+
+<p><div>
+  <pre><code class='plain'>$ git add .
+$ git commit -m “First commit”
+$ git push -u origin develop</code></pre>
+</div>
+</p>
+
+<h2 id="despliegue-en-heroku">Despliegue en Heroku</h2>
+<p><img class="pull-right" src="https://d1lpkba4w1baqt.cloudfront.net/heroku-logo-light-300x100.png" title="‘Heroku’" >
+Una vez tenemos nuestro proyecto funcionando vamos a ver si nos funciona correctamente en el servidor de producción, en mi caso <a href="http://heroku.com">Heroku</a>. Voy a describir los pasos claves, pero si tienes algún problema puedes echarle un ojo <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">Empezar con Node.js en Heroku</a> y <a href="https://devcenter.heroku.com/articles/git">Desplegando con git</a> para obtener información adicional.</p>
+
+<h3 id="requisitos-1">Requisitos</h3>
+<p>Antes de empezar necesitaremos un par de cosas primero:</p>
+
+<ol>
+  <li><a href="https://id.heroku.com/signup/devcenter">Crear una cuenta en Heroku</a></li>
+  <li>Instalar las <a href="https://toolbelt.heroku.com/">Heroku Toolbelt</a></li>
+</ol>
+
+<h3 id="configuracin-local">Configuración local</h3>
+<p>Después de instalar las Toolbelt podrás usar el comando <code>heroku</code> en tu consola. Así vamos a registrarnos en heroku y configurar nuestro entorno:</p>
+
+<p><div>
+  <pre><code class='shell'>$ heroku login</code></pre>
+</div>
+</p>
+
+<p>Nos pedirá nuestro nombre de usuario, contraseña y si queremos crear una llave pública SSH (<em>SSH public key</em>) para poder publicar nuestro código posteriormente.</p>
+
+<p>Es recomendable indicar en el ```package.json`` la versión de node que queremos utilizar para evitar problemas y asegurarnos que estamos usando una versión que soportomos.</p>
+
+<p>~~~ json
+“engines”: {
+    “node”: “0.10.x”
+}
+~~</p>
+
+<p>Heroku usa el fichero <em>Procfile</em> para indicar los comandos que va a ejecutar tu aplicación, así que le tenemos que indicar que queremos un comando de tipo web y que ejecute nuestro script node:</p>
+
+<p><div>
+  <pre><code class='plain'>web: node app.js</code></pre>
+</div>
+</p>
+
+<p>Ahora podemos arrancar nuestra aplicación usando <a href="https://github.com/ddollar/foreman">Foreman</a>, que lo tendrás instalado como parte de las ToolBelt:</p>
+
+<p><div>
+  <pre><code class='shell'>$ foreman start</code></pre>
+</div>
+</p>
+
+<p>Seguramente te de un error porque no encuentra el módulo <code>sails</code>, así que instala las dependencias para tener una copia de sails en node_modules, puesto que al tenerlo instalado globalmente foreman no lo encuentra.</p>
+
+<p><div>
+  <pre><code class='shell'>$ npm install</code></pre>
+</div>
+</p>
+
+<p>Si todo funciona correctamente, subimos nuestro nuevo fichero al repositorio:</p>
+
+<p><div>
+  <pre><code class='plain'>$ git add .
+$ git commit -m “Added Procfile”
+$ git push origin develop</code></pre>
+</div>
+</p>
+
+<h3 id="crear-una-aplicacin-en-heroku">Crear una aplicación en Heroku</h3>
+<p>Heroku utiliza git para la gestión del código, así que tendremos que crear la aplicación en Heroku y poner una referencia en nuestra lista de repositorios remotos.</p>
+
+<p><div>
+  <pre><code class='shell'>$ heroku apps:create &lt;appname&gt; -remote &lt;remote&gt; --region eu</code></pre>
+</div>
+</remote></appname></p>
+
+<p>Esto creará una aplicación <code>&lt;appName&gt;</code> en Heroku, creará un repositorio remoto llamado <code>&lt;remote&gt;</code> (por defecto, heroku) e indicamos que nuestra región es Europa.</p>
+
+<p>Si tenemos la aplicación creada en Heroku, podemos añadirla como repositorio remoto:
+<div>
+  <pre><code class='shell'>$ heroku git:remote -a &lt;appname&gt;</code></pre>
+</div>
+</appname></p>
+
+<p>Debido a que tenemos la rama maestra y la de desarrollo, y Heroku sólo tiene en cuenta la rama master para los despliegues en sus servidores, recomiendo crear otra app en Heroku para desarrollo. Yo lo he hecho añadiendo <code>-dev</code> tanto al nombre de la app con al nombre del repositorio remoto.</p>
+
+<p><div>
+  <pre><code class='shell'>$ heroku apps:create &lt;appname&gt;-dev -remote &lt;remote&gt;-dev --region eu</code></pre>
+</div>
+</remote></appname></p>
+
+<h3 id="desplegar-el-cdigo">Desplegar el código</h3>
+<p><img class="pull-left no-border" src="http://sailsjs.org/images/image_devInTub.png" title="‘Sails lift’" >
+Hasta ahora solo hemos subido el código a la rama <code>develop</code> por lo que tendremos que desplegar en la rama master de <code>heroku-dev</code>.</p>
+
+<p><div>
+  <pre><code class='shell'>$ git push heroku-dev develop:master</code></pre>
+</div>
+</p>
+
+<p>Veremos como detecta que es una aplicación Node.js, instala las dependencias, cachea node_modules para futuros despliegues, construye el entorno, parsea el Procfile comprime y lanza. Ahora podemos ver nuestra webapp en el entorno de pre-producción <a href="http://building-realtime-webapp-dev.herokuapp.com">http://building-realtime-webapp-dev.herokuapp.com</a></p>
+]]></content>
+  </entry>
+  
+</feed>
