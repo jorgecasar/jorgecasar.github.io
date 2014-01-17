@@ -4,7 +4,7 @@
   <title><![CDATA[Category: NodeJS | Jorge del Casar]]></title>
   <link href="http://jorgecasar.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://jorgecasar.github.io/"/>
-  <updated>2014-01-10T23:53:38+01:00</updated>
+  <updated>2014-01-17T02:11:50+01:00</updated>
   <id>http://jorgecasar.github.io/</id>
   <author>
     <name><![CDATA[Jorge del Casar]]></name>
@@ -14,11 +14,420 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Desarrollar Webapps Realtime: Usuarios]]></title>
+    <link href="http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-usuarios/"/>
+    <updated>2014-01-16T09:28:14+01:00</updated>
+    <id>http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-usuarios</id>
+    <content type="html"><![CDATA[<div class="alert alert-info">
+	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>users</code>.</p>
+</div>
+
+<p><img class="center" src="http://sailsjs.org/images/image_squidhome.png" title="‘Designed for developers by Giant Squid’ ‘Giant Squid’" ></p>
+
+<ul id="markdown-toc">
+  <li><a href="#configuracin-del-almacenamiento">Configuración del almacenamiento</a>    <ul>
+      <li><a href="#admin-ui-para-mongodb">Admin UI para MongoDB</a></li>
+    </ul>
+  </li>
+  <li><a href="#generar-mvc-para-user">Generar MVC para <code>User</code></a>    <ul>
+      <li><a href="#probar-bd-y-api">Probar BD y API</a></li>
+      <li><a href="#modelo-user">Modelo <code>User</code></a>        <ul>
+          <li><a href="#encriptar-contrasea">Encriptar contraseña</a></li>
+        </ul>
+      </li>
+      <li><a href="#controlador-usercontroller">Controlador <code>UserController</code></a></li>
+      <li><a href="#vista-user">Vista <code>User</code></a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Hace unos días vimos <a href="/blog/desarrollar-webapps-realtime-creacion/">cómo crear webapps realtime</a> y hoy vamos a implementar la gestión de usuarios. Podemos hacerlo de forma básica o usando algun middleware como <a href="https://github.com/jaredhanson/passport">Passport</a> o <a href="https://github.com/bnoguchi/everyauth">Everyauth</a>. En este artículo empezaremos creando el controlador y el modelo <code>User</code> y posterior mente haremos la integración con un middleware para ampliar y mejorar la gestión de usuarios.
+<!-- more --></p>
+
+<p>Si quieres empezar desde este punto y seguir el manual paso a paso puedes clonar el repositorio desde la release <a href="https://github.com/jorgecasar/building-realtime-webapp/releases/tag/init">init</a>:</p>
+
+<pre><code>$ git clone https://github.com/jorgecasar/building-realtime-webapp.git
+$ git checkout init
+</code></pre>
+
+<h2 id="configuracin-del-almacenamiento">Configuración del almacenamiento</h2>
+
+<p><img class="pull-right dark" src="http://media.mongodb.org/logo-mongodb.png" title="‘MongoDB’" ></p>
+
+<p>Sails proporciona un ORM (Object Relational Mapping) llamado <a href="https://github.com/balderdashy/waterline">Waterline</a> para normalizar las interacciones con modelos. De esta forma nos podemos olvidar del origen de los datos (una vez configurado, claro). Nosotros atacamos al modelo con los métods que veremos a continuación y el waterline se encargará de almacenarlos y recuperarlos del origen. De esta forma especificamos el esquema de nuestra base de datos y podremos utilizar PostgreSQL, MySQL, MongoDB, Memory, Disk, Redis, Riak, IRC, Twitter, JSDom o cualquiera que nos desarrollemos como fuente de nuestros datos.</p>
+
+<p>Nosotros vamos a utiliar <a href="http://www.mongodb.org/">MongoDB</a> para almacenar nuestros datos. Si no tenéis instalado MongoDB podéis consultar el <a href="http://docs.mongodb.org/manual/installation/">manual de instalación de MongoDB</a>. Después tenemos que incluir el paquete de node <code>sails-mongo</code>, que nos incluirá el waterline <a href="https://github.com/balderdashy/sails-mongo">sails-mongo</a> y eliminar la dependencia de <code>sails-disk</code>.Añadimos el flag <code>--save</code> para que modifique las dependencias de <code>package.json</code>, añadiendo y quitando, respectivamente:</p>
+
+<pre><code>$ npm install --save sails-mongo
+$ npm uninstall --save sails-disk
+</code></pre>
+
+<p>Ahora tenemos que pasar por la configuración puesto que por defecto utiliza el Waterline Disk. Abrimos el fichero: <code>confi/adapters.js</code> y añadimos lo siguiente:</p>
+
+<pre><code>'default': 'mongo',
+[…]
+mongo: {
+	module: 'sails-mongo',
+	url: process.env.DB_URL, // variable de entorno.
+	schema: true
+}
+</code></pre>
+
+<p>Como véis hemos utilizado una variable de entorno para no exponer nuestros datos de configuración de producción si subimos el código a algún repositorio público. Podemos sobrescribir esta configuración para que nos funcione en local modificando el fichero <code>config/local.js</code>. La configuración p</p>
+
+<pre><code>adapters: {
+	'default': 'mongo',
+	mongo: {
+		module: 'sails-mongo',
+		// Config by parts. Sails will generate the connection uri
+		host: 'localhost',
+		user: '',
+		password: '',
+		database: 'building-realtime-webapp',
+		schema: true
+		// Config by connection URI.
+		// url: mongodb://localhost/building-realtime-webapp
+	}
+}
+</code></pre>
+
+<p>Antes de seguir, vamos a comprobar que todo funciona correctamente. Debemos abrir 2 consolas para:</p>
+
+<ul>
+  <li>
+    <p>El demonio de MongoDB:</p>
+
+    <pre><code>  $ mongod
+  all output going to: /usr/local/var/log/mongodb/mongo.log
+</code></pre>
+  </li>
+  <li>
+    <p>Levantar el proyecto, como ya sabemos: <code>$ sails lift</code> o `$ foreman start</p>
+  </li>
+</ul>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/5f34185918b05b3648f14213f23ae32b88404262">5f34185918: Config MongoDB as default adapter</a>.</p>
+</div>
+
+<h3 id="admin-ui-para-mongodb">Admin UI para MongoDB</h3>
+<p>MongoDB no incluye por defecto ningún administrador de bases de datos visual. Con el comando <code>mongo</code> entramos en la consola de MongoDB y podemos realizar consultas. Como no tenemos ningún modelo, Sails todavía no ha crado la base de datos ni las colecciones, así que no os asustéis si véis la base de datos vacía.</p>
+
+<p>Personalmente, opino que la línea de comandos está muy bien y recomiendo que siempre le echéis un ojo y la conozcáis antes de pasar a herramientas con Interfaz de Usuario. En <a href="http://docs.mongodb.org/ecosystem/tools/administration-interfaces/">Mongo Administration Interfaces</a> tenéis unas cuantas herramientas. Para visualizar la base de datos suelo usar <a href="http://genghisapp.com/">Genghis</a> y si voy a tener que administrarla, haciendo consultas, exportaciones, etc… uso <a href="https://github.com/fotonauts/MongoHub-Mac">MongoHub</a>.</p>
+
+<h2 id="generar-mvc-para-user">Generar MVC para <code>User</code></h2>
+
+<p>Sails.js ofrece una serie de generadores como ya vimos en el artículo anterior y esta vez vamos a utilizar el generador de modelo y controlador. Si quisiéramos sólo crear el modelo o el controllador especificaríamos <code>model</code> o <code>controlller</code> después de <code>generate</code>, respectivamente. Pero en este caso necesitaremos ambos:</p>
+
+<pre><code>$ sails generate user
+info: Generating model and controller for user...
+</code></pre>
+
+<p>Si nos fijamos en el directorio <code>/api</code> veremos que contiene las siguientes carpetas:</p>
+
+<ul>
+  <li>adapters</li>
+  <li>controllers</li>
+  <li>models</li>
+  <li>policies</li>
+  <li>services</li>
+</ul>
+
+<p>Como os podéis imaginar el comando anterior nos ha creado los ficheros <code>/api/models/User.js</code> y <code>/api/controllers/UserController.js</code>.</p>
+
+<p>Sails por defecto tiene una serie de blueprints, todos activados por defecto.</p>
+
+<ul>
+  <li>Action: Todas las acciones creadas en el controlador serán accesibles mediante la url: <code>/&lt;controller&gt;/&lt;action&gt;</code>.
+    <ul>
+      <li>/user -&gt; UserController.index</li>
+      <li>/user/index -&gt; UserController.index</li>
+      <li>/user/sendEmail -&gt; UserController.sendEmail</li>
+      <li>/user/[action] -&gt; UserController[action]</li>
+    </ul>
+  </li>
+  <li>REST: Expone un API REST convencional por encima del controlador con las acciones: <code>find</code>, <code>create</code>, <code>update</code>, and <code>destroy</code> asociados a sus respectivos verbos:
+    <ul>
+      <li>GET -&gt; /user/:id? -&gt; UserController.find</li>
+      <li>POST -&gt; /user -&gt; UserController.create</li>
+      <li>PUT -&gt; /user/:id -&gt; UserController.update</li>
+      <li>DELETE -&gt; /user/:id -&gt; UserController.destroy</li>
+    </ul>
+  </li>
+  <li>Shortcuts: Nos permite acceder a los <em>métods CRUD</em> (Create, Read, Update y Delete) desde la barra de direcciones del navegador:
+    <ul>
+      <li>/user/find/[id] -&gt; Devuelve la información del usuario con id = [id]</li>
+      <li>/user/create?name=<name> -&gt; Crea un nuevo usuario</name></li>
+      <li>/user/update/[id]?name=<newname> -&gt; Actualiza el nombre del usuario con id = [id]</newname></li>
+      <li>/user/delete/[id] -&gt; Elimina el usuario con id = [id]</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Todas estas acciones podemos dejarlas activadas en desarrollo para facilitarlos algunas tareas. Pero en el entorno de producción, las acciones y el API REST podemos dejarlos activados, pero los atajos habrá que deshabilitarlos. Esta configuración puedes modificarla en cada <em>Controller</em> o de manera global en <code>config/controllers.js</code>.</p>
+
+<h3 id="probar-bd-y-api">Probar BD y API</h3>
+<p>Ahora si volvemos a lanzar nuestro servidor (<code>sails lift</code>) podemos realizar algunas pruebas y ver la potencia de Sails recién salido de la caja. La primera es comprobar que la base de datos se ha crado correctamente.</p>
+
+<ul>
+  <li>
+    <p>Por línea de comandos:</p>
+
+    <pre><code>  $ mongo
+  &gt; use building-realtime-webapp
+  switched to db building-realtime-webapp
+  &gt; show collections
+  system.indexes
+  user
+</code></pre>
+  </li>
+  <li>
+    <p>Con Genghis:</p>
+
+    <pre><code>  $ genghisapp
+  Starting 'genghisapp'...
+  'genghisapp' is already running at http://0.0.0.0:5678
+</code></pre>
+
+    <p>Entramos en <a href="http://0.0.0.0:5678">http://0.0.0.0:5678</a> y navegamos por nuestro servidor <a href="http://0.0.0.0:5678/servers/localhost">localhost</a> &gt; <a href="http://0.0.0.0:5678/servers/localhost/databases/building-realtime-webapp">building-realtime-webapp</a> &gt; <a href="http://0.0.0.0:5678/servers/localhost/databases/building-realtime-webapp/collections/user">user</a></p>
+  </li>
+</ul>
+
+<p>Parece que todo funciona, ahora le toca el turno a los <em>blueprints</em>. Antes de probar las siguientes URLs, debéis hacer un cambio en <code>config/local.js</code> y poner a <code>schema: false</code>. Esto hará que no tengamos un esquema de la base de datos definido y podamos introductir cualquier atributo a la colección. Con <code>schema: true</code>, sólo se guradarán los atributos que hayamos definido en <code>/api/models/User.js</code>. Os recomiendo que probéis a cambiar la configuración de los <em>blueprints</em> en <code>config/controllers</code> y la del esquema para ver las diferentes configuraciones y podáis entender qué sucede con nuestro velero. Recordad que hay que alzar las velas (<code>sails lift</code>) con cada cambio de configuración.</p>
+
+<ul>
+  <li>Mostrar la lista de usuarios: <a href="http://localhost:1337/user">http://localhost:1337/user</a>.</li>
+  <li>Añadir el usuario “Jorge”: <a href="http://localhost:1337/user/create?name=Jorge">http://localhost:1337/user/create?name=Jorge</a>.</li>
+  <li>Buscar el usuarios con nombre “Jorge”: <a href="http://localhost:1337/user?name=Jorge">http://localhost:1337/user?name=Jorge</a>.</li>
+  <li>Modificar el usuario “Jorge” (usar el id de la consulta anterior): <a href="http://localhost:1337/user/update/[id]?name=Jorge del Casar">http://localhost:1337/user/update/[id]?name=Jorge del Casar</a></li>
+</ul>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/153a53883a8a4c209ac3a5aa3bc8f0e6f9633eba">153a53883a: Create Model and Controller for User</a>.</p>
+</div>
+
+<h3 id="modelo-user">Modelo <code>User</code></h3>
+
+<div class="alert alert-success">
+Recomiendo echarle un ojo a la <a href="http://sailsjs.org/#!documentation/models">Documentación de Sails sobre Modelos</a>.
+</div>
+
+<p>En el archivo <code>/api/model/User.js</code> especificamos los atributos necesarios. Empezaremos simplemente con email y contraseña:</p>
+
+<p><code>javascript User Model
+module.exports = {
+	attributes: {
+		email: {
+			type: 'string',
+			required: true,
+			email: true,
+			unique: true
+		},
+		password: {
+			type: 'string',
+			required: true
+		}
+	}
+}
+</code></p>
+
+<p>Salis nos permite crear nuestros propios métodos y sobrescribir los métodos <code>toObject</code> y <code>toJSON</code> (se especifican en attributes). Veamos un ejemplo de ambos para evitar que la contraseña llegue al cliente:</p>
+
+<p><code>javascript User Model
+attributes: {
+	[…]
+	// Override toJSON instance method to remove password value
+	toJSON: function() {
+		var obj = this.toObject();
+		delete obj.password;
+		return obj;
+	}
+}
+</code>
+Ahora si volvemos a levantar el servidor y probamos introducir un nuevo usuario: <a href="http://localhost:1337/user/create?email=someone@somewhere.com&amp;password=securePass007">http://localhost:1337/user/create?email=someone@somewhere.com&amp;password=securePass007</a>. Vemos que el JSON que nos devuelve el servidor no incluye el atributo password, pero si visualizamos la base de datos (<a href="http://localhost:5678/servers/localhost/databases/building-realtime-webapp/collections/user">http://localhost:5678/servers/localhost/databases/building-realtime-webapp/collections/user</a>, vemos que si se ha guardado correctamente.</p>
+
+<h4 id="encriptar-contrasea">Encriptar contraseña</h4>
+<p>Guardar la contraseña directamente en la base de datos es una mala práctica, así que vamos a ver cómo encriptarla usando el paquete <code>bcrypt</code>. Instalamos y guardamos la dependencia ejecutando:</p>
+
+<pre><code>$ npm install --save bcrypt
+</code></pre>
+
+<p>Sails nos ofrece una serie de <em>callbacks</em> del ciclo de vida del modelo para que podamos unirnos en cualquier parte del proceso de la consulta:</p>
+
+<ul>
+  <li>Callbacks al crear:
+    <ul>
+      <li>beforeValidation: <code>fn(values, cb)</code></li>
+      <li>beforeCreate: <code>fn(values, cb)</code></li>
+      <li>afterCreate: <code>fn(newlyInsertedRecord, cb)</code></li>
+    </ul>
+  </li>
+  <li>Callbacks al actualizar:
+    <ul>
+      <li>beforeValidation: <code>fn(valuesToUpdate, cb)</code></li>
+      <li>beforeUpdate: <code>fn(valuesToUpdate, cb)</code></li>
+      <li>afterUpdate: <code>fn(updatedRecord, cb)</code></li>
+    </ul>
+  </li>
+  <li>Callbacks al eliminar:
+    <ul>
+      <li>beforeDestroy: <code>fn(criteria, cb)</code></li>
+      <li>afterDestroy: <code>fn(cb)</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>En nuestro caso necesitamos ejecutarla al crear, aunque más adelante tendremos que dar la posibilidad al usuario de actualizar su contraseña y por tanto debemos encriptarla al actualizar también:</p>
+
+<p>```javascript User Model
+module.export = {
+	[…]
+	// Lifecycle Callbacks
+	beforeCreate: function(values, next) {
+		hashPassword(values, next);
+	},
+	beforeUpdate: function(values, next) {
+		if(values.password) hashPassword(values, next);
+		else next();
+	}
+};</p>
+
+<p>var bcrypt = require(‘bcrypt’);</p>
+
+<p>function hashPassword(values, next) {
+	bcrypt.hash(values.password, 10, function(err, hash) {
+		if (err) return next(err);</p>
+
+<pre><code>	values.password = hash;
+	next();
+}); } ```
+</code></pre>
+
+<p>Ahora si volvemos a levantar el servidor y probamos introducir un nuevo usuario: <a href="http://localhost:1337/user/create?email=other@somewhere.com&amp;password=securePass007">http://localhost:1337/user/create?email=other@somewhere.com&amp;password=securePass007</a>. Vemos que la contraseña es una cadena de caracteres inlegible (<a href="http://localhost:5678/servers/localhost/databases/building-realtime-webapp/collections/user">http://localhost:5678/servers/localhost/databases/building-realtime-webapp/collections/user</a>.</p>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/5137c5a1bb9cc3decb257da5ed6677e804ad487d">153a53883a: Define User Model and include bcryp package</a>.</p>
+</div>
+
+<p>En el siguiente commit hemos añadido un método para verificar la contraseña, puesto que lo utilizaremos para comprobar que es correcta cuando queremos cambiarla. También hemos mejorado la callback beforeUpdate añadiendo la lógica necesaria para cambiar la contraseña, verificando que la anterior es correcta y que la nueva se introduce correctamente 2 veces. Por último hemos mejorado el método hashPassword generando un salt previo al hash. Están todas las lineas comentadas así que es fácil ver que se hace en cada una de ellas.</p>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/e881b5cba8996ae883396ecb6c84e3758f984dbc">e881b5cba8: Added method validPassword, improved methods beforeUpdate and hashPassword</a>.</p>
+</div>
+
+<h3 id="controlador-usercontroller">Controlador <code>UserController</code></h3>
+
+<div class="alert alert-success">
+Recomiendo echarle un ojo a la <a href="http://sailsjs.org/#!documentation/controllers">Documentación de Sails sobre Controladores</a>.
+</div>
+
+<p>Ahora que tenemos nuestro modelo <code>User</code> listo vamos a incluir unas acciones en nuestro <code>UserController</code> que nos permitirán interactuar con nuestros modelos de una forma más avanzada que las acciones por defecto. Se han mantenido las acciones estandar para estar en consonancia con la API REST y los Sortcurs CRUD, para evitar tener que cambiar routes, que ya veremos en siguientes artículos cómo hacerlo.</p>
+
+<ul>
+  <li>Acciones REST:
+    <ul>
+      <li><strong>find</strong>: Atenderá las peticiones <code>GET</code> a <code>/user/:id?</code>. La ‘?’ significa que el parámetro <code>id</code> es opcional. Por lo que el controlador está preparado para buscar un usuario por id o varios en función de lo especificado en el where. Además se podrán limitar, saltar y ordenar los resultados.</li>
+      <li><strong>create</strong>: Resolverá las peticiones <code>POST</code> a <code>/user</code>, creando un usuario y devolviendo la instancia creada.</li>
+      <li><strong>update</strong>: Se encargará de las peticiones <code>PUT</code> a <code>/user/:id</code>. El parámetro id es obligatorio puesto que no se permite la edición múltiple de usuarios.</li>
+      <li><strong>destroy</strong>: Eliminará el usuario con id especificado mediante la petición <code>DELETE</code> a <code>/user/:id</code></li>
+    </ul>
+  </li>
+  <li>Acciones adicionales:
+    <ul>
+      <li><strong>edit</strong>: Devolverá la vista <code>edit</code>, la cual contendrá el formulario de edición con los valores precargados.</li>
+      <li><strong>new</strong>: devolverá la vista <code>new</code> con un formularo para la creación de un nuevo usuario.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Por no copiar todo el controlador aquí, voy a destacar las parte que me parecen más interesantes, puesto que el resto lo tenéis en GitHub. Vamos a empzar con un fragmento de la acción <code>find</code> que permite, filtrar y paginar los resultados. Gracias a estas 10 lineas podrás hacer consultas a urls como: <a href="http://localhost:1337/user/?where={&quot;email&quot;:{&quot;contains&quot;:&quot;somewhere.com&quot;}}&amp;limit=2&amp;sort=email DESC">http://localhost:1337/user/?where={“email”:{“contains”:”somewhere.com”}}&amp;limit=2&amp;sort=email DESC</a> y obtener como máximo 2 usuarios ordenados de manera descendente cuyos emails contengan “somewhere.com”.</p>
+
+<p><code>javascript User Controller
+	find: function(req, res, next) {
+		[…]
+		// If we have a where param we will pase it as JSON.
+		var where = req.param('where');
+		if( _.isString(where)) {
+			where = JSON.parse(where);
+		}
+		// Setting options from params.
+		var filters = {
+			limit: req.param('limit') || undefined,
+			skip: req.param('skip')  || undefined,
+			sort: req.param('sort') || undefined,
+			where: where || undefined
+		};
+		// Find users according with filters
+		User.find(filters).done(function foundUsers(err, users){
+			[…]
+		});
+		[…]
+	}
+</code></p>
+
+<p>Otra parte interesante es la forma de devolver los resultados, ya que antes de hacerlo comprobamos qué tipo de respuesta se nos está solicitando. En caso de solicitar JSON devolvemos los resultados en JSON y en caso contraro le pasamos los resultados a la vista correspondiente.</p>
+
+<p><code>javascript User Controller
+	[…]
+	// Response JSON if needed.
+	if (req.wantsJSON) return res.json(user);
+	// Else response view with results 
+	else return res.view({ user: user });
+	[…]
+</code></p>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/046d2301bf754f4b99c7abeb4b02faf137d4c502">046d2301bf: UsarController: API REST friendly</a>.</p>
+</div>
+
+<h3 id="vista-user">Vista <code>User</code></h3>
+
+<div class="alert alert-success">
+Recomiendo echarle un ojo a la <a href="http://sailsjs.org/#!documentation/views">Documentación de Sails sobre vistas</a>.
+</div>
+
+<p>Por último, tendremos que crear una vista para mostrar los resultados. Si os fijáis no hemos definido el nombre de la vista ya que Sails asocia por defecto cada acción de un controlador a la vista localizada en <code>/views/[controlador]/[acción]</code>. Sabiendo esto debemos crear el directorio <code>/view/user</code> y los ficheros <code>find.ejs</code>, <code>new.ejs</code> y <code>edit.ejs</code>. El resto de acciones no se reflejarán en una vista por lo cual no las necesitamos.</p>
+
+<p>Antes de enseñar las peculiaridades de las vistas he incluido <a href="http://getbootstrap.com/">Bootstrap</a> y <a href="http://jquery.com/">jQuery</a> (dependencia de Bootstrap) en el directorio <code>/assets/linker/js</code> y los estilos de Bootstrap en <code>assets/linker/styles/</code>. De esta manera se incluyen automáticamente en el layout. Para asegurarnos que el orden es el correcto abrimos el fichero <code>/Gruntfile.js</code> y lo modificamos indicando el orden de inclusión de los recursos:</p>
+
+<p>```javascript Gruntfile.js
+var cssFilesToInject = [
+	‘linker/styles/bootstrap.css’,
+	‘linker/styles/bootstrap-theme.css’,
+	‘linker/<em>*/</em>.css’
+];</p>
+
+<p>var jsFilesToInject = [
+	[…]
+	// <em>-&gt;    put other dependencies here   &lt;-</em>
+	‘linker/js/jquery.js’,
+	‘linker/js/bootstrap.js’,
+	[…]
+];
+```
+&lt;div class="alert alert-info"&gt;
+	&lt;p&gt;Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/e3479ce836a6baacd89491d893b43aeacf7d0452">e3479ce836: Include jQuery and Bootstrap. Modify GruntFile to set the order</a>.&lt;/p&gt;
+&lt;/div&gt;</p>
+
+<p>Las vistas en si no tienen mucho misterio. Destacar que Sails utiliza el motor de templates <a href="http://embeddedjs.com/">EJS: Embebed Javascript</a>, lo cual me recuerda mucho a PHP donde puedes mezclar código de scripting con HTML. Afortunadamente, todos sabemos que eso es una mala práctica y hay que dejarle la lógica al controlador y utilizar en las vistas la menor posible. Para este artículo, al no estar dedidaco a las vistas no he querido complicarlas mucho incluyendo partials, cambiando el layout o indicando la vista desde el controlador, pero que sepáis que se puede hacer y ya vermos cómo en otros artículos.</p>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/3785bbe071dcf8cf4ee12cd75ac0ab5570dec342">3785bbe071: Included User views. Modified index and layout. Include some styles to customize Bootstrap.</a>.</p>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Desarrollar webapps realtime: Creación]]></title>
     <link href="http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-creacion/"/>
     <updated>2014-01-10T10:30:09+01:00</updated>
     <id>http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-creacion</id>
-    <content type="html"><![CDATA[<p><img class="center" src="http://sailsjs.org/images/image_squidhome.png" title="‘Designed for developers by Giant Squid’ ‘Giant Squid’" ></p>
+    <content type="html"><![CDATA[<div class="alert alert-info">
+    <p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>init</code>.</p>
+</div>
+
+<p><img class="center" src="http://sailsjs.org/images/image_squidhome.png" title="‘Designed for developers by Giant Squid’ ‘Giant Squid’" ></p>
 
 <ul id="markdown-toc">
   <li><a href="#crear-proyecto-con-sailsjs">Crear proyecto con Sails.js</a>    <ul>
@@ -44,10 +453,6 @@
 <p>Hace unos meses descubrí Sails.js, un framework MVC para Node basado en Express que te facilita la creación de aplicaciones web realtime mediante Websockets. Así que no me extraña que el slogan sea:
 <blockquote><p>THE WEB FRAMEWORK OF YOUR DREAMS.<br/>Designed for developers by Giant Squid.</p><footer><strong>Mike McNeil,</strong> <cite><a href='http://sailsjs.org/'>Creator of sails.js</a></cite></footer></blockquote>
 <!-- more --></p>
-
-<div class="alert alert-info">
-    Podrás encontrar el código fuente de este artículo en: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp en GitHub</a>
-</div>
 
 <h2 id="crear-proyecto-con-sailsjs">Crear proyecto con Sails.js</h2>
 

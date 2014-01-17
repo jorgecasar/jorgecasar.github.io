@@ -118,6 +118,9 @@
 
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-01-10T10:30:09+01:00" pubdate data-updated="true">Jan 10<span>th</span>, 2014</time>
         
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://jorgecasar.github.io">Comments</a>
+        
       </p>
     
     
@@ -129,7 +132,11 @@
   </header>
 
 
-<div class="entry-content clearfix"><p><img class="center" src="http://sailsjs.org/images/image_squidhome.png" title="Designed for developers by Giant Squid" alt="Giant Squid" /></p>
+<div class="entry-content clearfix"><div class="alert alert-info">
+    <p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>init</code>.</p>
+</div>
+
+<p><img class="center" src="http://sailsjs.org/images/image_squidhome.png" title="Designed for developers by Giant Squid" alt="Giant Squid" /></p>
 
 <ul id="markdown-toc">
   <li><a href="#crear-proyecto-con-sailsjs">Crear proyecto con Sails.js</a>    <ul>
@@ -155,10 +162,6 @@
 <p>Hace unos meses descubrí Sails.js, un framework MVC para Node basado en Express que te facilita la creación de aplicaciones web realtime mediante Websockets. Así que no me extraña que el slogan sea:</p>
 <blockquote><p>THE WEB FRAMEWORK OF YOUR DREAMS.<br />Designed for developers by Giant Squid.</p><footer><strong>Mike McNeil,</strong> <cite><a href="http://sailsjs.org/">Creator of sails.js</a></cite></footer></blockquote>
 <!-- more -->
-
-<div class="alert alert-info">
-    Podrás encontrar el código fuente de este artículo en: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp en GitHub</a>
-</div>
 
 <h2 id="crear-proyecto-con-sailsjs">Crear proyecto con Sails.js</h2>
 
@@ -366,10 +369,18 @@ Hasta ahora solo hemos subido el código a la rama <code>develop</code> por lo q
             <li class="previous"><a href="/blog/como-crear-tu-blog-en-github-pages/" title="Previous Post: Cómo crear tu blog en GitHub Pages">&laquo; Cómo crear tu blog en GitHub Pages</a></li>
             
             
+            <li class="next"><a href="/blog/desarrollar-webapps-realtime-usuarios/" title="Next Post: Desarrollar Webapps Realtime: Usuarios">Desarrollar Webapps Realtime: Usuarios &raquo;</a></li>
+            
           </ul>
         
       </footer>
     </article>
+    
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+      </section>
     
   </div>
 
@@ -382,6 +393,8 @@ Hasta ahora solo hemos subido el código a la rama <code>develop</code> por lo q
   </div>
   
   <div id="recent_posts" class="list-group">
+    
+    <a class="list-group-item " href="/blog/desarrollar-webapps-realtime-usuarios/">Desarrollar Webapps Realtime: Usuarios</a>
     
     <a class="list-group-item active" href="/blog/desarrollar-webapps-realtime-creacion/">Desarrollar Webapps Realtime: Creación</a>
     
@@ -472,6 +485,22 @@ Hasta ahora solo hemos subido el código a la rama <code>develop</code> por lo q
     <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/javascripts/modernizr-2.0.js"></script>
 
+
+<script type="text/javascript">
+      var disqus_shortname = 'jorgecasar';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-creacion/';
+        var disqus_url = 'http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-creacion/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
