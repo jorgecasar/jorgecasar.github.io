@@ -14,6 +14,7 @@ tags:
 ---
 <div class="alert alert-info">
 	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>users</code>.</p>
+	<p>Entorno de desarrollo en Heroku: <a href="http://building-realtime-webapp-dev.herokuapp.com/">building-realtime-webapp</a>.</p>
 </div>
 
 {% img center http://sailsjs.org/images/image_squidhome.png 'Designed for developers by Giant Squid' 'Giant Squid' %}
@@ -51,7 +52,30 @@ Nosotros vamos a utiliar [MongoDB](http://www.mongodb.org/) para almacenar nuest
 		schema: true
 	}
 
-Como véis hemos utilizado una variable de entorno para no exponer nuestros datos de configuración de producción si subimos el código a algún repositorio público. Podemos sobrescribir esta configuración para que nos funcione en local modificando el fichero `config/local.js`. La configuración p
+Como véis hemos utilizado una variable de entorno para no exponer nuestros datos de configuración de producción si subimos el código a algún repositorio público.
+
+Todo el proyecto lo vamos subiendo a un entorno en la nube, en mi caso Heroku, así que vamos a ver cómo dar de alta un _Add-on_:
+
+### Configuración en Heroku
+
+<div class="alert alert-success">
+	<p>Recomiendo echarle un ojo a la <a href="https://devcenter.heroku.com/articles/config-vars">documentación de Heroku sobre variables de configuración</a>.</p>
+</div>
+
+
+Para añadir complementos a Heroku podmeos hacerlo desde el panel de control de heroku entrando en nuestra aplicación y en la sección recursos hacemos click en [Get Add-ons](https://addons.heroku.com/?app=building-realtime-webapp-dev). Aquí podemos buscar el complemento que necesitamos, en este caso buscando por Mongo nos aparen dos: [MongoHQ](https://addons.heroku.com/mongohq#sandbox) y [MongoLab](https://addons.heroku.com/mongolab#sandbox). Como MongoHQ no está disponible en Europa, no nos queda otra que optar por MongoLab. La versión gratuita es muy parecida en ambos y da de sobra para entornos de desarrollo, así que nos facilitan la elección. Al final de la tabla de características encontráis la posibiliad de incluir el complemento a alguna de vuestras aplicaciones y el código para ejecutarlo en consola.
+
+	$ heroku addons:add mongolab --app building-realtime-webapp-dev
+
+Hemos incluido el nombre de la app porque en el directorio tenemos 2 aplicaciones Heroku, la de producción y la de desarrollo, así que de momento lo incluímos en la desarrollo.
+
+Heroku nos incluye una variable de entorno con la cadena de conexión a la base de datos llamada `MONGOLAB_URI`, podemos usar esa directamente en nuestro `adapter.js` o bien crearnos la que habíamos elegido, `DB_URL`. Para obtener la url podemos copiar la que nos incluye Heroku y luego añadir la nuestra:
+	
+	$ heroku config --app building-realtime-webapp-dev
+	MONGOLAB_URI: mongodb://[user]:[password]@[host]:[port]/[database]
+	$ heroku config:set DB_URL=mongodb://[user]:[password]@[host]:[port]/[database] --app building-realtime-webapp-dev
+
+Podemos sobrescribir esta configuración para que nos funcione en local modificando el fichero `config/local.js`. La configuración pude hacerse indicando cada una de los atributos por separado o mediante la [cadena de conexión](http://docs.mongodb.org/manual/reference/connection-string/) que aglutina todos los atributos en un solo script.
 
 	adapters: {
 		'default': 'mongo',
@@ -155,7 +179,7 @@ Parece que todo funciona, ahora le toca el turno a los _blueprints_. Antes de pr
 ### Modelo `User`
 
 <div class="alert alert-success">
-Recomiendo echarle un ojo a la <a href="http://sailsjs.org/#!documentation/models">Documentación de Sails sobre Modelos</a>.
+	<p>Recomiendo echarle un ojo a la <a href="http://sailsjs.org/#!documentation/models">Documentación de Sails sobre Modelos</a>.</p>
 </div>
 
 En el archivo `/api/model/User.js` especificamos los atributos necesarios. Empezaremos simplemente con email y contraseña:
@@ -253,7 +277,7 @@ En el siguiente commit hemos añadido un método para verificar la contraseña, 
 ### Controlador `UserController`
 
 <div class="alert alert-success">
-Recomiendo echarle un ojo a la <a href="http://sailsjs.org/#!documentation/controllers">Documentación de Sails sobre Controladores</a>.
+	<p>Recomiendo echarle un ojo a la <a href="http://sailsjs.org/#!documentation/controllers">Documentación de Sails sobre Controladores</a>.</p>
 </div>
 
 Ahora que tenemos nuestro modelo `User` listo vamos a incluir unas acciones en nuestro `UserController` que nos permitirán interactuar con nuestros modelos de una forma más avanzada que las acciones por defecto. Se han mantenido las acciones estandar para estar en consonancia con la API REST y los Sortcurs CRUD, para evitar tener que cambiar routes, que ya veremos en siguientes artículos cómo hacerlo.
@@ -310,7 +334,7 @@ Otra parte interesante es la forma de devolver los resultados, ya que antes de h
 ### Vista `User`
 
 <div class="alert alert-success">
-Recomiendo echarle un ojo a la <a href="http://sailsjs.org/#!documentation/views">Documentación de Sails sobre vistas</a>.
+	<p>Recomiendo echarle un ojo a la <a href="http://sailsjs.org/#!documentation/views">Documentación de Sails sobre vistas</a>.</p>
 </div>
 
 Por último, tendremos que crear una vista para mostrar los resultados. Si os fijáis no hemos definido el nombre de la vista ya que Sails asocia por defecto cada acción de un controlador a la vista localizada en `/views/[controlador]/[acción]`. Sabiendo esto debemos crear el directorio `/view/user` y los ficheros `find.ejs`, `new.ejs` y `edit.ejs`. El resto de acciones no se reflejarán en una vista por lo cual no las necesitamos.
@@ -338,9 +362,12 @@ var jsFilesToInject = [
 
 Las vistas en si no tienen mucho misterio. Destacar que Sails utiliza el motor de templates [EJS: Embebed Javascript](http://embeddedjs.com/), lo cual me recuerda mucho a PHP donde puedes mezclar código de scripting con HTML. Afortunadamente, todos sabemos que eso es una mala práctica y hay que dejarle la lógica al controlador y utilizar en las vistas la menor posible. Para este artículo, al no estar dedidaco a las vistas no he querido complicarlas mucho incluyendo partials, cambiando el layout o indicando la vista desde el controlador, pero que sepáis que se puede hacer y ya vermos cómo en otros artículos.
 
-
 <div class="alert alert-info">
-	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/3785bbe071dcf8cf4ee12cd75ac0ab5570dec342">3785bbe071: Included User views. Modified index and layout. Include some styles to customize Bootstrap.</a>.</p>
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/3785bbe071dcf8cf4ee12cd75ac0ab5570dec342">3785bbe071: Included User views. Modified index and layout. Include some styles to customize Bootstrap</a>.</p>
 </div>
 
+Ahora que tenemos todo subido podemos hacer un push al entorno de desarrollo:
 
+	$ git push heroku-dev develop:master
+
+Y por último podemos ver el resultado en [http://building-realtime-webapp-dev.herokuapp.com/](http://building-realtime-webapp-dev.herokuapp.com/):
