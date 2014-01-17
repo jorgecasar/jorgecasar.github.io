@@ -2,7 +2,7 @@
 layout: post
 title: "Desarrollar webapps realtime: Creación"
 date: 2014-01-10 10:30:09 +0100
-comments: false
+comments: true
 categories: NodeJS
 tags:
 - javascript
@@ -12,6 +12,10 @@ tags:
 - realtime
 - webapp
 ---
+<div class="alert alert-info">
+    <p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>init</code>.</p>
+</div>
+
 {% img center http://sailsjs.org/images/image_squidhome.png 'Designed for developers by Giant Squid' 'Giant Squid' %}
 
 * list element with functor item
@@ -23,10 +27,6 @@ THE WEB FRAMEWORK OF YOUR DREAMS.
 Designed for developers by Giant Squid.
 {% endblockquote %}
 <!-- more -->
-
-<div class="alert alert-info">
-    Podrás encontrar el código fuente de este artículo en: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp en GitHub</a>
-</div>
 
 ## Crear proyecto con Sails.js
 
