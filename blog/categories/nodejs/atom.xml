@@ -4,7 +4,7 @@
   <title><![CDATA[Category: NodeJS | Jorge del Casar]]></title>
   <link href="http://jorgecasar.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://jorgecasar.github.io/"/>
-  <updated>2014-01-17T03:19:08+01:00</updated>
+  <updated>2014-01-19T13:57:21+01:00</updated>
   <id>http://jorgecasar.github.io/</id>
   <author>
     <name><![CDATA[Jorge del Casar]]></name>
@@ -12,6 +12,264 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Desarrollar Webapps Realtime: Auth]]></title>
+    <link href="http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-auth/"/>
+    <updated>2014-01-18T12:40:04+01:00</updated>
+    <id>http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-auth</id>
+    <content type="html"><![CDATA[<div class="alert alert-info">
+	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>auth</code>.</p>
+	<p>Entorno de desarrollo en Heroku: <a href="http://building-realtime-webapp-dev.herokuapp.com/">building-realtime-webapp</a>.</p>
+</div>
+
+<p><img class="center" src="http://sailsjs.org/images/image_squidhome.png" title="‘Designed for developers by Giant Squid’ ‘Giant Squid’" ></p>
+
+<ul id="markdown-toc">
+  <li><a href="#cambios-en-el-layout">Cambios en el layout</a></li>
+  <li><a href="#autenticacin-bsica">Autenticación básica</a>    <ul>
+      <li><a href="#accin-auth">Acción <code>auth</code></a></li>
+      <li><a href="#accin-login">Acción <code>Login</code></a></li>
+      <li><a href="#accin-logout">Acción <code>Logout</code></a></li>
+    </ul>
+  </li>
+  <li><a href="#polticas-de-acceso">Políticas de acceso</a>    <ul>
+      <li><a href="#poltica-usuario-autenticado">Política usuario autenticado</a></li>
+      <li><a href="#poltica-de-poder-administar-usuario">Política de poder Administar usuario</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Siguiendo con la saga de “Desarrollar Webapps Realtime” y depués de haber visto <a href="/blog/desarrollar-webapps-realtime-creacion">Cómo empezar a crear un Webapp real-time</a> y <a href="/blog/desarrollar-webapps-realtime-usuarios">cómo crear usuarios siguiendo el patrón MVC</a>, le toca el turno a cómo autenticar a los usuarios en nuestra plataforma. Para ello vamos a hacerlo primero con nuestros propios medios para entender algunos conceptos y después lo haremos usando <a href="http://passportjs.org/">Passport for Node</a>.
+<!-- more --></p>
+
+<h2 id="cambios-en-el-layout">Cambios en el layout</h2>
+
+<p>Lo primero que vamos a hacer es cambiar la barra de navegación añadiendo el botón de login cuando el usuario no esté autenticado y su correo y el boton de logout cuando si lo esté. Para ello debemos comprobar la variable <code>session.authenticated</code> que estableceremos en el controlador. Estas líneas las añadimos después de nuestro menú de navegación, <code>&lt;ul class="nav navbar-nav"&gt;[…]&lt;/ul&gt;</code>:</p>
+
+<p><code>html layout.ejs
+&lt;% if( session.authenticated ) { %&gt;
+&lt;ul class="nav navbar-nav navbar-right"&gt;
+	&lt;li&gt;&lt;a href="http://jorgecasar.github.io/user/&lt;%= session.user.id %&gt;"&gt;&lt;%= session.user.email %&gt;&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;
+		&lt;form class="navbar-form" action="/user/logout" method="POST"&gt;
+			&lt;button type="submit" class="btn btn-danger" title="&lt;%= __('Logout')%&gt;"&gt;
+				&lt;%= __('Logout')%&gt;
+				&lt;span class="glyphicon glyphicon-log-out"&gt;&lt;/span&gt;
+			&lt;/button&gt;
+		&lt;/form&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;% } else { %&gt;
+&lt;ul class="nav navbar-nav navbar-right"&gt;
+	&lt;li&gt;&lt;a href="http://jorgecasar.github.io/user/new"&gt;&lt;span class="glyphicon glyphicon-edit"&gt;&lt;/span&gt; Sign up&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href="http://jorgecasar.github.io/user/auth"&gt;&lt;span class="glyphicon glyphicon-log-in"&gt;&lt;/span&gt; Login&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;% } %&gt;
+</code></p>
+
+<p>Si os fijáis para crear un nuevo usuario y para la página de autenticación he usado enlaces pero para el log out he usado un formulario con un botón. Esto es porque en los enlaces se utilizan para navegar y los botones para acciones.</p>
+
+<h2 id="autenticacin-bsica">Autenticación básica</h2>
+
+<p>Para gestionar las sesiones necesitaremos las acciones <code>auth</code>, <code>login</code> y <code>logout</code>. Estas acciones las vamos a añadir en <code>UserController</code>, aunque podrían ir en un nuevo controlador llamado <code>SessionController</code>. Como posteriormente vamos a implementar la autenticación con Passport lo moveremos a un controlador especifico llamado <code>AuthController</code>.</p>
+
+<h3 id="accin-auth">Acción <code>auth</code></h3>
+
+<p>Esta acción simplemente nos devolverá una vista con el formulario de autenticación. Así que habrá que crear la vista <code>/view/user/auth.ejs</code> en la que le solicitaremos el email y la contraseña. Esta vista es muy similar a <code>/view/user/new.ejs</code>, así que podemos copiar y pegar el contenido y hacemos un par de cambios:</p>
+
+<ul>
+  <li>El action del from ya no es <code>/user/create</code> sino <code>/user/login</code>.</li>
+  <li>Los 3 textos (migas de pan, título y botón) donde pone ‘Create user’ ponemos ‘Auth user’.</li>
+</ul>
+
+<p>Y en el controlador copiamos la acción new sin hacer ningún cambio.</p>
+
+<p><code>javascript auth action in UserController.js
+auth: function(req, res) {
+	return res.view();
+}
+</code></p>
+
+<p>Ahora podemos lanzar el servidor y comprobar que la url <a href="http://localhost:1337/user/auth">http://localhost:1337/user/auth</a> funciona correctamente.</p>
+
+<h3 id="accin-login">Acción <code>Login</code></h3>
+
+<p>En esta acción hay un poco más de chicha, ya que tendremos que buscar el usuario mediante el email, comparar la contraseña y guardar una variable de sessión.</p>
+
+<p><code>javascript login action in UserController.js
+login: function(req, res) {
+	User.findOne({email: req.param('email')}).done(function foundUser(err, user){
+		if ( err || !user ) return res.redirect('/auth');
+		require('bcrypt').compare(req.param('password'), user.password, function(err, valid){
+			if(err || !valid ) return res.redirect('/auth');
+			req.session.authenticated = true;
+			req.session.user = user;
+			return res.redirect('/user/' + user.id);
+		});
+	});
+}
+</code></p>
+
+<p>Si lanzamos el servidor de nuevo y probamos a rellenar el formulario con uno de los usuarios previamente creados, vemos como nos redirecciona a la página del usuario y nos reemplaza los botones de ‘Ingresar’ y ‘Resistrarse’ por el email del usuario y un botón de ‘Desconectar’.</p>
+
+<p>Tenemos que tener en cuenta que cunado se crea un usuario podemos considerarlo autenticado. O bien esperar a que verifique su mail, pero como de momento no enviamos mail. Consideraremos al usuario autenticado al crear la nueva cuenta, asignando los valores a la sesión antes de enviar la respuesta:</p>
+
+<p><code>javascript create action in UserController.js
+create: function(req, res, next) {
+	User.create( req.params.all(), function createdUser(err, user){
+		[…]
+		req.session.authenticated = true;
+		req.session.user = user;
+		[…]
+	});
+}
+</code></p>
+
+<h3 id="accin-logout">Acción <code>Logout</code></h3>
+
+<p>En este caso, es mucho más facil, simplemente destruimos la sesión y redirigimos al usuario a la home.</p>
+
+<p><code>javascript logout action in UserController.js
+logout: function(req, res){
+	req.session.destroy();
+	return res.redirect('/');
+}
+</code></p>
+
+<p>Volvemos a lanzar el servidor, hacemos login y una vez en la página del usuario pulsamos el botón de ‘Desconectar’ para ver como salimos de la sessión y vuelven a aparecer los botones de ‘Ingresar’ y ‘Resistrarse’.</p>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/01e14ef420a8d238c08f9ee4ece91f3df8b08737">01e14ef420: Authentication on UserController: auth, login and logout actions</a>.</p>
+</div>
+
+<h2 id="polticas-de-acceso">Políticas de acceso</h2>
+
+<div class="alert alert-success">
+	<p>Recomiendo echarle un ojo a la <a href="http://sailsjs.org/#!documentation/policies">Documentación de Sails sobre Políticas</a>.</p>
+</div>
+
+<p>Autenticar a un usuario tiene la misión principal de conceder o denegar el acceso a algunas partes de nuestra aplicación. Para ello haremos uso de las políticas (policies). Estas políticas las declaramos en el directorio <code>/api/policies</code>.</p>
+
+<h3 id="poltica-usuario-autenticado">Política usuario autenticado</h3>
+
+<p>Por defecto Sails nos incluye la política <code>isAuthenticated.js</code>. La cual hace uso de la variable de sessión que establecemos a <code>true</code> cuando el usuario se identifica. Una politica se declara como un módudo y ejecuta la función de callbac <code>next</code> cunado se concede acceso o devuelve forbidden en caso contrario.</p>
+
+<p><code>javascript /api/policies/isAuthenticated.js
+module.exports = function(req, res, next) {
+	if (req.session.authenticated)
+		return next();
+	return res.forbidden('You are not permitted to perform this action.');
+};
+</code></p>
+
+<p>Ahora que tenemos la políca definida debemos aplicarla a alguna URL o acción del controlador. Para ello accedemos a <code>/config/policies.js</code> donde definiremos las políticas que se aplcian en cada caso.</p>
+
+<p><code>javascript /config/policies.js
+module.exports.policies = {
+	'*': true,
+	UserController: {
+		'*': true,
+		find: 'isAuthenticated',
+		update: 'isAuthenticated',
+		destroy: 'isAuthenticated',
+		edit: 'isAuthenticated',
+		logout: 'isAuthenticated'
+	}
+}
+</code></p>
+
+<p>Con esto estamos permitiendo el acceso a todas las acciones del <code>UserController</code>, y en algunos casos (find, update, destroy, edit, logut), le pedimos que estén autenticados. Personalmente prefiero aplicar las políticas partiendo de la restricción, es decir, para todas las acciones hay que estar autenticado salvo para las que definamos como abiertas. Quedaría de esta manera:</p>
+
+<p><code>javascript /config/policies.js
+module.exports.policies = {
+	'*': true,
+	UserController: {
+		'*': 'isAuthenticated',
+		create: true,
+		new: true,
+		auth: true,
+		login: true
+	}
+}
+</code></p>
+
+<p>En ambos casos permitimos el acceso a las mismas url, pero si añadimos una acción al controlador, estará protegida por defecto.</p>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/e58ea71cc3f566287e67e64eaabbf1838652912c">e58ea71cc3: isAuthenticated policy</a>.</p>
+</div>
+
+<h3 id="poltica-de-poder-administar-usuario">Política de poder Administar usuario</h3>
+
+<p>Para los casos de editar y eliminar, debemos asegurarnos de que el usuario es él mismo, para evitar que un usuario pueda editar o eliminar cuentas que no son la suya. Más adelante podremos establecer perfiles administradores que también puedan realizar esas acciones, por eso vamos a llamar a la política <code>canAdminUser</code>:</p>
+
+<p><code>javascript /api/policies/canAdminUser.js
+module.exports = function(req, res, next) {
+	if (req.param('id') === req.session.user.id)
+		return next();
+	return res.forbidden('You are not permitted to perform this action.');
+};
+</code></p>
+
+<p>Además tendremos que actualizar nuestras políticas:</p>
+
+<p><code>javascript /config/policies.js
+[…]
+UserController: {
+	'*': ['isAuthenticated', 'canAdminUser'],
+	find: 'isAuthenticated',
+	update: 'isAuthenticated',
+	logout: 'isAuthenticated',
+	create: true,
+	new: true,
+	auth: true,
+	login: true
+}
+[…]
+</code></p>
+
+<p>Ahora si intentamos editar o eliminar un usuario no podremos. Así que deberíamos quitar los botones de la interfaz de usuario para reducir la generación de errores. Por lo que añadimos este condicional para mostrar las opciones sólo en caso necesario.</p>
+
+<p><code>html /views/user/find.ejs
+[…]
+&lt;%
+if ( session.user.id === user.id ) {
+// There logged user and showed user is the same.
+%&gt;
+&lt;form action="/user/destroy/&lt;%= user.id %&gt;" method="POST"&gt;[…]&lt;/form&gt;
+&lt;% } %&gt;
+[…]
+</code></p>
+
+<p>Una solución más elegante para no tener que aplicar esta lógica en la template sería utilizar la variable session.canAdminUser. Una forma más elegante, que delega la responsibilidad de la lógica al controlador, que es quien lo debe hacer.</p>
+
+<p>```javascript find action in UserController.js 
+find: {
+	[…]
+	if ( isShortcut(id) ) return next();</p>
+
+<pre><code>req.session.canAdminUser = canAdminUser(id, req.session.user);
+
+[…]
+
+function canAdminUser(id, sessionUser){
+	return sessionUser &amp;&amp; sessionUser.id === id;
+}; } ```
+</code></pre>
+
+<p>De esta forma si cambiamos las políticas de acceso a la página de listado de usuarios nos aseguramos que solo verán las acciones editar y eliminar aquellos que puedan ejecutarlas.</p>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/01a7287d07509d9f90cb440cb6af828847ece9fe">01a7287d07: Can Admin User Policy</a>.</p>
+</div>
+
+<div class="alert alert-info">
+	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>auth</code>.</p>
+	<p>Entorno de desarrollo en Heroku: <a href="http://building-realtime-webapp-dev.herokuapp.com/">building-realtime-webapp</a>.</p>
+</div>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Desarrollar Webapps Realtime: Usuarios]]></title>
