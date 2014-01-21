@@ -10,11 +10,17 @@
     </url>
     <url>
         <loc>http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-usuarios/</loc>
-        <lastmod>2014-01-17T03:18:49+01:00</lastmod>
+        <lastmod>2014-01-21T00:10:50+01:00</lastmod>
     </url>
     <url>
         <loc>http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-auth/</loc>
-        <lastmod>2014-01-19T13:57:20+01:00</lastmod>
+        <lastmod>2014-01-21T00:11:32+01:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-auth-con-passport/
+        </loc>
+        <lastmod>2014-01-21T01:09:41+01:00</lastmod>
     </url>
     <url>
         <loc>http://jorgecasar.github.io/assets/bootstrap/about.html</loc>
@@ -38,7 +44,7 @@
     </url>
     <url>
         <loc>http://jorgecasar.github.io/assets/bootstrap/</loc>
-        <lastmod>2014-01-19T13:57:20+01:00</lastmod>
+        <lastmod>2014-01-21T01:09:41+01:00</lastmod>
     </url>
     <url>
         <loc>http://jorgecasar.github.io/assets/bootstrap/javascript.html</loc>
@@ -46,15 +52,15 @@
     </url>
     <url>
         <loc>http://jorgecasar.github.io/blog/archives/</loc>
-        <lastmod>2014-01-19T13:57:20+01:00</lastmod>
+        <lastmod>2014-01-21T01:09:41+01:00</lastmod>
     </url>
     <url>
         <loc>http://jorgecasar.github.io/</loc>
-        <lastmod>2014-01-19T13:57:20+01:00</lastmod>
+        <lastmod>2014-01-21T01:09:41+01:00</lastmod>
     </url>
     <url>
         <loc>http://jorgecasar.github.io/repos/</loc>
-        <lastmod>2014-01-19T13:57:20+01:00</lastmod>
+        <lastmod>2014-01-21T01:09:41+01:00</lastmod>
     </url>
     <url>
         <loc>http://jorgecasar.github.io/robots.txt</loc>

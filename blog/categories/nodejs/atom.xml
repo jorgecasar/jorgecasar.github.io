@@ -4,7 +4,7 @@
   <title><![CDATA[Category: NodeJS | Jorge del Casar]]></title>
   <link href="http://jorgecasar.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://jorgecasar.github.io/"/>
-  <updated>2014-01-19T13:57:21+01:00</updated>
+  <updated>2014-01-21T01:13:50+01:00</updated>
   <id>http://jorgecasar.github.io/</id>
   <author>
     <name><![CDATA[Jorge del Casar]]></name>
@@ -12,6 +12,159 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Desarrollar Webapps Realtime: Auth con Passport]]></title>
+    <link href="http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-auth-con-passport/"/>
+    <updated>2014-01-19T19:39:54+01:00</updated>
+    <id>http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-auth-con-passport</id>
+    <content type="html"><![CDATA[<div class="alert alert-info">
+	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>auth</code>.</p>
+	<p>Entorno de desarrollo en Heroku: <a href="http://building-realtime-webapp-dev.herokuapp.com/">building-realtime-webapp</a>.</p>
+</div>
+
+<p><img class="center" src="http://sailsjs.org/images/image_squidhome.png" title="‘Designed for developers by Giant Squid’ ‘Giant Squid’" ></p>
+
+<ul id="markdown-toc">
+  <li><a href="#instalar-y-configurar-passport">Instalar y configurar Passport</a></li>
+  <li><a href="#acciones-login-y-logout">Acciones <code>Login</code> y <code>Logout</code></a></li>
+  <li><a href="#polticas">Políticas</a></li>
+  <li><a href="#actualizacin-de-vistas">Actualización de vistas</a></li>
+</ul>
+
+<p>En el artículo anterior vimos <a href="/blog/desarrollar-webapps-realtime-auth/">cómo implementar un sistema de autenticación básica</a>, y en esta ocasión vamos a implementar el sistema de autenticación usando <a href="http://passportjs.org/">Passport</a>. Passport es un middleware de autenticación para Node nos permitirá modularizar la autenticación de usuarios en nuestra aplicación y realizar inicio de sesión único con OAuth como Facebook o Twitter.</p>
+
+<!-- more -->
+
+<h2 id="instalar-y-configurar-passport">Instalar y configurar Passport</h2>
+
+<p>Lo primero que tenemos que hacer es instalar Passport y los módulos que vayamos a utilizar. Empezaremos con una autenticación contra nuestra base de datos, así que necesitamos:</p>
+
+<pre><code>npm install --save passport passport-local
+</code></pre>
+
+<p>Passport por defecto buscará en las peticiones el parámetro <code>username</code> y <code>password</code>, aunque podríamos cambiarlo, hemos optado por incluir el atributo <code>username</code> al modelo <code>User</code> (queda mejor que mostrar el email y podremos jugar con las rutas y el user name más adelante).</p>
+
+<div class="alert alert-success">
+	<p>Recomiendo echarle un ojo a la <a href="http://passportjs.org/guide/username-password/">Documentación de Passport local</a>.</p>
+</div>
+
+<p>Una vez instalado creamos un fichero de configuración en el directorio <code>config</code>llamado <code>passport.js</code>, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo <code>username</code> o <code>email</code> coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.</p>
+
+<p><code>javascript auth/passport.js
+passport.use(new LocalStrategy(
+	// options by default not needed.
+	//{
+	//	usernameField: 'username',
+	//	passwordField: 'password'
+	//},
+	function(username, password, done) {
+		process.nextTick(function () {
+			User.findOne().where({
+				or: [
+					{ username: username },
+					{ email: username }
+				]
+			}).done(function(err, user) {
+				if (err) { return done(null, err); }
+				if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
+				bcrypt.compare(password, user.password, function(err, res) {
+					if (!res) return done(null, false, { message: 'Invalid Password'});
+					return done(null, user, { message: 'Logged In Successfully'} );
+				});
+			})
+		});
+	}
+));
+</code>
+Unas lineas más abajo cerramos el fichero <code>passport.js</code> declarando el middleware de Express y asignando a las variables locales el usuario que devolvimos en el fragmento de código anterior:</p>
+
+<p><code>javascript auth/passport.js
+module.exports = {
+	express: {
+		customMiddleware: function(app){
+			sails.log.info('Express midleware for passport');
+			app.use(passport.initialize());
+			app.use(passport.session());
+			app.use(function(req,res,next){
+				res.locals.loggedUser = req.user;
+				next();
+			});
+		}
+	}
+};
+</code></p>
+
+<h2 id="acciones-login-y-logout">Acciones <code>Login</code> y <code>Logout</code></h2>
+
+<p>Ahora que tenemos configurado Sails para usar Passport realizamos los cambios en el controlador <code>UserController</code> para utilizar este nuevo medio de autenticación. Nuestras acciones <code>login</code> y <code>logout</code>quedan mucho más reducidas puesto que gran parte del trabajo lo hace Passport con las funciones <code>login</code> y <code>logout</code> que trae implementadas.</p>
+
+<p><code>javascript api/controllers/UserController.js
+[…]
+login: function(req, res, next) {
+	// Use Passport LocalStrategy
+	require('passport').authenticate('local', function(err, user, info){
+		if ((err) || (!user)) next(err);
+		req.login(user, function(err){
+			if (err) return res.redirect('/user/auth');
+			// Redirect to the user page.
+			return res.redirect('/user/' + user.id);
+		});
+	})(req, res);
+},
+logout: function(req, res){
+	// Call Passport method to destroy the session.
+	req.logout();
+	// Redirect to home page.
+	return res.redirect('/');
+}
+[…]
+</code></p>
+
+<h2 id="polticas">Políticas</h2>
+
+<p>Como Passport nos facilita unos cuantos métodos para gestionar la autenticación del usuario vamos a aprovecharlos para usarlos en nuestras políticas. El primero de ellos es el método <code>isAuthenticated()</code>, el cual utilizaremos en la política con dicho nombre:</p>
+
+<p><code>javascript api/policies/isAuthenticated.js
+module.exports = function(req, res, next) {
+	if ( req.isAuthenticated() ) return next();
+	return res.forbidden('You are not permitted to perform this action.');
+};
+</code></p>
+
+<p>Y otra de las tareas que automatiza es guardar el usuario registrado en la variable <code>req.user</code>, la cual usaremos para comprobar si puede administrar un usuario concreto.</p>
+
+<p><code>javascript api/policies/canAdminUser.js
+module.exports = function(req, res, next) {
+	if (req.param('id') === req.user.id) return next();
+	return res.forbidden('You are not permitted to perform this action.');
+};
+</code></p>
+
+<h2 id="actualizacin-de-vistas">Actualización de vistas</h2>
+
+<p>Y los últimos cambios que debemos realizar son en las vistas, los cuales enumero:</p>
+
+<ul>
+  <li>En los condicionales ya no usaremos <code>session.authenticated</code>, si no <code>loggedUser</code>.</li>
+  <li>Para obtener los datos del usuario registrado utilizaremos <code>loggedUser</code> en lugar de <code>session.user</code>.</li>
+  <li>En el formulario de autenticación, utilizaremos los campos <code>username</code> y <code>password</code>, indicando que el nombre de usuario puede ser también el correo-e.</li>
+  <li>Añadiremos el campo <code>username</code> al formulario de registro y de edición.</li>
+  <li>Mostraremos el nombre de usuario en lugar del mail en la ficha de usuario y en la barra de navegación.</li>
+</ul>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/0c201f963d93f667622a7eb923ff9315a5503e4d">0c201f963d: Auth with Passport. Username attr added.</a></p>
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/34736d85b48333b0b17bb614f965bce351a0fb5a">34736d85b4: Fix session.canAdminUser using req.user. And login user on create.</a></p>
+</div>
+
+<div class="alert alert-info">
+	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>auth-passport</code>.</p>
+	<p>Entorno de desarrollo en Heroku: <a href="http://building-realtime-webapp-dev.herokuapp.com/">building-realtime-webapp</a>.</p>
+</div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Desarrollar Webapps Realtime: Auth]]></title>
@@ -597,6 +750,11 @@ module.export = {
 
 <div class="alert alert-info">
 	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/e881b5cba8996ae883396ecb6c84e3758f984dbc">e881b5cba8: Added method validPassword, improved methods beforeUpdate and hashPassword</a>.</p>
+</div>
+
+<div class="alert alert-danger">
+	<h5><a href="https://github.com/jorgecasar/building-realtime-webapp/issues/1">Issue #1: Check password beforeValidation instead of beforeUpdate</a>.</h5>
+	<p>La contraseña es un atributo obligatorio en en el modelo del usuario, por lo tanto al comprobar la validez de los datos nos saltará un error si no la introducimos. Por ello, las comprobaciones que hacíamos en beforeUpdate hay que hacerlas en beforeValidation para evitar que falle al no introducir contraseña. Además hay que comprobar mediante el id si no esncontramos en una cración o en una actualización de usuario.</p> 
 </div>
 
 <h3 id="controlador-usercontroller">Controlador <code>UserController</code></h3>

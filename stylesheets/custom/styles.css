@@ -1,11 +1,11 @@
 /*
 Syntax error: Undefined mixin 'shadow-box'.
-        on line 25 of /Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss, in `shadow-box'
-        from line 25 of /Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss
+        on line 29 of /Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss, in `shadow-box'
+        from line 29 of /Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss
 
 Backtrace:
-/Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss:25:in `shadow-box'
-/Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss:25
+/Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss:29:in `shadow-box'
+/Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss:29
 /Library/Ruby/Gems/2.0.0/gems/sass-3.2.13/lib/sass/tree/visitors/perform.rb:253:in `visit_mixin'
 /Library/Ruby/Gems/2.0.0/gems/sass-3.2.13/lib/sass/tree/visitors/base.rb:37:in `visit'
 /Library/Ruby/Gems/2.0.0/gems/sass-3.2.13/lib/sass/tree/visitors/perform.rb:100:in `visit'
@@ -58,4 +58,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'shadow-box'.\A         on line 25 of /Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss, in `shadow-box'\A         from line 25 of /Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss"; }
+  content: "Syntax error: Undefined mixin 'shadow-box'.\A         on line 29 of /Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss, in `shadow-box'\A         from line 29 of /Users/jorgecasar/workspace-html5/jorgecasar.github.io/sass/custom/styles.scss"; }
