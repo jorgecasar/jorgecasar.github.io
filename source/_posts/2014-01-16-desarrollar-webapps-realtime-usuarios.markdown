@@ -274,6 +274,12 @@ En el siguiente commit hemos añadido un método para verificar la contraseña, 
 	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/e881b5cba8996ae883396ecb6c84e3758f984dbc">e881b5cba8: Added method validPassword, improved methods beforeUpdate and hashPassword</a>.</p>
 </div>
 
+<div class="alert alert-danger">
+	<h5><a href="https://github.com/jorgecasar/building-realtime-webapp/issues/1">Issue #1: Check password beforeValidation instead of beforeUpdate</a>.</h5>
+	<p>La contraseña es un atributo obligatorio en en el modelo del usuario, por lo tanto al comprobar la validez de los datos nos saltará un error si no la introducimos. Por ello, las comprobaciones que hacíamos en beforeUpdate hay que hacerlas en beforeValidation para evitar que falle al no introducir contraseña. Además hay que comprobar mediante el id si no esncontramos en una cración o en una actualización de usuario.</p> 
+</div>
+
+
 ### Controlador `UserController`
 
 <div class="alert alert-success">
