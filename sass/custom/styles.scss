@@ -19,10 +19,15 @@ footer[role=contentinfo] {
     height: 60px;
 }
 
+ul#markdown-toc:before {
+  content: 'Tabla de contenidos';
+}
 ul#markdown-toc {
-  list-style: none;
   float: right;
+  padding-left: 1.5em;
+  margin:0 0 1em 1em;
   @include shadow-box;
+  list-style: decimal;
   background-color: white;
 }
 .blog-index #markdown-toc {
