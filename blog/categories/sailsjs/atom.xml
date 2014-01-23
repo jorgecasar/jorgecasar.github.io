@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: NodeJS | Jorge del Casar]]></title>
-  <link href="http://jorgecasar.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
+  <title><![CDATA[Category: SailsJS | Jorge del Casar]]></title>
+  <link href="http://jorgecasar.github.io/blog/categories/sailsjs/atom.xml" rel="self"/>
   <link href="http://jorgecasar.github.io/"/>
-  <updated>2014-01-21T01:13:50+01:00</updated>
+  <updated>2014-01-23T11:57:25+01:00</updated>
   <id>http://jorgecasar.github.io/</id>
   <author>
     <name><![CDATA[Jorge del Casar]]></name>
@@ -14,12 +14,287 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Desarrollar Webapps Realtime: Auth con Passport y proveedores]]></title>
+    <link href="http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-auth-con-passport-y-proveedores/"/>
+    <updated>2014-01-22T10:13:37+01:00</updated>
+    <id>http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-auth-con-passport-y-proveedores</id>
+    <content type="html"><![CDATA[<div class="alert alert-info">
+	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>auth-passport-providers</code>.</p>
+	<p>Entorno de desarrollo en Heroku: <a href="http://building-realtime-webapp-dev.herokuapp.com/">building-realtime-webapp</a>.</p>
+</div>
+
+<p><img class="center" src="http://sailsjs.org/images/image_squidhome.png" title="‘Designed for developers by Giant Squid’ ‘Giant Squid’" ></p>
+
+<ul id="markdown-toc">
+  <li><a href="#instalar-y-configurar-dependencias">Instalar y configurar dependencias</a>    <ul>
+      <li><a href="#fichero-de-configuracin">Fichero de configuración</a></li>
+      <li><a href="#servicio-con-extrategias-externas">Servicio con extrategias externas</a></li>
+    </ul>
+  </li>
+  <li><a href="#modificar-modelo-user">Modificar Modelo <code>User</code></a></li>
+  <li><a href="#modificaciones-en-usercontroller">Modificaciones en <code>UserController</code></a></li>
+  <li><a href="#personalizacin-de-rutas">Personalización de rutas</a>    <ul>
+      <li><a href="#formulario-de-autenticacin">Formulario de autenticación</a></li>
+      <li><a href="#nuevo-usuario">Nuevo usuario</a></li>
+      <li><a href="#mostrar-usuario">Mostrar usuario</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Tras ver <a href="/blog/desarrollar-webapps-realtime-auth/">cómo implementar un sistema de autenticación básica</a> y <a href="/blog/desarrollar-webapps-realtime-auth-con-passport/">cómo utilziar Passport para autenticar usuarios</a> vamos a dar un poso más y ver cómo autenticar usuarios usando otros proveedores como Github, Facebook o Twitter.</p>
+
+<!-- more -->
+
+<h2 id="instalar-y-configurar-dependencias">Instalar y configurar dependencias</h2>
+
+<p>Como hemos dicho Passport es un sistema de autenticación modular y nos permite ir ampliando las formas de autenticar a nuestros usuarios. Puedes consultar la <a href="http://passportjs.org/guide/providers/">lista de proveedores de Passport</a> para ver todos los que están disponibles. Instalamos los paquetes que necesitemos:</p>
+
+<pre><code>npm install --save passport-github passport-facebook passport-twitter
+</code></pre>
+
+<p>Una vez instalado los paquetes tenemos que configurar las estrategias. Como no quería depender de variables de entorno en local ni exponer las credenciales OAuth en un fichero de configuración, sin mencionar que necesitaremos credenciales diferentes para local y para producción. Por estas razones la solución que os planteo puede ser un poco rebuscada, pero por internet podéis encontrar formas más sencillas si no vais a hacer público vuestro código o decidis depender de variables de entorno.</p>
+
+<h3 id="fichero-de-configuracin">Fichero de configuración</h3>
+
+<p>Lo primero sería pensar en modificar el fichero de configuración. Pero hemos decidido dejar la configuración básica en este fichero y la declaración de estartegias externas en un servicio, debido a la necesidad de usar las variables de configuración de Sails (<code>sails.config</code>). Dado que la estrategia local funciona de fomra diferente y no requiere variables de configuración la hemos mantenido en el fichero de configuración. Los únicos cambios realizados a <code>/config/passport.js</code> son por temas de experiencia de usuario y para declarar los proveedores, que nos servirán para abstraer los proveedores que empleamos.</p>
+
+<p>Pensando en el flujo de autenticación y que hacer cuando no se encuenta al usuario, independientemente del proveedor utilizado, la mejor solución es llevar al usuario a la página de registro, como veremos en el <code>UserController</code>. Si el usuario ha introducido su usuario (username o email) y contraseña, sería un detalle dejarle ese campo del formulario de registro relleno. Esto nos supone los siguientes cambios en nuestra estrategia local cuando no se encuenta el usuario:</p>
+
+<p><code>javascript config/passport.js
+[…]
+if (!user) {
+	var user = {};
+	var re_email = /^(([^&lt;&gt;()[\]\\.,;:\s@\"]+(\.[^&lt;&gt;()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	user[re_email.test(username)?'email':'username'] = username;
+	return done(null, user, { message: 'Unknown user ' + username });
+}
+[…]
+</code></p>
+
+<h3 id="servicio-con-extrategias-externas">Servicio con extrategias externas</h3>
+
+<p>Hemos creado un fichero en <code>/api/services/PassportService.js</code>, declarando las dependencias de proveedores de autenticación externos. Además declaramos la función, <code>providersHandler</code>, la cual se ejecutará una vez se haya autenticado en el servidor del proveedor. Esta función tiene como parámetros el token, el tokenSecret, el perfil de usuario y una función de callback que definimos cuando solicitamos la autenticación en nuestro controlador. En <code>providersHandler</code> se suele buscar o crear un usuario nuevo si no se encuentra, pero como nosotros tenemos nuestro sistema de usuarios y vamos a implementar varios proveedores, comprobaremos si el perfil está asociado a alguno de nuestros usuarios. Si el id del perfil está en nuestro Modelo devolvemos el usuario, en caso contraro, creamos un usuario un <strong>usuario temporal</strong> (sin guardarlo en la base de datos). Este usuario lo pasaremos al controlador mediante la función de callback para mantenerlo mientras el usuario termina de registrarse en nuestra plataforma y así poder asociar el perfil recibido sin necesidad de solicitar de nuevo la autenticación al proveedor.</p>
+
+<p>```javascript /api/services/PassportService.js
+var passport         = require(‘passport’),
+    GitHubStrategy   = require(‘passport-github’).Strategy,
+    FacebookStrategy = require(‘passport-facebook’).Strategy,
+    TwitterStrategy  = require(‘passport-twitter’).Strategy;</p>
+
+<p>function providersHandler(token, tokenSecret, profile, done) {
+	sails.log.verbose(‘config/passport providersHandler’);
+	process.nextTick(function () {
+		User.findOne()
+		.where({‘profiles.id’: profile.id})
+		.done(function (err, user) {
+			if (user) return done(null, user);</p>
+
+<pre><code>		var tempUser = {}
+		tempUser.profiles = []
+		[…]
+		tempUser.profiles.push(profile);
+		delete profile._raw;
+		delete profile._json;
+		return done(err, tempUser);
+	});
+}); }; ```
+</code></pre>
+
+<p>Por último, el servicio exporta un módulo con una función que configura los proveedores con las variables de entorno o las de configuración de sails. Lo hacemos dentro de una función para disponer del objeto <code>sails</code> y por tanto de la configuración declarada en <code>/config/local.js</code> (hay una copia de referencia en <code>/config/local.ex.js</code>). Estas propiedades y métodos estarán disponibles en `sails.config</p>
+
+<p><code>javascript /api/services/PassportService.js
+module.exports = {
+	configProviders: function(options, next) {
+		passport.use(new GitHubStrategy(
+			{
+				clientID: process.env.GITHUB_CLIENT_ID || sails.config.providers.github.clientID,
+				clientSecret: process.env.GITHUB_CLIENT_SECRET || sails.config.providers.github.clientSecret,
+				callbackURL: process.env.GITHUB_CALLBACK_URL || sails.config.providers.github.callbackURL,
+			},
+			providersHandler
+		));
+		passport.use(new FacebookStrategy({
+				[…]
+			},
+			providersHandler
+		));
+		passport.use(new TwitterStrategy({
+				[…]
+			},
+			providersHandler
+		));
+	}
+};
+</code></p>
+
+<p>Esta nueva función, <code>configProviders</code> debemos llamarla al iniciar la aplicaicón para que se configuren nuestros proveedores de autenticación. Para ello incluimos la llamada en <code>/config/bootstrap.js</code>:</p>
+
+<p><code>javascript /config/bootstrap.js
+module.exports.bootstrap = function (next) {
+	PassportService.configProviders();
+	next();
+};
+</code></p>
+
+<h2 id="modificar-modelo-user">Modificar Modelo <code>User</code></h2>
+
+<p>En el modelo solo tendremos que añadir un atributo más que guarde los perfiles del usuario. Los resultados se normalizan siguiendo el esquema de contacto establecido por Portable Contacts y puedes consultar en el <a href="http://passportjs.org/guide/profile/">perfil de usuario en Passport</a>. De momento Sails no permite las asociaciones, disponibles en la versión 0.10, así definiremos un array y procuraremos mantener el schema. Cuando pasemos a Sails.js 0.10 implementaremos asociaciones las cuales nos permitirán crear un modelo Profile en el que definieremos este schema.</p>
+
+<p><code>javascript /api/models/User.js
+module.exports = {
+	attributes: {
+		[…]
+		profiles: {
+			'array',
+			defaultsTo: []
+		}
+		// Profiles object look like this:
+		// provider: 'string',
+		// id: 'string',
+		// displayName: 'string',
+		// name_familyName: 'string',
+		// name_givenName: 'string',
+		// name_middleName: 'string',
+		// emails: 'array',
+		// photos: 'array'
+		[…]
+	}
+};
+</code></p>
+
+<h2 id="modificaciones-en-usercontroller">Modificaciones en <code>UserController</code></h2>
+
+<p>Vamos a ampliar la funcionalidad de las acciones <code>login</code> y <code>logout</code>, las cuales nos permitirán realizar el login de un usuario y unir un perfil con el usuario registrado. Obtenemos el proveedor por parámetro (ver <a href="#personalizacin-de-rutas">Personalización de rutas</a>) y si es válido procederemos a la unión o eliminación del perfil. La url a la que haremos las peticiones será del tipo <code>/user/login/github</code>, siendo <code>github</code> lo que recibiremos como parámetro <code>provider</code>.</p>
+
+<p><code>javascript /api/controllers/UserController.js
+login: function(req, res, next) {
+	var provider = req.param('provider') || 'local';
+	if ( provider === 'local' || isProvider(provider) ) return linkProfile(provider, req, res, next);
+	return res.redirect('/auth');
+},
+logout: function(req, res, next){
+	var provider = req.param('provider');
+	if ( isProvider(provider) ) return unlinkProfile(provider, req, res, next);
+	req.logout();
+	return res.redirect('/');
+}
+</code></p>
+
+<p>Esto unido a tres funciones auxiliares resuelven de manera bastante elegante la autenticación de usuarios, enlace y desenlace de perfiles. La primera función auxiliar, <code>isProvider</code>, es para comprobar si es un proveedor de authenticación válido.</p>
+
+<p><code>javascript /api/controllers/UserController.js
+function isProvider(id){
+	return sails.config.providers[provider];
+}
+</code>
+La segunda, <code>linkProfile</code>, es la encargada de gestionar el login con dicho proveedor. Tendrá en cuenta si el usuario está registrado, si hemos encontrado un usuario con dicho perfil en nuestra base de datos y actuará en consecuencia en cada uno de los 5 casos:</p>
+
+<ol>
+  <li>Usuario registrado, intenta enlazar de nuevo un perfil ya enlazado.</li>
+  <li>Usuario registrado, intenta enlazar un perfil asociado a otro usuario.</li>
+  <li>Usuario registrado, intenta enlazar un perfil no asociado a ningún usuario.</li>
+  <li>Usuario no registrado, se autentica con un perfil asociado a su usuario.</li>
+  <li>Usuario no registrado, se autentica con un perfil no asociado a ningún usuario.</li>
+</ol>
+
+<h2 id="personalizacin-de-rutas">Personalización de rutas</h2>
+
+<p>Un fichero que no habíamos visto hasta hora <code>/config/routes.js</code> hace aparición para que definamos las url de <code>login</code> y <code>logout</code>. El indicar en la url <code>:provider</code> establecemos <code>provider</code> como un parámetro y con <code>?</code> lo hacemos opcional. De esta forma estas urls nos sirven para el login general y para el login con un proveedor concreto.</p>
+
+<p><code>javascript /config/routes.js
+module.exports.routes = {
+	'/': {
+		view: 'home/index'
+	},
+	'/user/login/:provider?': 'UserController.login',
+	'/user/logout/:provider?': 'UserController.logout'
+};
+</code>
+## Cambios en las vistas</p>
+
+<p>Ya tenemos toda la parte de lógica de negocio lista. Todo lo que hemos realizado en los controladores, modelos, cofig, servicios… tenemos que refejarlo en las vistas así que vamos a listar los cambios que hay que realizar.</p>
+
+<h3 id="formulario-de-autenticacin">Formulario de autenticación</h3>
+
+<ul>
+  <li>Renombramos el fichero <code>/view/user/auth.ejs</code> a <code>/view/auth/index.ejs</code>.</li>
+  <li>Cambiamos el action del formulario de autenticación a <code>/auth/login/local</code>.</li>
+  <li>Añadimos los botones de autenticación de los diferentes proveedores que vamos a utilizar como formularios con action <code>/auth/login/[provider]</code>, siendo <code>[provider]</code> el proveedor que corresponda en cada caso. Para ello utilizamos utilizamos la variable <code>sails.config.providers</code> y un bucle <code>each</code>:</li>
+</ul>
+
+<p><code>html views/user/auth.ejs
+&lt;% if ( sails.config.providers ) { %&gt;
+&lt;div class="form-center"&gt;
+	&lt;p class="text-center"&gt;&lt;%= __('or Auth with...') %&gt;&lt;p&gt;
+	&lt;div class="row"&gt;
+		&lt;% _.each(sails.config.providers, function(provider, provider_id){ %&gt;
+		&lt;form role="form" action="/user/login/&lt;%= provider_id %&gt;" method="POST" class="col-xs-4"&gt;
+			&lt;p&gt;
+				&lt;button type="submit" class="btn btn-primary btn-block"&gt;
+					&lt;!--span class="glyphicon glyphicon-&lt;%= provider_id %&gt;"&gt;&lt;/span--&gt;
+					&lt;%= __(provider_id) %&gt;
+				&lt;/button&gt;
+			&lt;/p&gt;
+		&lt;/form&gt;
+		&lt;% }) %&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;% } %&gt;
+</code></p>
+
+<h3 id="nuevo-usuario">Nuevo usuario</h3>
+
+<p>Como hemos comentado guardamos un usuario temporal cuando no hemos encontrado el usuario en nuestra base de datos. Este es el momento de mostrarle al usuario los datos que había rellenado al intentar autenticarse. Hemos omitido poner la contraseña, porque es mejor introducirla de manera consciente. Este sería un ejemplo de como introducimos el valor del usuario temporal.</p>
+
+<p><code>html views/user/new.ejs
+&lt;input
+	type="text"
+	class="form-control"
+	placeholder="&lt;%= __('Username') %&gt;"
+	name="username"
+	id="username"
+	required
+	&lt;% if( session.tempUser &amp;&amp; session.tempUser.username ) { %&gt;
+	value="&lt;%= session.tempUser.username %&gt;"
+	&lt;% } %&gt;/&gt;
+</code></p>
+
+<h3 id="mostrar-usuario">Mostrar usuario</h3>
+
+<p>En la vista del usuario ahora tendremos que informarle de qué perfiles ha unido a su cuenta y darle la posibilidad de unir nuevos o eliminar los que tenga unidos. Así que iteramos los proveedores, <code>sails.config.providers</code> y si encontramos un perfil de ese proveedor entre los perfiles del usuario ofrecemos la opción de eliminar y en caso contrario la de añadir. Solo vamos a mostrar el condicional para mostrar el uso del método find:</p>
+
+<p><code>html views/user/find.ejs
+&lt;% if( _.find(
+	user.profiles,
+	function(profile) {
+		return profile.provider == provider_id;
+	}
+) ) { %&gt;
+</code></p>
+
+<p>Con esto hemos terminado nuestro sistema de autenticación con proveedores externos y creado un sistema que facilita el deshabilitar o habilitar nuevos sistemas de autenticación.</p>
+
+<div class="alert alert-info">
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/c3e544e2ca9a890151959129f347667d43eb5209">c3e544e2ca: Auth with Passport and providers (GitHub, Facebook, Twitter).</a></p>
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/7eb75b35f1c878bb1f94039edb94ced5f7c7913b">7eb75b35f1: Delete verb from login and logout routes.</a></p>
+	<p>Commit en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp/commit/0f78d3898b16702750d99a536434310ab3058a4f">0f78d3898b: Update read me and index to show read me info.</a></p>
+</div>
+
+<div class="alert alert-info">
+	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>auth-passport-providers</code>.</p>
+	<p>Entorno de desarrollo en Heroku: <a href="http://building-realtime-webapp-dev.herokuapp.com/">building-realtime-webapp</a>.</p>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Desarrollar Webapps Realtime: Auth con Passport]]></title>
     <link href="http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-auth-con-passport/"/>
     <updated>2014-01-19T19:39:54+01:00</updated>
     <id>http://jorgecasar.github.io/blog/desarrollar-webapps-realtime-auth-con-passport</id>
     <content type="html"><![CDATA[<div class="alert alert-info">
-	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>auth</code>.</p>
+	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>auth-passport</code>.</p>
 	<p>Entorno de desarrollo en Heroku: <a href="http://building-realtime-webapp-dev.herokuapp.com/">building-realtime-webapp</a>.</p>
 </div>
 
@@ -51,7 +326,7 @@
 
 <p>Una vez instalado creamos un fichero de configuración en el directorio <code>config</code>llamado <code>passport.js</code>, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo <code>username</code> o <code>email</code> coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.</p>
 
-<p><code>javascript auth/passport.js
+<p><code>javascript config/passport.js
 passport.use(new LocalStrategy(
 	// options by default not needed.
 	//{
