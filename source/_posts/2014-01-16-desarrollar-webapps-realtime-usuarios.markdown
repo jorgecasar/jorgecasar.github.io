@@ -3,14 +3,13 @@ layout: post
 title: "Desarrollar Webapps Realtime: Usuarios"
 date: 2014-01-16 09:28:14 +0100
 comments: true
-categories: NodeJS
+categories: SailsJS
 tags:
-- javascript
-- Heroku
-- sails
-- framework
-- realtime
-- webapp
+- Javascript
+- NodeJS
+- Framework
+- Real-time
+- Webapp
 ---
 <div class="alert alert-info">
 	<p>Código en GitHub: <a href="https://github.com/jorgecasar/building-realtime-webapp">building-realtime-webapp</a>. Release: <code>users</code>.</p>

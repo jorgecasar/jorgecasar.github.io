@@ -3,10 +3,10 @@ layout: post
 title: "Desarrollar Webapps Realtime: Auth con Passport"
 date: 2014-01-19 19:39:54 +0100
 comments: true
-categories: NodeJS
+categories: SailsJS
 tags:
 - Javascript
-- SailsJS
+- NodeJS
 - Framework
 - Real-time
 - Webapp
@@ -42,7 +42,7 @@ Passport por defecto buscará en las peticiones el parámetro `username` y `pass
 
 Una vez instalado creamos un fichero de configuración en el directorio `config`llamado `passport.js`, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo `username` o `email` coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.
 
-```javascript auth/passport.js
+```javascript config/passport.js
 passport.use(new LocalStrategy(
 	// options by default not needed.
 	//{

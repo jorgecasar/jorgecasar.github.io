@@ -3,15 +3,14 @@ layout: post
 title: "Desarrollar Webapps Realtime: Auth"
 date: 2014-01-18 12:40:04 +0100
 comments: true
-categories: NodeJS
+categories: SailsJS
 tags:
-- javascript
-- Heroku
-- sails
-- framework
-- realtime
-- webapp
-- auth
+- Javascript
+- NodeJS
+- Framework
+- Real-time
+- Webapp
+- Auth
 ---
 
 <div class="alert alert-info">
