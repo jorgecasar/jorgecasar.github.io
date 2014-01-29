@@ -40,7 +40,7 @@ Passport por defecto buscará en las peticiones el parámetro `username` y `pass
 	<p>Recomiendo echarle un ojo a la <a href="http://passportjs.org/guide/username-password/">Documentación de Passport local</a>.</p>
 </div>
 
-Una vez instalado creamos un fichero de configuración en el directorio `config`llamado `passport.js`, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo `username` o `email` coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.
+Una vez instalado creamos un fichero de configuración en el directorio `config` llamado `passport.js`, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo `username` o `email` coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.
 
 ```javascript config/passport.js
 passport.use(new LocalStrategy(
@@ -70,7 +70,7 @@ passport.use(new LocalStrategy(
 ```
 Unas lineas más abajo cerramos el fichero `passport.js` declarando el middleware de Express y asignando a las variables locales el usuario que devolvimos en el fragmento de código anterior:
 
-```javascript auth/passport.js
+```javascript config/passport.js
 module.exports = {
 	express: {
 		customMiddleware: function(app){
