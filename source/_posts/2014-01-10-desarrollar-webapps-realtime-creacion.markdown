@@ -153,7 +153,7 @@ $ git push origin develop
 Heroku utiliza git para la gestión del código, así que tendremos que crear la aplicación en Heroku y poner una referencia en nuestra lista de repositorios remotos.
 
 {% highlight shell %}
-$ heroku apps:create <appName> -remote <remote> --region eu
+$ heroku apps:create <appName> --remote <remote> --region eu
 {% endhighlight %}
 
 Esto creará una aplicación ```<appName>``` en Heroku, creará un repositorio remoto llamado ```<remote>``` (por defecto, heroku) e indicamos que nuestra región es Europa.
@@ -166,7 +166,7 @@ $ heroku git:remote -a <appName>
 Debido a que tenemos la rama maestra y la de desarrollo, y Heroku sólo tiene en cuenta la rama master para los despliegues en sus servidores, recomiendo crear otra app en Heroku para desarrollo. Yo lo he hecho añadiendo ```-dev``` tanto al nombre de la app con al nombre del repositorio remoto.
 
 {% highlight shell %}
-$ heroku apps:create <appName>-dev -remote <remote>-dev --region eu
+$ heroku apps:create <appName>-dev --remote <remote>-dev --region eu
 {% endhighlight %}
 
 ### Desplegar el código
