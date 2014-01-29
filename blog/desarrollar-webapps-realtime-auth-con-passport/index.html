@@ -163,7 +163,7 @@
 	<p>Recomiendo echarle un ojo a la <a href="http://passportjs.org/guide/username-password/">Documentación de Passport local</a>.</p>
 </div>
 
-<p>Una vez instalado creamos un fichero de configuración en el directorio <code>config</code>llamado <code>passport.js</code>, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo <code>username</code> o <code>email</code> coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.</p>
+<p>Una vez instalado creamos un fichero de configuración en el directorio <code>config</code> llamado <code>passport.js</code>, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo <code>username</code> o <code>email</code> coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>config/passport.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -216,7 +216,7 @@
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>Unas lineas más abajo cerramos el fichero <code>passport.js</code> declarando el middleware de Express y asignando a las variables locales el usuario que devolvimos en el fragmento de código anterior:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>auth/passport.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>config/passport.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>

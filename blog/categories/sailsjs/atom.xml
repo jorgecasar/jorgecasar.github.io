@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SailsJS | Jorge del Casar]]></title>
   <link href="http://jorgecasar.github.io/blog/categories/sailsjs/atom.xml" rel="self"/>
   <link href="http://jorgecasar.github.io/"/>
-  <updated>2014-01-23T11:57:25+01:00</updated>
+  <updated>2014-01-29T11:38:08+01:00</updated>
   <id>http://jorgecasar.github.io/</id>
   <author>
     <name><![CDATA[Jorge del Casar]]></name>
@@ -324,7 +324,7 @@ module.exports.routes = {
 	<p>Recomiendo echarle un ojo a la <a href="http://passportjs.org/guide/username-password/">Documentación de Passport local</a>.</p>
 </div>
 
-<p>Una vez instalado creamos un fichero de configuración en el directorio <code>config</code>llamado <code>passport.js</code>, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo <code>username</code> o <code>email</code> coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.</p>
+<p>Una vez instalado creamos un fichero de configuración en el directorio <code>config</code> llamado <code>passport.js</code>, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo <code>username</code> o <code>email</code> coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.</p>
 
 <p><code>javascript config/passport.js
 passport.use(new LocalStrategy(
@@ -354,7 +354,7 @@ passport.use(new LocalStrategy(
 </code>
 Unas lineas más abajo cerramos el fichero <code>passport.js</code> declarando el middleware de Express y asignando a las variables locales el usuario que devolvimos en el fragmento de código anterior:</p>
 
-<p><code>javascript auth/passport.js
+<p><code>javascript config/passport.js
 module.exports = {
 	express: {
 		customMiddleware: function(app){
@@ -1315,7 +1315,7 @@ $ git push origin develop</code></pre>
 <p>Heroku utiliza git para la gestión del código, así que tendremos que crear la aplicación en Heroku y poner una referencia en nuestra lista de repositorios remotos.</p>
 
 <p><div>
-  <pre><code class='shell'>$ heroku apps:create &lt;appname&gt; -remote &lt;remote&gt; --region eu</code></pre>
+  <pre><code class='shell'>$ heroku apps:create &lt;appname&gt; --remote &lt;remote&gt; --region eu</code></pre>
 </div>
 </remote></appname></p>
 
@@ -1330,7 +1330,7 @@ $ git push origin develop</code></pre>
 <p>Debido a que tenemos la rama maestra y la de desarrollo, y Heroku sólo tiene en cuenta la rama master para los despliegues en sus servidores, recomiendo crear otra app en Heroku para desarrollo. Yo lo he hecho añadiendo <code>-dev</code> tanto al nombre de la app con al nombre del repositorio remoto.</p>
 
 <p><div>
-  <pre><code class='shell'>$ heroku apps:create &lt;appname&gt;-dev -remote &lt;remote&gt;-dev --region eu</code></pre>
+  <pre><code class='shell'>$ heroku apps:create &lt;appname&gt;-dev --remote &lt;remote&gt;-dev --region eu</code></pre>
 </div>
 </remote></appname></p>
 

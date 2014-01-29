@@ -4,7 +4,7 @@
   <title><![CDATA[Jorge del Casar]]></title>
   <link href="http://jorgecasar.github.io/atom.xml" rel="self"/>
   <link href="http://jorgecasar.github.io/"/>
-  <updated>2014-01-23T11:57:25+01:00</updated>
+  <updated>2014-01-29T11:38:08+01:00</updated>
   <id>http://jorgecasar.github.io/</id>
   <author>
     <name><![CDATA[Jorge del Casar]]></name>
@@ -444,7 +444,7 @@
 	<p>Recomiendo echarle un ojo a la <a href="http://passportjs.org/guide/username-password/">Documentación de Passport local</a>.</p>
 </div>
 
-<p>Una vez instalado creamos un fichero de configuración en el directorio <code>config</code>llamado <code>passport.js</code>, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo <code>username</code> o <code>email</code> coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.</p>
+<p>Una vez instalado creamos un fichero de configuración en el directorio <code>config</code> llamado <code>passport.js</code>, el cual será cargado por Sails automáticamente al lanzar el servidor. Para no copiar todo el fichero aquí puesto que está disponible en GitHub voy a destacar lo más importante. Indicamos a passport que use una estrategia local, buscando un usuario cuyo <code>username</code> o <code>email</code> coincida con el campo username de nuestro fomulario de login. Una vez encontrado el usuario comparamos las contraseñas y devolvemos el usuario.</p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>config/passport.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -497,7 +497,7 @@
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>Unas lineas más abajo cerramos el fichero <code>passport.js</code> declarando el middleware de Express y asignando a las variables locales el usuario que devolvimos en el fragmento de código anterior:</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>auth/passport.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>config/passport.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
 <span class="line-number">3</span>
 <span class="line-number">4</span>
@@ -1657,7 +1657,7 @@ $ git push origin develop</code></pre>
 <p>Heroku utiliza git para la gestión del código, así que tendremos que crear la aplicación en Heroku y poner una referencia en nuestra lista de repositorios remotos.</p>
 
 <div>
-  <pre><code class="shell">$ heroku apps:create &lt;appName&gt; -remote &lt;remote&gt; --region eu</code></pre>
+  <pre><code class="shell">$ heroku apps:create &lt;appName&gt; --remote &lt;remote&gt; --region eu</code></pre>
 </div>
 
 <p>Esto creará una aplicación <code>&lt;appName&gt;</code> en Heroku, creará un repositorio remoto llamado <code>&lt;remote&gt;</code> (por defecto, heroku) e indicamos que nuestra región es Europa.</p>
@@ -1670,7 +1670,7 @@ $ git push origin develop</code></pre>
 <p>Debido a que tenemos la rama maestra y la de desarrollo, y Heroku sólo tiene en cuenta la rama master para los despliegues en sus servidores, recomiendo crear otra app en Heroku para desarrollo. Yo lo he hecho añadiendo <code>-dev</code> tanto al nombre de la app con al nombre del repositorio remoto.</p>
 
 <div>
-  <pre><code class="shell">$ heroku apps:create &lt;appName&gt;-dev -remote &lt;remote&gt;-dev --region eu</code></pre>
+  <pre><code class="shell">$ heroku apps:create &lt;appName&gt;-dev --remote &lt;remote&gt;-dev --region eu</code></pre>
 </div>
 
 <h3 id="desplegar-el-cdigo">Desplegar el código</h3>
