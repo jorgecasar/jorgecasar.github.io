@@ -1,0 +1,127 @@
+---
+layout: page
+navbar: Talks
+title: "My talks"
+comments: false
+sharing: true
+footer: true
+---
+
+<div id="upcoming_talks">
+{% jsonball talks from file talks.json %}
+{% datefilter upcoming from talks where date > today %}
+{% jsonball upcoming from var upcoming %}
+<div class="page-header">
+	<h2>Upcoming <small>{{ upcoming | size }} events</small></h2>
+</div>
+{% for talk in upcoming %}
+	{% capture modulo %}{{ forloop.index0 | mod:2 }}{% endcapture %}
+	{% if modulo == '0' or forloop.first %}
+	<div class="row">
+	{% endif %}
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				{% if talk.tickets and talk.tickets != '' %}<a class="pull-right btn btn-lg btn-primary" href="{{ talk.tickets }}" title="Inscripción"><span class="fa fa-ticket"></span></a>{% endif %}
+				<h3><a href="{{ talk.url }}">{{ talk.name }}</a></h3>
+				<span><img class="no-border" src="/images/flags/{{ talk.country }}.png" /> {{ talk.city }} • {{ talk.date | date: "%x"}}</span>
+			</div>
+			<div class="panel-body">
+				<p><a href="{{ talk.url }}"><img class="center" src="{{ talk.logo }}" /></a></p>
+				{% for session in talk.sessions %}
+					<p class="alert alert-success">
+						<span class="fa fa-calendar"></span>
+						<span class="label label-success pull-right">{{ session.type }}</span>
+						{{ session.date | date: "%A, %d/%m/%y • %H:%M" }}
+					</p>
+					<h4>{% if session.title and talk.title != '' %}
+						{{ session.title }}
+					{% else %}
+						TBD
+					{% endif %}</h4>
+					{% if session.details and session.details != '' %}<p>{{ session.details }}</p>{% endif %}
+					<ul class="nav nav-pills">
+						{% if session.video and session.video != '' %}<li><a class="label label-primary" href="{{ session.video }}">
+							<span class="fa fa-video-camera"></span>
+							Vídeo
+						</a></li>{% endif %}
+						{% if session.slides and session.slides != '' %}<li><a  class="label label-primary" href="{{ session.slides }}">
+							<span class="fa fa-paperclip"></span>
+							Slides
+						</a></li>{% endif %}
+					</ul>
+					{% if session.feedback and session.feedback != '' %}<p><a href="{{ session.feedback }}">Feedback</a></p>{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	{% if modulo == '1' or forloop.last %}
+	</div>
+	{% endif %}
+{% endfor %}
+</div>
+
+
+<div id="past_talks">
+{% datefilter past from talks where date < today %}
+{% jsonball past from var past %}
+<div class="page-header">
+	<h2>Past <small>{{ past | size }} events</small></h2>
+</div>
+{% for talk in past %}
+	{% capture modulo %}{{ forloop.index0 | mod:2 }}{% endcapture %}
+	{% if modulo == '0' or forloop.first %}
+	<div class="row">
+	{% endif %}
+
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<button class="showEvent pull-right btn btn-lg btn-primary"><span class="glyphicon glyphicon-eye-open"></span></button>
+				<h3><a href="{{ talk.url }}">{{ talk.name }}</a></h3>
+				<span><img class="no-border" src="/images/flags/{{ talk.country }}.png" /> {{ talk.city }} • {{ talk.date | date: "%x"}}</span>
+			</div>
+			<div class="panel-body">
+				<p><a href="{{ talk.url }}"><img class="center" src="{{ talk.logo }}" /></a></p>
+				{% for session in talk.sessions %}
+					<p class="alert alert-success">
+						<span class="fa fa-calendar"></span>
+						<span class="label label-success pull-right">{{ session.type }}</span>
+						{{ session.date | date: "%A, %d/%m/%y • %H:%M" }}
+					</p>
+					<h4>{% if session.title and talk.title != '' %}
+						{{ session.title }}
+					{% else %}
+						TBD
+					{% endif %}</h4>
+					{% if session.details and session.details != '' %}<p>{{ session.details }}</p>{% endif %}
+					<ul class="nav nav-pills">
+						{% if session.video and session.video != '' %}<li><a class="label label-lg label-primary" href="{{ session.video }}">
+							<span class="fa fa-video-camera"></span>
+							Vídeo
+						</a></li>{% endif %}
+						{% if session.slides and session.slides != '' %}<li><a  class="label label-lg label-primary" href="{{ session.slides }}">
+							<span class="fa fa-paperclip"></span>
+							Slides
+						</a></li>{% endif %}
+					</ul>
+					{% if session.feedback and session.feedback != '' %}<p><a href="{{ session.feedback }}">Feedback</a></p>{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	{% if modulo == '1' or forloop.last %}
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+
+{% raw %}
+<script>
+	$('#past_talks .panel-body').hide();
+	$('.showEvent').on('click', function(event){
+		$(event.currentTarget).closest('.panel').find('.panel-body').toggle();
+	});
+</script>
+{% endraw %}

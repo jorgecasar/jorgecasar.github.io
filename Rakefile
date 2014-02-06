@@ -26,6 +26,7 @@ themes_dir      = ".themes"   # directory for blog files
 new_post_ext    = "markdown"  # default new post file extension when using the new_post task
 new_page_ext    = "markdown"  # default new page file extension when using the new_page task
 server_port     = "4000"      # port for preview server eg. localhost:4000
+fonts_dir       = source_dir + '/fonts'
 
 if (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
   puts '## Set the codepage to 65001 for Windows machines'
@@ -56,6 +57,8 @@ desc "Generate jekyll site"
 task :generate do
   raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
   puts "## Generating Site with Jekyll"
+  FileUtils.mkdir(fonts_dir) unless File.exist?(fonts_dir)
+  Rake::Task[:copy].invoke('sass/font-awesome/fonts', source_dir + '/fonts')
   system "compass compile --css-dir #{source_dir}/stylesheets"
   system "jekyll"
 end
@@ -229,6 +232,13 @@ end
 
 desc "Generate website and deploy"
 task :gen_deploy => [:integrate, :generate, :deploy] do
+end
+
+desc "copy files for deployment"
+task :copy, :source, :dest do |t, args|
+  FileList["#{args.source}/**/*"].exclude("**/.", "**/..", "**/.DS_Store", "**/._*").each do |file|
+    cp_r file, file.gsub(/#{args.source}/, "#{args.dest}") unless File.directory?(file) or File.exist?(file)
+  end
 end
 
 desc "copy dot files for deployment"

@@ -1,3 +1,6 @@
 [submodule ".themes/octostrap3"]
 	path = .themes/octostrap3
 	url = https://github.com/kAworu/octostrap3
+[submodule "sass/font-awesome"]
+	path = sass/font-awesome
+	url = https://github.com/FortAwesome/Font-Awesome.git

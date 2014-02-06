@@ -38,6 +38,10 @@ article img {
   padding: 0.5em;
   background-color: #FFF;
 }
+article .panel img {
+  padding: 0;
+  background-color: transparent;
+}
 article img.dark {
   background-color:#333;
 }
@@ -49,4 +53,12 @@ article img.pull-right {
 }
 figure.code, .gist-file, pre {
   overflow: auto;
+}
+.panel h3 {
+  margin:0
+}
+.panel .alert {
+  margin: 0 -1em 10px;
+  padding: 0.5em 1em;
+  border-radius: 0;
 }

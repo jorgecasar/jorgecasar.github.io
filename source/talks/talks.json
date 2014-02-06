@@ -1,0 +1,122 @@
+[
+	{
+		"name": "",
+		"url": "",
+		"logo": "",
+		"date": "",
+		"days": 1,
+		"sessions": [{
+			"title": "",
+			"url": "",
+			"date": "",
+			"type": "",
+			"details": "",
+			"duration": "",
+			"video": "",
+			"slides": "",
+			"feedback": ""
+		}],
+		"tickets": "",
+		"country": "",
+		"city": ""
+	}, {
+		"name": "Salón MiEmpresa",
+		"url": "http://kcy.me/yshp",
+		"logo": "/images/events/logo_sme_2014_V_edicion.png",
+		"date": "2014-02-18",
+		"days": 2,
+		"sessions": [{
+			"title": "App Móvil: Conviértela en una línea de negocio",
+			"url": "",
+			"date": "2014-02-19T17:15:00+01:00",
+			"type": "Talk",
+			"details": "Las apps móviles han llenado los mercados de aplicaciones, hay diferentes modelos de negocio, descubre cual es que más se adapta a tus necesidades y aprende cómo puedes crear una nueva linea de negocio que incremente los beneficios de tu empresa.",
+			"duration": "30 minutes",
+			"video": "",
+			"slides": "",
+			"feedback": ""
+		}],
+		"tickets": "http://kcy.me/y7na",
+		"country": "es",
+		"city": "Madrid"
+	}, {
+		"name": "V Congreso Estatal RITSI",
+		"url": "http://kcy.me/ysif",
+		"logo": "/images/events/logo_ritsi_2014_cordova.png",
+		"date": "2014-03-28",
+		"days": 1,
+		"sessions": [{
+			"title": "Apps multiplataforma con HTML5",
+			"url": "",
+			"date": "2014-03-28",
+			"type": "Talk",
+			"details": "El evento, organizado por RITSI y el CEEPS, espera sobrepasar los 1.000 asistentes, dada la notoriedad que el anuncio de este evento ha tenido en todas las universidades que forman parte de RITSI, así como en la propia Universidad de Córdoba.",
+			"video": "",
+			"slides": "",
+			"feedback": ""
+		}],
+		"tickets": "http://kcy.me/ysii",
+		"country": "es",
+		"city": "Córdoba"
+	}, {
+		"name": "HTML5 Spain",
+		"url": "http://html5spain.wordpress.com/2014/01/09/online-websockets-con-jorge-del-casar/",
+		"logo": "/images/events/logo_html5spain.png",
+		"date": "2014-01-09",
+		"days": 1,
+		"sessions": [{
+			"title": "Implementar Websockets en videojuegos, ¿para qué?",
+			"url": "",
+			"date": "2014-01-09T20:30:00+01:00",
+			"type": "Hangout",
+			"details": "Cómo, para qué, por qué… Trataré de introduciros a esta implementación, una nueva funcionalidad que está siendo una pieza fundamental en el desarrollo y éxito de las Aplicaciones Web sobre navegadores modernos. Información financiera en tiempo real, Chats, Juegos multi-jugador… estas son algunas de las referencias del tipo de aplicaciones sobre las que usar Websockets.",
+			"duration": "1 hour",
+			"video": "http://www.youtube.com/watch?v=FVcWckXDkLc",
+			"slides": "http://jorgecasar.github.io/talks/Websockets-games/",
+			"feedback": ""
+		}],
+		"tickets": "",
+		"country": "world",
+		"city": "Hangout"
+	}, {
+		"name": "GameMe5",
+		"url": "http://html5-spain.com/html5-spain/GameMe5/",
+		"logo": "/images/events/logo_gameMe5_2013.png",
+		"date": "2013-12-13",
+		"days": 2,
+		"sessions": [{
+			"title": "Implementar Websockets en videojuegos, ¿para qué?",
+			"url": "",
+			"date": "2013-12-14T15:30:00+01:00",
+			"type": "Talk",
+			"details": "Cómo, para qué, por qué… Trataré de introduciros a esta implementación, una nueva funcionalidad que está siendo una pieza fundamental en el desarrollo y éxito de las Aplicaciones Web sobre navegadores modernos. Información financiera en tiempo real, Chats, Juegos multi-jugador… estas son algunas de las referencias del tipo de aplicaciones sobre las que usar Websockets.",
+			"duration": "1 hour",
+			"video": "",
+			"slides": "http://jorgecasar.github.io/talks/Websockets-games/",
+			"feedback": ""
+		}],
+		"tickets": "http://www.eventbrite.es/e/game-me-5-tickets-8523591291",
+		"country": "es",
+		"city": "Madrid"
+	}, {
+		"name": "Droidcon",
+		"url": "http://es.droidcon.com/2013/",
+		"logo": "/images/events/logo_droidcon_2013_MAD.png",
+		"date": "2013-12-09",
+		"days": 2,
+		"sessions": [{
+			"title": "Desarrollo móvil HTML5 con Cordova 3",
+			"url": "http://es.droidcon.com/2013/cordova-jorge-del-casar/",
+			"date": "2013-12-10T15:30:00+01:00",
+			"type": "Talk",
+			"details": "Cordova es un framework de desarrollo móvil de código abierto que permite usar tecnologías web standard como HTML5, CSS3 y Javascript para el desarrollo multiplataforma, evitando desarrollar en el lenguaje nativo de cada plataforma. La nueva Command Line Interface (CLI) desarrollada en Node.js te permite automatizar la creación de proyectos, adición de plataformas y plugins así como la construir la app y probarla en simuladores y dispositivos reales.",
+			"duration": "1 hour",
+			"video": "http://www.youtube.com/watch?v=5sBmSVlvL6E",
+			"slides": "http://jorgecasar.github.io/talks/Cordova-Android/",
+			"feedback": ""
+		}],
+		"tickets": "http://es.droidcon.com/2013/entradas/",
+		"country": "es",
+		"city": "Madrid"
+	}
+]
