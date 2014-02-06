@@ -72,7 +72,7 @@
 			"details": "Cómo, para qué, por qué… Trataré de introduciros a esta implementación, una nueva funcionalidad que está siendo una pieza fundamental en el desarrollo y éxito de las Aplicaciones Web sobre navegadores modernos. Información financiera en tiempo real, Chats, Juegos multi-jugador… estas son algunas de las referencias del tipo de aplicaciones sobre las que usar Websockets.",
 			"duration": "1 hour",
 			"video": "http://www.youtube.com/watch?v=FVcWckXDkLc",
-			"slides": "http://jorgecasar.github.io/talks/Websockets-games/",
+			"slides": "http://jorgecasar.github.io/slides/Websockets-games/",
 			"feedback": ""
 		}],
 		"tickets": "",
@@ -92,7 +92,7 @@
 			"details": "Cómo, para qué, por qué… Trataré de introduciros a esta implementación, una nueva funcionalidad que está siendo una pieza fundamental en el desarrollo y éxito de las Aplicaciones Web sobre navegadores modernos. Información financiera en tiempo real, Chats, Juegos multi-jugador… estas son algunas de las referencias del tipo de aplicaciones sobre las que usar Websockets.",
 			"duration": "1 hour",
 			"video": "",
-			"slides": "http://jorgecasar.github.io/talks/Websockets-games/",
+			"slides": "http://jorgecasar.github.io/slides/Websockets-games/",
 			"feedback": ""
 		}],
 		"tickets": "http://www.eventbrite.es/e/game-me-5-tickets-8523591291",
@@ -112,7 +112,7 @@
 			"details": "Cordova es un framework de desarrollo móvil de código abierto que permite usar tecnologías web standard como HTML5, CSS3 y Javascript para el desarrollo multiplataforma, evitando desarrollar en el lenguaje nativo de cada plataforma. La nueva Command Line Interface (CLI) desarrollada en Node.js te permite automatizar la creación de proyectos, adición de plataformas y plugins así como la construir la app y probarla en simuladores y dispositivos reales.",
 			"duration": "1 hour",
 			"video": "http://www.youtube.com/watch?v=5sBmSVlvL6E",
-			"slides": "http://jorgecasar.github.io/talks/Cordova-Android/",
+			"slides": "http://jorgecasar.github.io/slides/Cordova-Android/",
 			"feedback": ""
 		}],
 		"tickets": "http://es.droidcon.com/2013/entradas/",
