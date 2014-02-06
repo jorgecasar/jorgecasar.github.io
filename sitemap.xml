@@ -72,4 +72,8 @@
         <loc>http://jorgecasar.github.io/robots.txt</loc>
         <lastmod>2014-01-31T17:08:37+01:00</lastmod>
     </url>
+    <url>
+        <loc>http://jorgecasar.github.io/talks/</loc>
+        <lastmod>2014-02-06T17:09:18+01:00</lastmod>
+    </url>
 </urlset>
