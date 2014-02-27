@@ -45,7 +45,7 @@ footer: true
 							<span class="fa fa-video-camera"></span>
 							Vídeo
 						</a></li>{% endif %}
-						{% if session.slides and session.slides != '' %}<li><a  class="label label-primary" href="{{ session.slides | replace: 'http://jorgecasar.github.io', '' }}">
+						{% if session.slides and session.slides != '' %}<li><a  class="label label-primary" href="{{ session.slides }}">
 							<span class="fa fa-paperclip"></span>
 							Slides
 						</a></li>{% endif %}
@@ -100,7 +100,7 @@ footer: true
 							<span class="fa fa-video-camera"></span>
 							Vídeo
 						</a></li>{% endif %}
-						{% if session.slides and session.slides != '' %}<li><a  class="label label-lg label-primary" href="{{ session.slides | replace: 'http://jorgecasar.github.io', '' }}">
+						{% if session.slides and session.slides != '' %}<li><a  class="label label-lg label-primary" href="{{ session.slides }}">
 							<span class="fa fa-paperclip"></span>
 							Slides
 						</a></li>{% endif %}
