@@ -35,8 +35,8 @@ footer: true
 						<span class="label label-success pull-right">{{ session.type }}</span>
 						{{ session.date | date: "%A, %d/%m/%y • %H:%M" }}
 					</p>
-					<h4>{% if session.title and talk.title != '' %}
-						{% if session.url and talk.url != '' %}
+					<h4>{% if session.title and session.title != '' %}
+						{% if session.url and session.url != '' %}
 						<a href="{{ session.url }}" title="{{ session.title }}">{{ session.title }}</a>
 						{% else %}
 							{{ session.title }}
@@ -94,8 +94,8 @@ footer: true
 						<span class="label label-success pull-right">{{ session.type }}</span>
 						{{ session.date | date: "%A, %d/%m/%y • %H:%M" }}
 					</p>
-					<h4>{% if session.title and talk.title != '' %}
-						{% if session.url and talk.url != '' %}
+					<h4>{% if session.title and session.title != '' %}
+						{% if session.url and session.url != '' %}
 						<a href="{{ session.url }}" title="{{ session.title }}">{{ session.title }}</a>
 						{% else %}
 							{{ session.title }}
