@@ -11,10 +11,11 @@ footer: true
 {% jsonball talks from file talks.json %}
 {% datefilter upcoming from talks where date > today %}
 {% jsonball upcoming from var upcoming %}
+{% assign sortedUpcoming = upcoming | sort_by:date %}
 <div class="page-header">
 	<h2>Upcoming <small>{{ upcoming | size }} events</small></h2>
 </div>
-{% for talk in upcoming %}
+{% for talk in sortedUpcoming reversed %}
 	{% capture modulo %}{{ forloop.index0 | mod:2 }}{% endcapture %}
 	{% if modulo == '0' or forloop.first %}
 	<div class="row">
@@ -24,7 +25,7 @@ footer: true
 			<div class="panel-heading">
 				{% if talk.tickets and talk.tickets != '' %}<a class="pull-right btn btn-lg btn-primary" href="{{ talk.tickets }}" title="Inscripción"><span class="fa fa-ticket"></span></a>{% endif %}
 				<h3><a href="{{ talk.url }}">{{ talk.name }}</a></h3>
-				<span><img class="no-border" src="/images/flags/{{ talk.country }}.png" /> {{ talk.city }} • {{ talk.date | date: "%x"}}</span>
+				<p><img class="no-border" src="/images/flags/{{ talk.country }}.png" /> {{ talk.city }} • {{ talk.date | date: "%d/%m/%y" }}</p>
 			</div>
 			<div class="panel-body">
 				<p><a href="{{ talk.url }}"><img class="center" src="{{ talk.logo }}" /></a></p>
@@ -35,7 +36,11 @@ footer: true
 						{{ session.date | date: "%A, %d/%m/%y • %H:%M" }}
 					</p>
 					<h4>{% if session.title and talk.title != '' %}
-						{{ session.title }}
+						{% if session.url and talk.url != '' %}
+						<a href="{{ session.url }}" title="{{ session.title }}">{{ session.title }}</a>
+						{% else %}
+							{{ session.title }}
+						{% endif %}
 					{% else %}
 						TBD
 					{% endif %}</h4>
@@ -79,7 +84,7 @@ footer: true
 			<div class="panel-heading">
 				<button class="showEvent pull-right btn btn-lg btn-primary"><span class="glyphicon glyphicon-eye-open"></span></button>
 				<h3><a href="{{ talk.url }}">{{ talk.name }}</a></h3>
-				<span><img class="no-border" src="/images/flags/{{ talk.country }}.png" /> {{ talk.city }} • {{ talk.date | date: "%x"}}</span>
+				<p><img class="no-border" src="/images/flags/{{ talk.country }}.png" /> {{ talk.city }} • {{ talk.date | date: "%d/%m/%y" }}</p>
 			</div>
 			<div class="panel-body">
 				<p><a href="{{ talk.url }}"><img class="center" src="{{ talk.logo }}" /></a></p>
@@ -90,7 +95,11 @@ footer: true
 						{{ session.date | date: "%A, %d/%m/%y • %H:%M" }}
 					</p>
 					<h4>{% if session.title and talk.title != '' %}
-						{{ session.title }}
+						{% if session.url and talk.url != '' %}
+						<a href="{{ session.url }}" title="{{ session.title }}">{{ session.title }}</a>
+						{% else %}
+							{{ session.title }}
+						{% endif %}
 					{% else %}
 						TBD
 					{% endif %}</h4>
