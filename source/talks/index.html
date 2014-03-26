@@ -50,12 +50,15 @@ footer: true
 							<span class="fa fa-video-camera"></span>
 							Vídeo
 						</a></li>{% endif %}
-						{% if session.slides and session.slides != '' %}<li><a  class="label label-primary" href="{{ session.slides }}">
+						{% if session.slides and session.slides != '' %}<li><a class="label label-primary" href="{{ session.slides }}">
 							<span class="fa fa-paperclip"></span>
 							Slides
 						</a></li>{% endif %}
+						{% if session.feedback and session.feedback != '' %}<li><a class="label label-primary" href="{{ session.feedback }}">
+							<span class="fa fa-comments"></span>
+							Feedback
+						</a></li>{% endif %}
 					</ul>
-					{% if session.feedback and session.feedback != '' %}<p><a href="{{ session.feedback }}">Feedback</a></p>{% endif %}
 				{% endfor %}
 			</div>
 		</div>
@@ -113,8 +116,11 @@ footer: true
 							<span class="fa fa-paperclip"></span>
 							Slides
 						</a></li>{% endif %}
+						{% if session.feedback and session.feedback != '' %}<li><a class="label label-primary" href="{{ session.feedback }}">
+							<span class="fa fa-comments"></span>
+							Feedback
+						</a></li>{% endif %}
 					</ul>
-					{% if session.feedback and session.feedback != '' %}<p><a href="{{ session.feedback }}">Feedback</a></p>{% endif %}
 				{% endfor %}
 			</div>
 		</div>
