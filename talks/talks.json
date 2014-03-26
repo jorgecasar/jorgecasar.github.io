@@ -71,9 +71,9 @@
 			"type": "Hangout",
 			"details": "Sails.js facilita la generación personalizada de apps Node.js. Está diseñado en base al patrón MVC, soportando los requisitos de aplicaciones modernas. En esta charla veremos cómo empezar a crear tu proyecto con #SailsJS, cómo se estructuran los directorios, cómo crear un modelo y un controlador, cómo configurar tu proyecto y todo lo necesario para que empieces a trastear con Sails.js sabiendo dónde hacer cada cosa.",
 			"duration": "1 hour",
-			"video": "",
+			"video": "https://plus.google.com/events/ce6eb4ci0sdn67igfh8ip3d0a1g",
 			"slides": "",
-			"feedback": ""
+			"feedback": "http://storify.com/jorgecasar/primeros-pasos-con-sailsjs-en-espanol-jsio"
 		}],
 		"tickets": "",
 		"country": "world",
