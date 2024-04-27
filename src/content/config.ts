@@ -3,7 +3,7 @@ import { defineCollection, z } from 'astro:content';
 export const collections = {
 	talks: defineCollection({
 		type: 'content',
-		schema: z.object({
+		schema: ({ image }) => z.object({
 			title: z.string(),
 			description: z.string(),
 			talkDate: z.coerce.date(),
@@ -13,8 +13,10 @@ export const collections = {
 				dateEnd: z.coerce.date(),
 			}),
 			tags: z.array(z.string()),
-			img: z.string(),
-			img_alt: z.string().optional(),
+			img: image().refine((img) => img.width >= 600, {
+				message: "Talk image must be at least 600 pixels wide!",
+			}),
+			imgAlt: z.string().optional(),
 		}),
 	}),
 };
