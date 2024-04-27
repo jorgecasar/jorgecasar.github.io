@@ -1,0 +1,155 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import ContactCTA from "../components/ContactCTA.astro";
+import Hero from "../components/Hero.astro";
+import Pill from "../components/Pill.astro";
+---
+
+<BaseLayout title="About | Jorge del Casar" description="About Jorge del Casar">
+	<div class="stack gap-20">
+		<main class="wrapper about">
+			<Hero
+				title="About"
+				tagline="Thanks for stopping by. Read below to learn more about myself and my background."
+			>
+				<img
+					width="1553"
+					height="873"
+					src="/assets/about.png"
+					alt="Jorge del Casar"
+				/>
+			</Hero>
+
+			<section>
+				<h2 class="section-title">Background</h2>
+				<div class="content">
+					<p>
+						I have been leading software development teams for years
+						and working as a technology consultant for large
+						companies. During these years I've been performing
+						Strategy and Innovation functions around software
+						development, being responsible for promoting and helping
+						with:
+					</p>
+					<ul>
+						<li>
+							Manage a team of diverse and skilled software
+							engineers with varying levels of expertise,
+						</li>
+						<li>
+							Scale teams from 1 to 100 in 3 years, defining
+							selection processes, establishing the company
+							culture,
+						</li>
+						<li>
+							Conduct check-ins and 1:1 with team members (>50
+							people),
+						</li>
+						<li>
+							Leading Design Systems development using Web
+							Components​ (e.g. BBVA, SNGULAR),
+						</li>
+						<li>
+							Reduce friction between Design and Development teams
+							(setting up lean kanban workflows),
+						</li>
+						<li>
+							Resource efficiency through reuse and automation,
+						</li>
+						<li>
+							The continuous improvement of good practices and the
+							efficiency and optimization of the code,
+						</li>
+						<li>
+							New solutions and technologies to apply in
+							projects/clients,
+						</li>
+						<li>
+							Development of maintainable and reusable software,
+						</li>
+						<li>
+							Creation of spaces for all developers to innovate.
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section>
+				<h2 class="section-title">Skills</h2>
+				<div class="content">
+					<div class="tags">
+						<Pill>Communication</Pill>
+						<Pill>Mentoring</Pill>
+						<Pill>Quality</Pill>
+						<Pill>Quality</Pill>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<ContactCTA />
+	</div>
+</BaseLayout>
+
+<style>
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5rem;
+	}
+
+	img {
+		margin-top: 1.5rem;
+		border-radius: 1.5rem;
+		box-shadow: var(--shadow-md);
+	}
+
+	section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		color: var(--gray-200);
+	}
+
+	.section-title {
+		grid-column-start: 1;
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+	}
+
+	.content {
+		grid-column: 2 / 4;
+	}
+
+	.content :global(a) {
+		text-decoration: 1px solid underline transparent;
+		text-underline-offset: 0.25em;
+		transition: text-decoration-color var(--theme-transition);
+	}
+
+	.content :global(a:hover),
+	.content :global(a:focus) {
+		text-decoration-color: currentColor;
+	}
+
+	.tags {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	@media (min-width: 50em) {
+		.about {
+			display: grid;
+			grid-template-columns: 1fr 60% 1fr;
+		}
+
+		.about > :global(:first-child) {
+			grid-column-start: 2;
+		}
+
+		section {
+			display: contents;
+			font-size: var(--text-lg);
+		}
+	}
+</style>

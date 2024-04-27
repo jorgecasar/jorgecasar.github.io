@@ -1,0 +1,148 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import MentoringCTA from "../components/MentoringCTA.astro";
+import Hero from "../components/Hero.astro";
+---
+
+<BaseLayout title="About | Jorge del Casar" description="About Jorge del Casar">
+	<div class="stack gap-20">
+		<main class="wrapper about">
+			<Hero
+				title="Mentoring"
+				tagline="Thanks for your interest. I would like to guide and support you with growth, learning and professional development."
+			>
+				<img
+					width="1553"
+					height="873"
+					src="/assets/about.png"
+					alt="Jorge del Casar"
+				/>
+			</Hero>
+
+			<section>
+				<h2>Benefits</h2>
+				<div class="content">
+					<dl>
+						<dt>One-on-One Support</dt>
+						<dd>
+							Receive tailored guidance and support specific to
+							your needs and goals.
+						</dd>
+						<dt>Experienced Insight</dt>
+						<dd>
+							Benefit from my knowledge and experience to navigate
+							challenges and achieve success.
+						</dd>
+						<dt>Skill Development</dt>
+						<dd>
+							Work together to identify and strengthen your skills
+							for maximum potential.
+						</dd>
+						<dt>Empowerment for Growth</dt>
+						<dd>
+							Partner with me on your journey of personal and
+							professional development, fostering your best self.
+						</dd>
+						<dt>Goal-Oriented Focus</dt>
+						<dd>
+							Collaborate to define your goals and create a clear
+							roadmap for achieving them.
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section>
+				<h2>For whom?</h2>
+				<div class="content">
+					<p>
+						Individuals seeking to achieve personal and
+						professionalgoals.
+					</p>
+					<p>Those wanting to unleash their full potential.</p>
+					<p>
+						People looking to improve performance and productivity.
+					</p>
+					<p>Professionals aiming to advance in their careers.</p>
+					<p>Anyoneseeking personal growth and development.</p>
+				</div>
+			</section>
+		</main>
+		<MentoringCTA />
+	</div>
+</BaseLayout>
+
+<style>
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5rem;
+	}
+
+	img {
+		margin-top: 1.5rem;
+		border-radius: 1.5rem;
+		box-shadow: var(--shadow-md);
+	}
+
+	section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		color: var(--gray-200);
+	}
+
+	section > h2 {
+		grid-column-start: 1;
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+	}
+
+	.content {
+		grid-column: 2 / 4;
+	}
+
+	.content :global(a) {
+		text-decoration: 1px solid underline transparent;
+		text-underline-offset: 0.25em;
+		transition: text-decoration-color var(--theme-transition);
+	}
+
+	.content :global(a:hover),
+	.content :global(a:focus) {
+		text-decoration-color: currentColor;
+	}
+
+	dt {
+		font-weight: bold;
+	}
+
+	dd {
+		margin-bottom: 1rem;
+	}
+
+	dd:last-child {
+		margin-bottom: 0;
+	}
+
+	.tags {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	@media (min-width: 50em) {
+		.about {
+			display: grid;
+			grid-template-columns: 1fr 60% 1fr;
+		}
+
+		.about > :global(:first-child) {
+			grid-column-start: 2;
+		}
+
+		section {
+			display: contents;
+			font-size: var(--text-lg);
+		}
+	}
+</style>
