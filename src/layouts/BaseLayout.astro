@@ -18,6 +18,20 @@ const { title, description } = Astro.props;
 <html lang="en" class="theme-dark">
 	<head>
 		<MainHead title={title} description={description} />
+		<link
+			rel="preload"
+			fetchpriority="high"
+			as="image"
+			href="/assets/backgrounds/bg-main-light-800w.webp"
+			type="image/webp"
+		/>
+		<link
+			rel="preload"
+			fetchpriority="high"
+			as="image"
+			href="/assets/backgrounds/bg-main-dark-800w.webp"
+			type="image/webp"
+		/>
 	</head>
 	<body>
 		<div class="stack backgrounds">
