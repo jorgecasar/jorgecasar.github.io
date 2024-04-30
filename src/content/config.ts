@@ -19,4 +19,10 @@ export const collections = {
 			imgAlt: z.string().optional(),
 		}),
 	}),
+	mentions: defineCollection({
+		type: 'content',
+		schema: z.object({
+			brand: z.string()
+		})
+	})
 };

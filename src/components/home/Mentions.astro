@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import Grid from "../Grid.astro";
+
+// Content Fetching: List four most recent talks
+const mentions = (await getCollection("mentions")).slice(0, 5);
+---
+
+{
+	mentions?.length > 0 && (
+		<section class="section with-background bg-variant">
+			<header class="section-header stack gap-2 lg:gap-4">
+				<h3>Mentions</h3>
+				<p>
+					I have been fortunate enough to receive praise for my work
+					in several publications. Take a look below to learn more.
+				</p>
+			</header>
+
+			<div class="gallery">
+				<Grid variant="small">
+					{mentions.map((mention) => (
+						<li class="mention-card">
+							<p>{mention.brand}</p>
+						</li>
+					))}
+				</Grid>
+			</div>
+		</section>
+	)
+}
+
+<style>
+	.mention-card {
+		display: flex;
+		height: 7rem;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		border: 1px solid var(--gray-800);
+		border-radius: 1.5rem;
+		color: var(--gray-300);
+		background: var(--gradient-subtle);
+		box-shadow: var(--shadow-sm);
+	}
+
+	@media (min-width: 50em) {
+		.mention-card {
+			border-radius: 1.5rem;
+			height: 9.5rem;
+		}
+	}
+</style>

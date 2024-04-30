@@ -8,14 +8,14 @@ import TalkPreview from "../components/TalkPreview.astro";
 import Hero from "../components/Hero.astro";
 import Grid from "../components/Grid.astro";
 
-const projects = (await getCollection("talks")).sort(
+const talks = (await getCollection("talks")).sort(
 	(a, b) => b.data.talkDate.valueOf() - a.data.talkDate.valueOf()
 );
 ---
 
 <BaseLayout
 	title="My Talks | Jorge del Casar"
-	description="Learn about Jorge del Casar's most recent projects"
+	description="Learn about Jorge del Casar's most recent talks"
 >
 	<div class="stack gap-20">
 		<main class="wrapper stack gap-8">
@@ -26,9 +26,9 @@ const projects = (await getCollection("talks")).sort(
 			/>
 			<Grid variant="offset">
 				{
-					projects.map((project) => (
+					talks.map((talk) => (
 						<li>
-							<TalkPreview project={project} />
+							<TalkPreview talk={talk} />
 						</li>
 					))
 				}
