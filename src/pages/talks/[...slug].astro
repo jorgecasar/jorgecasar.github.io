@@ -50,8 +50,8 @@ const { Content } = await entry.render();
 					{
 						entry.data.img && (
 							<img
-								src={entry.data.img}
-								alt={entry.data.img_alt || ""}
+								src={entry.data.img.src}
+								alt={entry.data.imgAlt || ""}
 							/>
 						)
 					}
