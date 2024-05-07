@@ -1,11 +1,58 @@
 ---
-// Learn about using Astro layouts:
-// https://docs.astro.build/en/core-concepts/layouts/
-
-// Component Imports
+import { getImage } from "astro:assets";
 import MainHead from "../components/MainHead.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import noise from "../../public/assets/backgrounds/noise.png";
+
+const imageNoise = (await getImage({ src: noise })).src;
+
+const cssUrl = (url) => `url(${url})`;
+
+const backgroundNames = ["bg-main", "bg-subtle-1", "bg-subtle-2", "bg-footer"];
+const schemas = ["light", "dark"];
+const widths = [1440, 800];
+
+const cssVars = await Promise.all(
+	backgroundNames.map((name) =>
+		Promise.all(
+			schemas.map((schema) =>
+				import(
+					`../../public/assets/backgrounds/${name}-${schema}.jpg`
+				).then((module) => module.default)
+			)
+		)
+	)
+)
+	.then((backgrounds) =>
+		Promise.all(
+			backgrounds.map((backgroundSchemas) =>
+				Promise.all(
+					backgroundSchemas.map((src) => getImage({ src, widths }))
+				)
+			)
+		)
+	)
+	.then((results) =>
+		results.reduce(
+			(acc, curr, nameIndex) => {
+				curr.forEach((schema, schemaIndex) => {
+					schema.srcSet.values.forEach((image, widthIndex) => {
+						const key = `${backgroundNames[nameIndex]}-${schemas[schemaIndex]}-${widths[widthIndex]}`;
+						acc[key] = image.url;
+					});
+				});
+				return acc;
+			},
+			{ "bg-noise": imageNoise }
+		)
+	)
+	.then((images) => {
+		for (const name in images) {
+			images[name] = cssUrl(images[name]);
+		}
+		return images;
+	});
 
 interface Props {
 	title?: string | undefined;
@@ -18,137 +65,112 @@ const { title, description } = Astro.props;
 <html lang="en" class="theme-dark">
 	<head>
 		<MainHead title={title} description={description} />
-		<link
-			rel="preload"
-			fetchpriority="high"
-			as="image"
-			href="/assets/backgrounds/bg-main-light-800w.webp"
-			type="image/webp"
-		/>
-		<link
-			rel="preload"
-			fetchpriority="high"
-			as="image"
-			href="/assets/backgrounds/bg-main-light-1440w.webp"
-			type="image/webp"
-		/>
-		<link
-			rel="preload"
-			fetchpriority="high"
-			as="image"
-			href="/assets/backgrounds/bg-main-dark-800w.webp"
-			type="image/webp"
-		/>
-		<link
-			rel="preload"
-			fetchpriority="high"
-			as="image"
-			href="/assets/backgrounds/bg-main-dark-1440w.webp"
-			type="image/webp"
-		/>
+		<link rel="preload" href="" />
 	</head>
 	<body>
 		<div class="stack backgrounds">
 			<Nav />
 			<slot />
 			<Footer />
-		</div>
 
-		<script>
-			// Add “loaded” class once the document has completely loaded.
-			addEventListener("load", () =>
-				document.documentElement.classList.add("loaded")
-			);
-		</script>
-
-		<style>
-			:root {
-				--_placeholder-bg: linear-gradient(transparent, transparent);
-				--bg-image-main: url("/assets/backgrounds/bg-main-light-800w.webp");
-				--bg-image-main-curves: url("/assets/backgrounds/bg-main-light.svg");
-				--bg-image-subtle-1: var(--_placeholder-bg);
-				--bg-image-subtle-2: var(--_placeholder-bg);
-				--bg-image-footer: var(--_placeholder-bg);
-				--bg-svg-blend-mode: overlay;
-				--bg-blend-mode: darken;
-				--bg-image-aspect-ratio: 2.25;
-				--bg-scale: 1.68;
-				--bg-aspect-ratio: calc(
-					var(--bg-image-aspect-ratio) / var(--bg-scale)
+			<script>
+				// Add “loaded” class once the document has completely loaded.
+				addEventListener("load", () =>
+					document.documentElement.classList.add("loaded")
 				);
-				--bg-gradient-size: calc(var(--bg-scale) * 100%);
-			}
+			</script>
 
-			:root.theme-dark {
-				--bg-image-main: url("/assets/backgrounds/bg-main-dark-800w.webp");
-				--bg-image-main-curves: url("/assets/backgrounds/bg-main-dark.svg");
-				--bg-svg-blend-mode: darken;
-				--bg-blend-mode: lighten;
-			}
-
-			/* These backgrounds are displayed below the fold, so we lazy load them
-			   once the `.loaded` class has been set.  */
-			:root.loaded {
-				--bg-image-subtle-1: url("/assets/backgrounds/bg-subtle-1-light-800w.webp");
-				--bg-image-subtle-2: url("/assets/backgrounds/bg-subtle-2-light-800w.webp");
-				--bg-image-footer: url("/assets/backgrounds/bg-footer-light-800w.webp");
-			}
-			:root.loaded.theme-dark {
-				--bg-image-subtle-1: url("/assets/backgrounds/bg-subtle-1-dark-800w.webp");
-				--bg-image-subtle-2: url("/assets/backgrounds/bg-subtle-2-dark-800w.webp");
-				--bg-image-footer: url("/assets/backgrounds/bg-footer-dark-800w.webp");
-			}
-
-			@media (min-width: 50em) {
+			<style define:vars={cssVars}>
 				:root {
-					--bg-scale: 1;
-					--bg-image-main: url("/assets/backgrounds/bg-main-light-1440w.webp");
-				}
-				:root.theme-dark {
-					--bg-image-main: url("/assets/backgrounds/bg-main-dark-1440w.webp");
+					--_placeholder-bg: linear-gradient(
+						transparent,
+						transparent
+					);
+					--bg-image-main: var(--bg-main-light-800);
+					--bg-image-main-curves: url("/assets/backgrounds/bg-main-light.svg");
+					--bg-image-subtle-1: var(--_placeholder-bg);
+					--bg-image-subtle-2: var(--_placeholder-bg);
+					--bg-image-footer: var(--_placeholder-bg);
+					--bg-svg-blend-mode: overlay;
+					--bg-blend-mode: darken;
+					--bg-image-aspect-ratio: 2.25;
+					--bg-scale: 1.68;
+					--bg-aspect-ratio: calc(
+						var(--bg-image-aspect-ratio) / var(--bg-scale)
+					);
+					--bg-gradient-size: calc(var(--bg-scale) * 100%);
 				}
 
+				:root.theme-dark {
+					--bg-image-main: var(--bg-main-dark-800);
+					--bg-image-main-curves: url("/assets/backgrounds/bg-main-dark.svg");
+					--bg-svg-blend-mode: darken;
+					--bg-blend-mode: lighten;
+				}
+
+				/* These backgrounds are displayed below the fold, so we lazy load them
+			   once the `.loaded` class has been set.  */
 				:root.loaded {
-					--bg-image-subtle-1: url("/assets/backgrounds/bg-subtle-1-light-1440w.webp");
-					--bg-image-subtle-2: url("/assets/backgrounds/bg-subtle-2-light-1440w.webp");
-					--bg-image-footer: url("/assets/backgrounds/bg-footer-light-1440w.webp");
+					--bg-image-subtle-1: var(--bg-subtitle-1-light-800);
+					--bg-image-subtle-2: var(--bg-subtitle-2-light-800);
+					--bg-image-footer: var(--bg-footer-light-800);
 				}
 				:root.loaded.theme-dark {
-					--bg-image-subtle-1: url("/assets/backgrounds/bg-subtle-1-dark-1440w.webp");
-					--bg-image-subtle-2: url("/assets/backgrounds/bg-subtle-2-dark-1440w.webp");
-					--bg-image-footer: url("/assets/backgrounds/bg-footer-dark-1440w.webp");
+					--bg-image-subtle-1: var(--bg-subtitle-1-dark-800);
+					--bg-image-subtle-2: var(--bg-subtitle-2-dark-800);
+					--bg-image-footer: var(--bg-footer-dark-800);
 				}
-			}
 
-			.backgrounds {
-				min-height: 100%;
-				isolation: isolate;
-				background:
-					/*noise*/
-					url("/assets/backgrounds/noise.webp") top center/220px
-						repeat,
-					/*footer*/ var(--bg-image-footer) bottom
-						center/var(--bg-gradient-size) no-repeat,
-					/*header1*/ var(--bg-image-main-curves) top
-						center/var(--bg-gradient-size) no-repeat,
-					/*header2*/ var(--bg-image-main) top
-						center/var(--bg-gradient-size) no-repeat,
-					/*base*/ var(--gray-999);
-				background-blend-mode: /*noise*/
-					overlay,
-					/*footer*/ var(--bg-blend-mode),
-					/*header1*/ var(--bg-svg-blend-mode),
-					/*header2*/ normal,
-					/*base*/ normal;
-			}
-			@media (forced-colors: active) {
-				/* Deactivate custom backgrounds for high contrast users. */
-				.backgrounds {
-					background: none;
-					background-blend-mode: none;
-					--bg-gradient-size: none;
+				@media (min-width: 50em) {
+					:root {
+						--bg-scale: 1;
+						--bg-image-main: var(--bg-main-light-1440);
+					}
+					:root.theme-dark {
+						--bg-image-main: var(--bg-main-dark-800);
+					}
+
+					:root.loaded {
+						--bg-image-subtle-1: var(--bg-subtitle-1-light-1440);
+						--bg-image-subtle-2: var(--bg-subtitle-2-light-1440);
+						--bg-image-footer: var(--bg-footer-light-1440);
+					}
+					:root.loaded.theme-dark {
+						--bg-image-subtle-1: var(--bg-subtitle-1-dark-1440);
+						--bg-image-subtle-2: var(--bg-subtitle-2-dark-1440);
+						--bg-image-footer: var(--bg-footer-dark-1440);
+					}
 				}
-			}
-		</style>
+
+				.backgrounds {
+					min-height: 100%;
+					isolation: isolate;
+					background:
+					/*noise*/
+						var(--bg-noise) top center/220px repeat,
+						/*footer*/ var(--bg-image-footer) bottom
+							center/var(--bg-gradient-size) no-repeat,
+						/*header1*/ var(--bg-image-main-curves) top
+							center/var(--bg-gradient-size) no-repeat,
+						/*header2*/ var(--bg-image-main) top
+							center/var(--bg-gradient-size) no-repeat,
+						/*base*/ var(--gray-999);
+					background-blend-mode: /*noise*/
+						overlay,
+						/*footer*/ var(--bg-blend-mode),
+						/*header1*/ var(--bg-svg-blend-mode),
+						/*header2*/ normal,
+						/*base*/ normal;
+				}
+				@media (forced-colors: active) {
+					/* Deactivate custom backgrounds for high contrast users. */
+					.backgrounds {
+						background: none;
+						background-blend-mode: none;
+						--bg-gradient-size: none;
+					}
+				}
+			</style>
+		</div>
 	</body>
 </html>

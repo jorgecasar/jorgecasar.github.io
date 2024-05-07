@@ -5,7 +5,7 @@ event:
   name: Google Developer Student Club Valencia
   dateStart: 2024-05-02
   dateEnd: 2024-05-02
-img: ../../../public/assets/events/gdsc.webp
+img: ../../../public/assets/events/gdsc.png
 imgAlt: GDSC logo
 description: |
     We will learn what a web component is and we will create one with the Lit library (5.7KB) so that you can take it to use it in any project regardless of the framework

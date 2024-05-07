@@ -7,11 +7,20 @@ interface Props {
 }
 
 const { data, slug } = Astro.props.talk;
+
+const widths = [362, 606]
+	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [data.img.width])
+	.sort((a, b) => a - b);
 ---
 
 <a class="card" href={`/talks/${slug}`}>
 	<span class="title">{data.title}</span>
-	<Picture src={data.img} formats={["avif", "webp"]} alt={data.imgAlt} />
+	<Picture
+		src={data.img as ImageMetadata}
+		width={widths[0]}
+		widths={widths}
+		alt={data.imgAlt}
+	/>
 
 	<style>
 		.card {

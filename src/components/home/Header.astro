@@ -4,7 +4,10 @@ import Hero from "../Hero.astro";
 import Icon from "../Icon.astro";
 import Pill from "../Pill.astro";
 
-import portrait from "../../../public/assets/portrait.webp";
+import portrait from "../../../public/assets/portrait.jpg";
+const widths = [364, 456]
+	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [portrait.width])
+	.sort((a, b) => a - b);
 ---
 
 <header class="hero">
@@ -22,9 +25,8 @@ import portrait from "../../../public/assets/portrait.webp";
 	<Picture
 		loading="eager"
 		src={portrait}
-		formats={["avif", "webp"]}
-		widths={[350, portrait.width]}
-		sizes={`(max-width: 799px) 350px, ${portrait.width}px`}
+		width={widths[0]}
+		widths={widths}
 		alt="Jorge del Casar"
 	/>
 </header>
@@ -42,7 +44,7 @@ import portrait from "../../../public/assets/portrait.webp";
 	}
 
 	.hero img {
-		/* aspect-ratio: 1 / 1; */
+		aspect-ratio: 4 / 5;
 		object-fit: cover;
 		object-position: 0 35%;
 		border-radius: 1.5rem;
@@ -64,7 +66,7 @@ import portrait from "../../../public/assets/portrait.webp";
 		}
 
 		.hero img {
-			aspect-ratio: 4 / 5;
+			/* aspect-ratio: 4 / 5; */
 			border-radius: 4.5rem;
 			object-fit: cover;
 		}

@@ -5,7 +5,7 @@ event:
   name: Codemotion Madrid
   dateStart: 2024-05-21 00:00:00
   dateEnd: 2024-05-21 00:00:00
-img: ../../../public/assets/events/codemotion-madrid-2023.webp
+img: ../../../public/assets/events/codemotion-madrid-2023.png
 imgAlt: Codemotion Madrid 2023 main stage
 description: |
     Is it possible to type Javascript file without using ts files? How can I make my Javascript library compatible with Typescript?
