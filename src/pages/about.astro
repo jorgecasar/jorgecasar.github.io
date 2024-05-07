@@ -5,7 +5,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ContactCTA from "../components/ContactCTA.astro";
 import Hero from "../components/Hero.astro";
 import Pill from "../components/Pill.astro";
-import about from "../../public/assets/about.png";
+import about from "../../public/assets/about.jpg";
+
+const widths = [768]
+	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [about.width])
+	.filter((value, index, all) => all.indexOf(value) === index)
+	.sort((a, b) => a - b);
 ---
 
 <BaseLayout title="About | Jorge del Casar" description="About Jorge del Casar">
@@ -18,8 +23,9 @@ import about from "../../public/assets/about.png";
 				<Picture
 					loading="eager"
 					src={about}
-					widths={[768, 768 * 2, 768 * 3, about.width]}
+					widths={widths}
 					alt="Jorge del Casar"
+					sizes="(min-width: 1420px) 768px, (min-width: 800px) calc(52.83vw + 28px), calc(100vw - 48px)"
 				/>
 			</Hero>
 

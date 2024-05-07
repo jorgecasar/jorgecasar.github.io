@@ -8,8 +8,9 @@ interface Props {
 
 const { data, slug } = Astro.props.talk;
 
-const widths = [362, 606]
+const widths = [360, 600]
 	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [data.img.width])
+	.filter((value, index, all) => all.indexOf(value) === index)
 	.sort((a, b) => a - b);
 ---
 
@@ -20,6 +21,7 @@ const widths = [362, 606]
 		width={widths[0]}
 		widths={widths}
 		alt={data.imgAlt}
+		sizes="(min-width: 1400px) 606px, (min-width: 800px) calc(45.52vw - 22px), calc(100vw - 50px)"
 	/>
 
 	<style>

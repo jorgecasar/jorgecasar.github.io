@@ -1,8 +1,14 @@
 ---
+import { Picture } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-
 import MentoringCTA from "../components/MentoringCTA.astro";
 import Hero from "../components/Hero.astro";
+import about from "../../public/assets/about.jpg";
+
+const widths = [768]
+	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [about.width])
+	.filter((value, index, all) => all.indexOf(value) === index)
+	.sort((a, b) => a - b);
 ---
 
 <BaseLayout title="About | Jorge del Casar" description="About Jorge del Casar">
@@ -12,11 +18,12 @@ import Hero from "../components/Hero.astro";
 				title="Mentoring"
 				tagline="Thanks for your interest. I would like to guide and support you with growth, learning and professional development."
 			>
-				<img
-					width="1553"
-					height="873"
-					src="/assets/about.png"
+				<Picture
+					loading="eager"
+					src={about}
+					widths={widths}
 					alt="Jorge del Casar"
+					sizes="(min-width: 1420px) 768px, (min-width: 800px) calc(52.83vw + 28px), calc(100vw - 48px)"
 				/>
 			</Hero>
 

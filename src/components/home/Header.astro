@@ -3,10 +3,11 @@ import { Picture } from "astro:assets";
 import Hero from "../Hero.astro";
 import Icon from "../Icon.astro";
 import Pill from "../Pill.astro";
-
 import portrait from "../../../public/assets/portrait.jpg";
+
 const widths = [364, 456]
 	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [portrait.width])
+	.filter((value, index, all) => all.indexOf(value) === index)
 	.sort((a, b) => a - b);
 ---
 
@@ -23,11 +24,13 @@ const widths = [364, 456]
 		</div>
 	</Hero>
 	<Picture
+		alt="Jorge del Casar"
 		loading="eager"
 		src={portrait}
 		width={widths[0]}
 		widths={widths}
 		alt="Jorge del Casar"
+		sizes="(min-width: 1160px) 364px, (min-width: 800px) calc(35vw - 35px), (min-width: 440px) 364px, calc(93.33vw - 28px)"
 	/>
 </header>
 
@@ -62,6 +65,7 @@ const widths = [364, 456]
 		.roles {
 			margin-top: 0.5rem;
 			display: flex;
+			flex-wrap: wrap;
 			gap: 0.5rem;
 		}
 
