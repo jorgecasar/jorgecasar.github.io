@@ -4,6 +4,10 @@ import Hero from "../Hero.astro";
 import Icon from "../Icon.astro";
 import Pill from "../Pill.astro";
 import portrait from "../../../public/assets/portrait.jpg";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const widths = [364, 456]
 	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [portrait.width])
@@ -13,14 +17,23 @@ const widths = [364, 456]
 
 <header class="hero">
 	<Hero
-		title="Hello, my name is Jorge del Casar"
-		tagline="I am a Engineering Manager with strong technical background and comunication skills."
+		title={t("home.hero.title")}
+		tagline={t("home.hero.tagline")}
 		align="start"
 	>
 		<div class="roles">
-			<Pill><Icon icon="code" size="1.33em" />Developer</Pill>
-			<Pill><Icon icon="microphone-stage" size="1.33em" />Speaker</Pill>
-			<Pill><Icon icon="pencil-line" size="1.33em" />Writer</Pill>
+			<Pill><Icon icon="code" size="1.33em" />{t("pills.developer")}</Pill
+			>
+			<Pill
+				><Icon icon="microphone-stage" size="1.33em" />{
+					t("pills.speaker")
+				}</Pill
+			>
+			<Pill
+				><Icon icon="pencil-line" size="1.33em" />{
+					t("pills.writer")
+				}</Pill
+			>
 		</div>
 	</Hero>
 	<Picture

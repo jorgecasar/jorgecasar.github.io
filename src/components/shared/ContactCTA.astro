@@ -1,14 +1,18 @@
 ---
-import CallToAction from "./CallToAction.astro";
-import Icon from "./Icon.astro";
+import CallToAction from "../CallToAction.astro";
+import Icon from "../Icon.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const convertToEntities = (text) =>
+	text.replace(/[\u00A0-\u9999<>\&]/g, (i) => "&#" + i.charCodeAt(0) + ";");
 ---
 
 <aside>
-	<h2>Interested in mentoring?</h2>
-	<CallToAction
-		href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1kcQ8aOX8JH82iJFMPIu3snFo_IztTAY72uCp3cJQ170RmuPOYU4diloWrmkiv3vKtuuCaGU7Q"
-	>
-		Book me a slot
+	<h2>{t("contact.cta.title")}</h2>
+	<CallToAction href=`mailto:${convertToEntities('jorge.casar@gmail.com')}` `>
+		{t("contact.cta.text")}
 		<Icon icon="paper-plane-tilt" size="1.2em" />
 	</CallToAction>
 </aside>

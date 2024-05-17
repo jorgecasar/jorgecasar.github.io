@@ -5,10 +5,10 @@ event:
   name: Google Developer Student Club Valencia
   dateStart: 2024-05-02
   dateEnd: 2024-05-02
-img: ../../../public/assets/events/gdsc.png
+img: ../../../../public/assets/events/gdsc.png
 imgAlt: GDSC logo
 description: |
-    We will learn what a web component is and we will create one with the Lit library (5.7KB) so that you can take it to use it in any project regardless of the framework
+    We will learn what a web component is and we will create one with the Lit library (5.7KB) so that you can take it to use it in any project regardless of the framework.
 tags:
     - Javascript
     - Web Components
@@ -25,5 +25,4 @@ Developer Student Clubs (DSC) is a program presented by Google Developers, where
 
 ### Resources
 
-- Slides (will be published after the event)
-- Video (will be published after the event)
+- [Slides](https://docs.google.com/presentation/d/1LPeKGoNf5BII56rUehYjvVmEOBguBkkfL-eyO8ZK4Y0/edit?usp=sharing&resourcekey=0-3WbGBITKWNPTFqKoPOv0UQ)

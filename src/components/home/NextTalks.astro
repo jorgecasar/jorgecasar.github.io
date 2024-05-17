@@ -5,12 +5,20 @@ import Icon from "../Icon.astro";
 import Grid from "../Grid.astro";
 import CallToAction from "../CallToAction.astro";
 import TalkPreview from "../TalkPreview.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 import noise from "../../../public/assets/backgrounds/noise.png";
 const noiseBackground = `url("${(await getImage({ src: noise })).src}")`;
 
 // Content Fetching: List four most recent talks
 const talks = (await getCollection("talks"))
+	.filter((entry) => {
+		const [entryLang] = entry.slug.split("/");
+		return entryLang === lang;
+	})
 	.filter((a) => a.data.talkDate > new Date())
 	.sort((a, b) => b.data.talkDate.valueOf() - a.data.talkDate.valueOf())
 	.slice(0, 4);
@@ -20,11 +28,8 @@ const talks = (await getCollection("talks"))
 	talks?.length > 0 && (
 		<section class="section with-background with-cta">
 			<header class="section-header stack gap-2 lg:gap-4">
-				<h3>Next Talks</h3>
-				<p>
-					Take a look below at some of my next talks for events in the
-					following months.
-				</p>
+				<h3>{t("home.next-talks.title")}</h3>
+				<p>{t("home.next-talks.tagline")}</p>
 			</header>
 
 			<div class="gallery">
@@ -39,7 +44,7 @@ const talks = (await getCollection("talks"))
 
 			<div class="cta">
 				<CallToAction href="/talks/">
-					View All
+					{t("home.next-talks.cta")}
 					<Icon icon="arrow-right" size="1.2em" />
 				</CallToAction>
 			</div>

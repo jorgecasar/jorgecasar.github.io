@@ -1,11 +1,15 @@
 ---
 import { Picture } from "astro:assets";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
-import ContactCTA from "../components/ContactCTA.astro";
-import Hero from "../components/Hero.astro";
-import Pill from "../components/Pill.astro";
-import about from "../../public/assets/about.jpg";
+import ContactCTA from "../../components/shared/ContactCTA.astro";
+import Hero from "../../components/Hero.astro";
+import Pill from "../../components/Pill.astro";
+import about from "../../../public/assets/about.jpg";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const widths = [768]
 	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [about.width])
@@ -13,12 +17,15 @@ const widths = [768]
 	.sort((a, b) => a - b);
 ---
 
-<BaseLayout title="About | Jorge del Casar" description="About Jorge del Casar">
+<BaseLayout
+	title={`${t("about.title")} | Jorge del Casar`}
+	description={t("about.description")}
+>
 	<div class="stack gap-20">
-		<main class="wrapper about">
+		<main class="wrapper">
 			<Hero
-				title="About"
-				tagline="Thanks for stopping by. Read below to learn more about myself and my background."
+				title={t("about.hero.title")}
+				tagline={t("about.hero.tagline")}
 			>
 				<Picture
 					loading="eager"
@@ -42,43 +49,41 @@ const widths = [768]
 					</p>
 					<ul>
 						<li>
-							Manage a team of diverse and skilled software
-							engineers with varying levels of expertise,
+							Managing a team of diverse and skilled software
+							engineers with varying levels of expertise
 						</li>
 						<li>
-							Scale teams from 1 to 100 in 3 years, defining
-							selection processes, establishing the company
-							culture,
+							Scaling teams from 1 to 100 in 3 years, defining
+							selection processes, and establishing the company
+							culture
 						</li>
 						<li>
-							Conduct check-ins and 1:1 with team members (>50
-							people),
+							Conducting check-ins and 1:1 with team members (>50
+							people)
 						</li>
 						<li>
 							Leading Design Systems development using Web
-							Components​ (e.g. BBVA, SNGULAR),
+							Components​ (e.g. BBVA, SNGULAR)
 						</li>
 						<li>
-							Reduce friction between Design and Development teams
-							(setting up lean kanban workflows),
+							Reducing friction between Design, and Development
+							teams (setting up lean Kanban workflows)
 						</li>
 						<li>
-							Resource efficiency through reuse and automation,
+							Resource efficiency through reuse and automation
 						</li>
 						<li>
 							The continuous improvement of good practices and the
-							efficiency and optimization of the code,
+							efficiency and optimization of the code
 						</li>
 						<li>
 							New solutions and technologies to apply in
-							projects/clients,
+							projects/clients
 						</li>
 						<li>
-							Development of maintainable and reusable software,
+							Development of maintainable and reusable software
 						</li>
-						<li>
-							Creation of spaces for all developers to innovate.
-						</li>
+						<li>Creating spaces for all developers to innovate</li>
 					</ul>
 				</div>
 			</section>
@@ -88,7 +93,6 @@ const widths = [768]
 					<div class="tags">
 						<Pill>Communication</Pill>
 						<Pill>Mentoring</Pill>
-						<Pill>Quality</Pill>
 						<Pill>Quality</Pill>
 					</div>
 				</div>
@@ -100,7 +104,7 @@ const widths = [768]
 </BaseLayout>
 
 <style>
-	.about {
+	.wrapper {
 		display: flex;
 		flex-direction: column;
 		gap: 3.5rem;
@@ -147,12 +151,12 @@ const widths = [768]
 	}
 
 	@media (min-width: 50em) {
-		.about {
+		.wrapper {
 			display: grid;
 			grid-template-columns: 1fr 60% 1fr;
 		}
 
-		.about > :global(:first-child) {
+		.wrapper > :global(:first-child) {
 			grid-column-start: 2;
 		}
 

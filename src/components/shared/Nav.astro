@@ -1,14 +1,25 @@
 ---
-import Icon from "./Icon.astro";
-import ThemeToggle from "./ThemeToggle.astro";
-import type { iconPaths } from "./IconPaths";
+import Icon from "../Icon.astro";
+import ThemeToggle from "../ThemeToggle.astro";
+import type { iconPaths } from "../IconPaths";
+import {
+	getLangFromUrl,
+	useTranslations,
+	useTranslatedPath,
+	getRouteFromUrl,
+} from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+const route = getRouteFromUrl(Astro.url);
 
 /** Main menu items */
 const textLinks: { label: string; href: string }[] = [
-	{ label: "Home", href: "/" },
-	{ label: "Talks", href: "/talks/" },
-	{ label: "Mentoring", href: "/mentoring/" },
-	{ label: "About", href: "/about/" },
+	{ label: t("nav.home"), href: translatePath("/") },
+	{ label: t("nav.talks"), href: translatePath("/talks") },
+	{ label: t("nav.mentoring"), href: translatePath("/mentoring") },
+	{ label: t("nav.about"), href: translatePath("/about-me") },
 ];
 
 /** Icon links to social media — edit these with links to your profiles! */
@@ -47,7 +58,7 @@ const iconLinks: {
 
 <nav>
 	<div class="menu-header">
-		<a href="/" class="site-title">
+		<a href={translatePath("/")} class="site-title">
 			<Icon
 				icon="terminal-window"
 				color="var(--accent-regular)"
@@ -68,27 +79,23 @@ const iconLinks: {
 	<noscript>
 		<ul class="nav-items">
 			{
-				textLinks.map(({ label, href }) => (
-					<li>
-						<a
-							aria-current={Astro.url.pathname === href}
-							class:list={[
-								"link",
-								{
-									active:
-										Astro.url.pathname === href ||
-										(href !== "/" &&
-											Astro.url.pathname.startsWith(
-												href
-											)),
-								},
-							]}
-							href={href}
-						>
-							{label}
-						</a>
-					</li>
-				))
+				textLinks.map(({ label, href }) => {
+					const active =
+						decodeURI(Astro.url.pathname) === href ||
+						(href !== translatePath("/") &&
+							decodeURI(Astro.url.pathname).startsWith(href));
+					return (
+						<li>
+							<a
+								aria-current={active}
+								class:list={["link", { active }]}
+								href={href}
+							>
+								{label}
+							</a>
+						</li>
+					);
+				})
 			}
 		</ul>
 	</noscript>
@@ -109,27 +116,23 @@ const iconLinks: {
 	<div id="menu-content" hidden>
 		<ul class="nav-items">
 			{
-				textLinks.map(({ label, href }) => (
-					<li>
-						<a
-							aria-current={Astro.url.pathname === href}
-							class:list={[
-								"link",
-								{
-									active:
-										Astro.url.pathname === href ||
-										(href !== "/" &&
-											Astro.url.pathname.startsWith(
-												href
-											)),
-								},
-							]}
-							href={href}
-						>
-							{label}
-						</a>
-					</li>
-				))
+				textLinks.map(({ label, href }) => {
+					const active =
+						decodeURI(Astro.url.pathname) === href ||
+						(href !== translatePath("/") &&
+							decodeURI(Astro.url.pathname).startsWith(href));
+					return (
+						<li>
+							<a
+								aria-current={active}
+								class:list={["link", { active }]}
+								href={href}
+							>
+								{label}
+							</a>
+						</li>
+					);
+				})
 			}
 		</ul>
 		<div class="menu-footer">

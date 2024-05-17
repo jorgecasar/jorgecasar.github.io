@@ -1,0 +1,168 @@
+---
+import { Picture } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import ContactCTA from "../components/shared/ContactCTA.astro";
+import Hero from "../components/Hero.astro";
+import Pill from "../components/Pill.astro";
+import about from "../../public/assets/about.jpg";
+
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const widths = [768]
+	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [about.width])
+	.filter((value, index, all) => all.indexOf(value) === index)
+	.sort((a, b) => a - b);
+---
+
+<BaseLayout
+	title={`${t("about.title")} | Jorge del Casar`}
+	description={t("about.description")}
+>
+	<div class="stack gap-20">
+		<main class="wrapper about">
+			<Hero
+				title={t("about.hero.title")}
+				tagline={t("about.hero.tagline")}
+			>
+				<Picture
+					loading="eager"
+					src={about}
+					widths={widths}
+					alt="Jorge del Casar"
+					sizes="(min-width: 1420px) 768px, (min-width: 800px) calc(52.83vw + 28px), calc(100vw - 48px)"
+				/>
+			</Hero>
+
+			<section>
+				<h2 class="section-title">Background</h2>
+				<div class="content">
+					<p>
+						Llevo años liderando equipos de desarrollo de software y
+						trabajando como consultor tecnológico para grandes
+						compañías. Durante estos años he estado actuando
+						Funciones de estrategia e innovación en torno al
+						software desarrollo, siendo responsable de promover y
+						ayudar con:
+					</p>
+					<ul>
+						<li>
+							Administrar equipos de ingenieros de software
+							diversos y con diferentes niveles de experiencia
+						</li>
+						<li>
+							Realice check-in y 1:1 con miembros del equipo (> 50
+							personas)
+						</li>
+						<li>
+							Liderar el Desarrollo de Sistemas de Diseño
+							utilizando Web Components (p.e. BBVA)
+						</li>
+						<li>
+							Reducir la fricción entre los equipos de Diseño y
+							Desarrollo, configurando procesos
+						</li>
+						<li>
+							La eficiencia de recursos mediante la reutilización
+							y automatización
+						</li>
+						<li>
+							La mejora continua de las buenas prácticas y la
+							eficiencia y optimización del código
+						</li>
+						<li>
+							Nuevas soluciones y tecnologías para aplicar en los
+							proyectos/clientes
+						</li>
+						<li>
+							Desarrollo de software mantenible y reutilizable
+						</li>
+						<li>
+							Creación de espacios para que todos los developers
+							puedan innovar
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section>
+				<h2 class="section-title">Skills</h2>
+				<div class="content">
+					<div class="tags">
+						<Pill>Comunicación</Pill>
+						<Pill>Mentorización</Pill>
+						<Pill>Calidad</Pill>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<ContactCTA />
+	</div>
+</BaseLayout>
+
+<style>
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5rem;
+	}
+
+	img {
+		margin-top: 1.5rem;
+		border-radius: 1.5rem;
+		box-shadow: var(--shadow-md);
+	}
+
+	section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		color: var(--gray-200);
+	}
+
+	.section-title {
+		grid-column-start: 1;
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+	}
+
+	.content {
+		grid-column: 2 / 4;
+	}
+
+	.content :global(a) {
+		text-decoration: 1px solid underline transparent;
+		text-underline-offset: 0.25em;
+		transition: text-decoration-color var(--theme-transition);
+	}
+
+	.content :global(a:hover),
+	.content :global(a:focus) {
+		text-decoration-color: currentColor;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	@media (min-width: 50em) {
+		.about {
+			display: grid;
+			grid-template-columns: 1fr 60% 1fr;
+		}
+
+		.about > :global(:first-child) {
+			grid-column-start: 2;
+		}
+
+		section {
+			display: contents;
+			font-size: var(--text-lg);
+		}
+	}
+</style>

@@ -1,0 +1,28 @@
+---
+// Layout import — provides basic page elements: <head>, <nav>, <footer> etc.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// Page section components
+import HeaderHome from "../../components/home/Header.astro";
+import NextTalks from "../../components/home/NextTalks.astro";
+import Mentions from "../../components/home/Mentions.astro";
+import ContactCTA from "../../components/shared/ContactCTA.astro";
+import Skills from "../../components/shared/Skills.astro";
+---
+
+<BaseLayout>
+	<div class="stack gap-20 lg:gap-48">
+		<div class="wrapper stack gap-8 lg:gap-20">
+			<HeaderHome />
+
+			<Skills />
+		</div>
+
+		<main class="wrapper stack gap-20 lg:gap-48">
+			<NextTalks />
+			<Mentions />
+		</main>
+
+		<ContactCTA />
+	</div>
+</BaseLayout>

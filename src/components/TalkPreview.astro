@@ -1,12 +1,17 @@
 ---
 import { Picture } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import { getLangFromUrl, useTranslatedPath } from "../i18n/utils.ts";
+
+const lang = getLangFromUrl(Astro.url);
+const translatePath = useTranslatedPath(lang);
 
 interface Props {
 	talk: CollectionEntry<"talks">;
 }
 
 const { data, slug } = Astro.props.talk;
+const [, ...talkSlug] = slug.split("/");
 
 const widths = [360, 600]
 	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [data.img.width])
@@ -14,7 +19,7 @@ const widths = [360, 600]
 	.sort((a, b) => a - b);
 ---
 
-<a class="card" href={`/talks/${slug}`}>
+<a class="card" href=`${translatePath('/talks', lang)}/${talkSlug}/`>
 	<span class="title">{data.title}</span>
 	<Picture
 		src={data.img as ImageMetadata}

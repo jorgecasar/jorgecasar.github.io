@@ -1,5 +1,9 @@
 ---
-import Icon from "./Icon.astro";
+import Icon from "../Icon.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <section class="box skills">
@@ -10,8 +14,8 @@ import Icon from "./Icon.astro";
 			size="2.5rem"
 			gradient
 		/>
-		<h2>Digital Innovation</h2>
-		<p>Driven to create exceptional and scalable digital experiences.</p>
+		<h2>{t("skills.1.title")}</h2>
+		<p>{t("skills.1.tagline")}</p>
 	</div>
 	<div class="stack gap-2 lg:gap-4">
 		<Icon
@@ -20,19 +24,13 @@ import Icon from "./Icon.astro";
 			size="2.5rem"
 			gradient
 		/>
-		<h2>Problem-solving</h2>
-		<p>
-			Creative and innovative thinking can lead to the most effective
-			approach.
-		</p>
+		<h2>{t("skills.2.title")}</h2>
+		<p>{t("skills.2.tagline")}</p>
 	</div>
 	<div class="stack gap-2 lg:gap-4">
 		<Icon icon="gde" color="var(--accent-regular)" size="2.5rem" gradient />
-		<h2>Web Tech GDE</h2>
-		<p>
-			Community of experienced Google technology experts, influencers, and
-			thought leaders.
-		</p>
+		<h2>{t("skills.3.title")}</h2>
+		<p>{t("skills.3.tagline")}</p>
 	</div>
 </section>
 

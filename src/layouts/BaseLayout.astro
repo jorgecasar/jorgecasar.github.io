@@ -1,9 +1,12 @@
 ---
 import { getImage } from "astro:assets";
 import MainHead from "../components/MainHead.astro";
-import Nav from "../components/Nav.astro";
+import Nav from "../components/shared/Nav.astro";
 import Footer from "../components/Footer.astro";
+import { getLangFromUrl } from "../i18n/utils";
 import noise from "../../public/assets/backgrounds/noise.png";
+
+const lang = getLangFromUrl(Astro.url);
 
 const imageNoise = (await getImage({ src: noise })).src;
 
@@ -62,7 +65,7 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
-<html lang="en" class="theme-dark">
+<html lang={lang} class="theme-dark">
 	<head>
 		<MainHead title={title} description={description} />
 		<link rel="preload" href="" />

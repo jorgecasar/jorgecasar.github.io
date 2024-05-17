@@ -1,5 +1,6 @@
 ---
 import Icon from "./Icon.astro";
+import LanguagePicker from "../components/LanguagePicker.astro";
 const currentYear = new Date().getFullYear();
 ---
 
@@ -11,13 +12,14 @@ const currentYear = new Date().getFullYear();
 		</p>
 		<p>&copy; {currentYear} Jorge del Casar</p>
 	</div>
-	<p class="socials">
-		<a href="https://twitter.com/jorgecasar"> Twitter</a>
-		<a href="https://github.com/jorgecasar"> GitHub</a>
-		<a href="https://codepen.io/jorgecasar"> CodePen</a>
-	</p>
+	<LanguagePicker />
+	<ul>
+		<li><a href="https://twitter.com/jorgecasar">Twitter</a></li>
+		<li><a href="https://github.com/jorgecasar">GitHub</a></li>
+		<li><a href="https://codepen.io/jorgecasar">CodePen</a></li>
+	</ul>
 </footer>
-<style>
+<style is:global>
 	footer {
 		display: flex;
 		flex-direction: column;
@@ -47,11 +49,12 @@ const currentYear = new Date().getFullYear();
 		gap: 0.5rem;
 	}
 
-	.socials {
+	footer ul {
 		display: flex;
 		justify-content: center;
 		gap: 1rem;
 		flex-wrap: wrap;
+		list-style: none;
 	}
 
 	@media (min-width: 50em) {
@@ -67,7 +70,7 @@ const currentYear = new Date().getFullYear();
 			flex-wrap: wrap;
 		}
 
-		.socials {
+		footer ul {
 			justify-content: flex-end;
 		}
 	}

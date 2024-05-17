@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+import ContactCTA from "../../components/shared/ContactCTA.astro";
+import TalkPreview from "../../components/TalkPreview.astro";
+import Hero from "../../components/Hero.astro";
+import Grid from "../../components/Grid.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const talks = (await getCollection("talks"))
+	.filter((entry) => {
+		const [entryLang] = entry.slug.split("/");
+		return entryLang === lang;
+	})
+	.sort((a, b) => b.data.talkDate.valueOf() - a.data.talkDate.valueOf());
+---
+
+<BaseLayout
+	title={`${t("talks.title")} | Jorge del Casar`}
+	description={t("talks.description")}
+>
+	<div class="stack gap-20">
+		<main class="wrapper stack gap-8">
+			<Hero
+				title={t("talks.hero.title")}
+				tagline={t("talks.hero.tagline")}
+				align="start"
+			/>
+			<Grid variant="offset">
+				{
+					talks.map((talk) => (
+						<li>
+							<TalkPreview talk={talk} />
+						</li>
+					))
+				}
+			</Grid>
+		</main>
+		<ContactCTA />
+	</div>
+</BaseLayout>
