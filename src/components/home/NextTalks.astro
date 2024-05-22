@@ -26,29 +26,31 @@ const talks = (await getCollection("talks"))
 
 {
 	talks?.length > 0 && (
-		<section class="section with-background with-cta">
-			<header class="section-header stack gap-2 lg:gap-4">
-				<h3>{t("home.next-talks.title")}</h3>
-				<p>{t("home.next-talks.tagline")}</p>
-			</header>
+		<main class="wrapper stack gap-20 lg:gap-48">
+			<section class="section with-background with-cta">
+				<header class="section-header stack gap-2 lg:gap-4">
+					<h3>{t("home.next-talks.title")}</h3>
+					<p>{t("home.next-talks.tagline")}</p>
+				</header>
 
-			<div class="gallery">
-				<Grid variant="offset">
-					{talks.map((talk) => (
-						<li>
-							<TalkPreview talk={talk} />
-						</li>
-					))}
-				</Grid>
-			</div>
+				<div class="gallery">
+					<Grid variant="offset">
+						{talks.map((talk) => (
+							<li>
+								<TalkPreview talk={talk} />
+							</li>
+						))}
+					</Grid>
+				</div>
 
-			<div class="cta">
-				<CallToAction href="/talks/">
-					{t("home.next-talks.cta")}
-					<Icon icon="arrow-right" size="1.2em" />
-				</CallToAction>
-			</div>
-		</section>
+				<div class="cta">
+					<CallToAction href="/talks/">
+						{t("home.next-talks.cta")}
+						<Icon icon="arrow-right" size="1.2em" />
+					</CallToAction>
+				</div>
+			</section>
+		</main>
 	)
 }
 

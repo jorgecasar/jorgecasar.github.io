@@ -15,14 +15,12 @@ tags:
     - Workshop
 ---
 
-## The event
+## El evento
 
 > Los Developer Student Clubs tienen como objetivo cerrar la brecha entre la teoría y la práctica.
 
 Developer Student Clubs (DSC) es un programa presentado por Google Developers, donde a través de charlas, talleres y proyectos en un ambiente peer to peer, los estudiantes mejoran como desarrolladores sin importar sus estudios.
 
-## The talk
+## Las diapositivas
 
-### Resources
-
-- [Slides](https://docs.google.com/presentation/d/1LPeKGoNf5BII56rUehYjvVmEOBguBkkfL-eyO8ZK4Y0/edit?usp=sharing&resourcekey=0-3WbGBITKWNPTFqKoPOv0UQ)
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQ640xzxvtnbdsq4gyUDaBCULh-BnL6lfTs-4IputBTINhORGWXp3OC2cOmunmq-RK_XxWFKoLa0Dkm/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
