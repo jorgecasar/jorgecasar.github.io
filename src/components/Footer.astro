@@ -11,6 +11,14 @@ const currentYear = new Date().getFullYear();
 			<Icon icon="rocket-launch" size="1.2em" />
 		</p>
 		<p>&copy; {currentYear} Jorge del Casar</p>
+		<p>
+			<a href="https://librecounter.org/referer/show" target="_blank">
+				Libre Counter <img
+					src="https://librecounter.org/counter.svg"
+					referrerPolicy="unsafe-url"
+				/>
+			</a>
+		</p>
 	</div>
 	<LanguagePicker />
 	<ul>
@@ -55,6 +63,11 @@ const currentYear = new Date().getFullYear();
 		gap: 1rem;
 		flex-wrap: wrap;
 		list-style: none;
+	}
+	footer img {
+		vertical-align: middle;
+		width: 1em;
+		height: 1em;
 	}
 
 	@media (min-width: 50em) {
