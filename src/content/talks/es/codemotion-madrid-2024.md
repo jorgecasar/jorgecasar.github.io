@@ -25,4 +25,4 @@ El congreso Codemotion Madrid es uno de los eventos más importantes con una asi
 
 ## Las diapositivas
 
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRACMfrnkg37gaPVWZ3SLJ6LgrY_q6RvMKRfueQH9PpHzMLB18R_PdBIjT-OBWflf7iYED972W1JHIW/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<iframe loading="lazy" src="https://docs.google.com/presentation/d/e/2PACX-1vRACMfrnkg37gaPVWZ3SLJ6LgrY_q6RvMKRfueQH9PpHzMLB18R_PdBIjT-OBWflf7iYED972W1JHIW/embed" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>

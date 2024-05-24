@@ -23,4 +23,4 @@ Developer Student Clubs (DSC) is a program presented by Google Developers, where
 
 ## The slides
 
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQ640xzxvtnbdsq4gyUDaBCULh-BnL6lfTs-4IputBTINhORGWXp3OC2cOmunmq-RK_XxWFKoLa0Dkm/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<iframe loading="lazy" src="https://docs.google.com/presentation/d/e/2PACX-1vQ640xzxvtnbdsq4gyUDaBCULh-BnL6lfTs-4IputBTINhORGWXp3OC2cOmunmq-RK_XxWFKoLa0Dkm/embed" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>

@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import { Picture } from "astro:assets";
 
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 
@@ -25,6 +26,13 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const widths = [360, 636]
+	.reduce(
+		(acc, curr) => [...acc, curr, curr * 2, curr * 3],
+		[entry.data.img.width]
+	)
+	.filter((value, index, all) => all.indexOf(value) === index)
+	.sort((a, b) => a - b);
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.description}>
@@ -49,10 +57,15 @@ const { Content } = await entry.render();
 				<div class="stack gap-10 content">
 					{
 						entry.data.img && (
-							<img
-								src={entry.data.img.src}
-								alt={entry.data.imgAlt || ""}
-							/>
+							<>
+								<Picture
+									src={entry.data.img as ImageMetadata}
+									width={widths[0]}
+									widths={widths}
+									alt={entry.data.imgAlt}
+									sizes="(min-width: 1400px) 606px, (min-width: 800px) calc(45.52vw - 22px), calc(100vw - 50px)"
+								/>
+							</>
 						)
 					}
 					<div class="content">
@@ -113,6 +126,9 @@ const { Content } = await entry.render();
 	}
 
 	.content :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 		border-radius: 1.5rem;
 		box-shadow: var(--shadow-sm);
 		background: var(--gradient-subtle);
