@@ -22,6 +22,8 @@ const widths = [360, 600]
 <a class="card" href=`${translatePath('/talks', lang)}/${talkSlug}/`>
 	<span class="title">{data.title}</span>
 	<Picture
+		formats={["avif", "webp"]}
+		loading="eager"
 		src={data.img as ImageMetadata}
 		width={widths[0]}
 		widths={widths}

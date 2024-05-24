@@ -59,6 +59,8 @@ const widths = [360, 636]
 						entry.data.img && (
 							<>
 								<Picture
+									formats={["avif", "webp"]}
+									loading="eager"
 									src={entry.data.img as ImageMetadata}
 									width={widths[0]}
 									widths={widths}
