@@ -37,6 +37,13 @@ export const esUi = {
 	'skills.2.tagline': 'El pensamiento creativo e innovador puede conducir al enfoque más eficaz.',
 	'skills.3.title': 'Web Tech GDE',
 	'skills.3.tagline': 'Comunidad de expertos en tecnología de Google, influyentes y líderes de opinión.',
+	'mentees.content': 'Ya han recibido mentorización {totalMentees} personas de diferentes sectores:',
+	'rol.frontend': 'Frontend',
+	'rol.backend': 'Backend',
+	'rol.speakers': 'Ponentes',
+	'rol.entrepreneurship': 'Emprendimiento',
+	'rol.userExperience': 'Experience de Usuario',
+	'rol.businessIntelligence': 'Business Intelligence'
 } as const;
 
 export const esRoutes = {

@@ -1,0 +1,26 @@
+---
+import mentees from "../data/mentees.json";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { ui } from "../i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const totalMentees = Object.values(mentees).reduce(
+	(acc, curr) => (acc += curr),
+	0
+);
+---
+
+<p>
+	{t("mentees.content", { totalMentees })}
+</p>
+<ul>
+	{
+		Object.entries(mentees).map(([key, value]) => (
+			<li>
+				{t(`rol.${key}` as keyof (typeof ui)[typeof lang])}: {value}
+			</li>
+		))
+	}
+</ul>

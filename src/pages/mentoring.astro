@@ -3,6 +3,7 @@ import { Picture } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import MentoringCTA from "../components/mentoring/MentoringCTA.astro";
 import Hero from "../components/Hero.astro";
+import MenteesContent from "../components/MenteesContent.astro";
 import about from "../../public/assets/about.jpg";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
@@ -75,25 +76,23 @@ const widths = [768]
 			<section>
 				<h2>¿Para quién?</h2>
 				<div class="content">
+					<p>
+						La mentoría está destinada a todas aquellas personas que
+						quieran:
+					</p>
 					<ul>
-						<li>
-							Personas que buscan alcanzar objetivos
-							profesionales.
-						</li>
-						<li>Aquellos que quieran liberar todo su potencial.</li>
-						<li>
-							Personas que buscan mejorar el rendimiento y la
-							productividad.
-						</li>
-						<li>
-							Profesionales con el objetivo de avanzar en su
-							carrera.
-						</li>
-						<li>
-							Cualquier persona que busque crecimiento y
-							desarrollo profesional.
-						</li>
+						<li>Alcanzar objetivos profesionales.</li>
+						<li>Liberar todo su potencial.</li>
+						<li>Mejorar el rendimiento y la productividad.</li>
+						<li>Avanzar en su carrera.</li>
+						<li>Crecimiento y desarrollo profesional.</li>
 					</ul>
+				</div>
+			</section>
+			<section>
+				<h2>Mentorizados</h2>
+				<div class="content">
+					<MenteesContent />
 				</div>
 			</section>
 		</main>

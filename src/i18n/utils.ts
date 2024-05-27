@@ -6,10 +6,14 @@ export function getLangFromUrl(url: URL) {
   return defaultLang;
 }
 
+const interpolate = (str = '', data = {}) => str.replace(/{([^{}]*)}/g, (match, key) =>  data[key] ? data[key] : match );
+
+
 export function useTranslations(lang: keyof typeof ui) {
-  return function t(key: keyof typeof ui[typeof defaultLang]) {
-    return ui[lang][key] || ui[defaultLang][key];
-  }
+	return function t(key: keyof typeof ui[typeof defaultLang], data = {}) {
+		const str = ui[lang][key] || ui[defaultLang][key];
+		return interpolate(str, data);
+	}
 }
 
 // Add dot/slash replacement for translatedPath

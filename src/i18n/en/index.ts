@@ -37,6 +37,13 @@ export const enUi = {
 	'skills.2.tagline': 'Creative and innovative thinking can lead to the most effective approach.',
 	'skills.3.title': 'Web Tech GDE',
 	'skills.3.tagline': 'Community of experienced Google technology experts, influencers, and thought leaders.',
+	'mentees.content': '{totalMentees} people from different sectors have already received mentoring:',
+	'rol.frontend': 'Frontend',
+	'rol.backend': 'Backend',
+	'rol.speakers': 'Speakers',
+	'rol.entrepreneurship': 'Entrepreneurship',
+	'rol.userExperience': 'User Experience',
+	'rol.businessIntelligence': 'Business Intelligence'
 } as const;
 
 export const enRoutes = {

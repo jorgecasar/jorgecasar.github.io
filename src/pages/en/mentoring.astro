@@ -3,6 +3,7 @@ import { Picture } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import MentoringCTA from "../../components/mentoring/MentoringCTA.astro";
 import Hero from "../../components/Hero.astro";
+import MenteesContent from "../../components/MenteesContent.astro";
 import about from "../../../public/assets/about.jpg";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 
@@ -75,13 +76,22 @@ const widths = [768]
 			<section>
 				<h2>For whom?</h2>
 				<div class="content">
-					<p>Individuals seeking to achieve professional goals.</p>
-					<p>Those wanting to unleash their full potential.</p>
 					<p>
-						People looking to improve performance and productivity.
+						Mentoring is intended for all those people who want to:
 					</p>
-					<p>Professionals aiming to advance in their careers.</p>
-					<p>Anyone seeking profesional growth and development.</p>
+					<ul>
+						<li>Achieve professional goals.</li>
+						<li>Unleash your full potential.</li>
+						<li>Improve performance and productivity.</li>
+						<li>Advance your career.</li>
+						<li>Professional growth and development.</li>
+					</ul>
+				</div>
+			</section>
+			<section>
+				<h2>Mentees</h2>
+				<div class="content">
+					<MenteesContent />
 				</div>
 			</section>
 		</main>
