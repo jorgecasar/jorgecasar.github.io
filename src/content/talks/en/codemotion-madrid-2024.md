@@ -1,10 +1,10 @@
 ---
 title: Type Javascript without Typescript
-talkDate: 2024-05-21 00:00:00
+talkDate: 2024-05-21 17:15:00 GMT+0200
 event:
   name: Codemotion Madrid
   dateStart: 2024-05-21 00:00:00
-  dateEnd: 2024-05-21 00:00:00
+  dateEnd: 2024-05-22 00:00:00
 img: ../../../../public/assets/events/codemotion-2024-type-javascript-without-typescript.jpg
 imgAlt: Selfie from the stage in the foreground I appear with the master of ceremonies Alba and the antendees in the background
 description: |

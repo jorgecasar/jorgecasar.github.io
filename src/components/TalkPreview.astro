@@ -17,10 +17,27 @@ const widths = [360, 600]
 	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [data.img.width])
 	.filter((value, index, all) => all.indexOf(value) === index)
 	.sort((a, b) => a - b);
+
+const talkDate = data.talkDate && new Date(data.talkDate);
 ---
 
 <a class="card" href=`${translatePath('/talks', lang)}/${talkSlug}/`>
-	<span class="title">{data.title}</span>
+	<h2 class="title">{data.title}</h2>
+	{
+		talkDate && (
+			<time>
+				{talkDate.getHours()
+					? talkDate.toLocaleString(lang, {
+							year: "numeric",
+							month: "numeric",
+							day: "numeric",
+							hour: "2-digit",
+							minute: "2-digit",
+						})
+					: talkDate.toLocaleDateString(lang)}
+			</time>
+		)
+	}
 	<Picture
 		formats={["avif", "webp"]}
 		loading="eager"
@@ -33,9 +50,9 @@ const widths = [360, 600]
 
 	<style>
 		.card {
-			display: grid;
-			grid-template: auto 1fr / auto 1fr;
-			height: 11rem;
+			position: relative;
+			display: block;
+			height: 22rem;
 			background: var(--gradient-subtle);
 			border: 1px solid var(--gray-800);
 			border-radius: 0.75rem;
@@ -52,14 +69,25 @@ const widths = [360, 600]
 			box-shadow: var(--shadow-md);
 		}
 
-		.title {
-			grid-area: 1 / 1 / 2 / 2;
-			z-index: 1;
+		.title,
+		time {
+			position: absolute;
 			margin: 0.5rem;
 			padding: 0.5rem 1rem;
 			background: var(--gray-999);
 			color: var(--gray-200);
 			border-radius: 0.375rem;
+			font-size: 1.5rem;
+		}
+
+		.title {
+			top: 0;
+			left: 0;
+		}
+
+		time {
+			bottom: 0;
+			right: 0;
 		}
 
 		.card :global(picture) {
@@ -74,11 +102,11 @@ const widths = [360, 600]
 
 		@media (min-width: 50em) {
 			.card {
-				height: 22rem;
 				border-radius: 1.5rem;
 			}
 
-			.title {
+			.title,
+			time {
 				border-radius: 0.9375rem;
 			}
 		}

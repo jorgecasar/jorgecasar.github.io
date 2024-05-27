@@ -1,10 +1,10 @@
 ---
 title: Tipa Javascript sin Typescript
-talkDate: 2024-05-21 00:00:00
+talkDate: 2024-05-21 17:15:00 GMT+0200
 event:
   name: Codemotion Madrid
   dateStart: 2024-05-21 00:00:00
-  dateEnd: 2024-05-21 00:00:00
+  dateEnd: 2024-05-22 00:00:00
 img: ../../../../public/assets/events/codemotion-2024-type-javascript-without-typescript.jpg
 imgAlt: Autofoto desde el escenario en primer plano aparezco con la Maestra de Ceremonia Alba y de fondo los asistentes
 description: |

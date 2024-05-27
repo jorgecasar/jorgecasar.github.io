@@ -1,6 +1,6 @@
 ---
 title: Tu primer Web Component
-talkDate: 2024-05-02 12:30:00
+talkDate: 2024-05-02 12:30:00 GMT+0200
 event:
   name: Google Developer Student Club Valencia
   dateStart: 2024-05-02
