@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import { defaultLang } from "../../i18n/ui.ts";
 
 import Page from "../_shared/talks/[...slug].astro";
 
@@ -8,7 +9,10 @@ interface Props {
 }
 
 export async function getStaticPaths() {
-	const talks = await getCollection("talks");
+	const talks = (await getCollection("talks")).filter((entry) => {
+		const [entryLang] = entry.slug.split("/");
+		return entryLang === defaultLang;
+	});
 
 	const paths = talks.map((entry) => {
 		const [lang, ...slug] = entry.slug.split("/");

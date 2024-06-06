@@ -9,7 +9,7 @@ img: ../../../../public/assets/events/codemotion-2024-type-javascript-without-ty
 imgAlt: Autofoto desde el escenario en primer plano aparezco con la Maestra de Ceremonia Alba y de fondo los asistentes
 description: |
     ¿Es posible escribir un archivo Javascript sin utilizar archivos ts? ¿Cómo puedo hacer que mi biblioteca Javascript sea compatible con Typescript?
-    Typescript tiene algunas funciones sobre Javascript, pero la razón principal por la que la gente usa Typescript es para escribir el código.
+    Typescript tiene algunas funciones sobre Javascript, pero la razón principal por la que la gente usa Typescript es para tipar el código.
     Veremos cómo validar tipos y generar tipos de definición utilizando archivos Javascript.
 tags:
     - Javascript

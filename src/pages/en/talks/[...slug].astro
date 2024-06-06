@@ -8,7 +8,10 @@ interface Props {
 }
 
 export async function getStaticPaths() {
-	const talks = await getCollection("talks");
+	const talks = (await getCollection("talks")).filter((entry) => {
+		const [entryLang] = entry.slug.split("/");
+		return entryLang === "en";
+	});
 
 	const paths = talks.map((entry) => {
 		const [lang, ...slug] = entry.slug.split("/");
