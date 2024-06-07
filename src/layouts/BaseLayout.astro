@@ -68,7 +68,7 @@ const { title, description } = Astro.props;
 <html lang={lang} class="theme-dark">
 	<head>
 		<MainHead title={title} description={description} />
-		<link rel="preload" href="" />
+		<slot name="head" />
 	</head>
 	<body>
 		<div class="stack backgrounds">

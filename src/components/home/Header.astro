@@ -11,6 +11,9 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const widths = calculateWidths([364, 456], portrait.width);
+const sizes =
+	"(min-width: 1100px) 364px, (min-width: 800px) 33vw, (min-width: 420px) 364px, calc(100vw - 3rem)";
+const formats = ["avif", "webp"];
 ---
 
 <header class="hero">
@@ -35,15 +38,14 @@ const widths = calculateWidths([364, 456], portrait.width);
 		</div>
 	</Hero>
 	<Picture
-		formats={["avif", "webp"]}
+		formats={formats}
 		alt="Jorge del Casar"
 		loading="eager"
 		fetchpriority="high"
 		src={portrait}
 		width={widths[0]}
 		widths={widths}
-		alt="Jorge del Casar"
-		sizes="(min-width: 1100px) 364px, (min-width: 800px) 33vw, (min-width: 420px) 364px, calc(100vw - 3rem)"
+		sizes={sizes}
 	/>
 </header>
 
