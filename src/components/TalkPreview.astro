@@ -2,6 +2,7 @@
 import { Picture } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { getLangFromUrl, useTranslatedPath } from "../i18n/utils.ts";
+import { calculateWidths } from "../utils/imageOptimization.js";
 
 const lang = getLangFromUrl(Astro.url);
 const translatePath = useTranslatedPath(lang);
@@ -13,10 +14,7 @@ interface Props {
 const { data, slug } = Astro.props.talk;
 const [, ...talkSlug] = slug.split("/");
 
-const widths = [360, 600]
-	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [data.img.width])
-	.filter((value, index, all) => all.indexOf(value) === index)
-	.sort((a, b) => a - b);
+const widths = calculateWidths([360, 600], data.img.width);
 
 const talkDate = data.talkDate && new Date(data.talkDate);
 ---

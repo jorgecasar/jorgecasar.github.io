@@ -5,14 +5,12 @@ import Icon from "../Icon.astro";
 import Pill from "../Pill.astro";
 import portrait from "../../../public/assets/portrait.jpg";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { calculateWidths } from "../../utils/imageOptimization.js";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const widths = [364, 456]
-	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [portrait.width])
-	.filter((value, index, all) => all.indexOf(value) === index)
-	.sort((a, b) => a - b);
+const widths = calculateWidths([364, 456], portrait.width);
 ---
 
 <header class="hero">
@@ -40,6 +38,7 @@ const widths = [364, 456]
 		formats={["avif", "webp"]}
 		alt="Jorge del Casar"
 		loading="eager"
+		fetchpriority="high"
 		src={portrait}
 		width={widths[0]}
 		widths={widths}

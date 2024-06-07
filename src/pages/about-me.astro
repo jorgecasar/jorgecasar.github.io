@@ -8,14 +8,12 @@ import Pill from "../components/Pill.astro";
 import about from "../../public/assets/about.jpg";
 
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { calculateWidths } from "../utils/imageOptimization.js";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const widths = [768]
-	.reduce((acc, curr) => [...acc, curr, curr * 2, curr * 3], [about.width])
-	.filter((value, index, all) => all.indexOf(value) === index)
-	.sort((a, b) => a - b);
+const widths = calculateWidths([768], about.width);
 ---
 
 <BaseLayout
@@ -31,6 +29,7 @@ const widths = [768]
 				<Picture
 					formats={["avif", "webp"]}
 					loading="eager"
+					fetchpriority="high"
 					src={about}
 					widths={widths}
 					alt="Jorge del Casar"
