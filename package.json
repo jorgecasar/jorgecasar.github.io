@@ -10,18 +10,18 @@
 		"astro": "astro"
 	},
 	"dependencies": {
-		"@justinribeiro/lite-youtube": "^1.5.0",
-		"astro": "^4.6.2"
+		"@justinribeiro/lite-youtube": "^1.0.0",
+		"astro": "^5.0.0"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.0.0",
-		"eslint": "^8.57.0",
+		"eslint": "^8.0.0",
 		"eslint-config-airbnb": "^19.0.0",
-		"eslint-plugin-editorconfig": "^4.0.3",
-		"eslint-plugin-import": "^2.29.1",
-		"eslint-plugin-markdown": "^4.0.1",
+		"eslint-plugin-editorconfig": "^4.0.0",
+		"eslint-plugin-import": "^2.0.0",
+		"eslint-plugin-markdown": "^5.0.0",
 		"globals": "^15.0.0",
-		"typescript": "^5.4.5",
-		"typescript-eslint": "^7.7.0"
+		"typescript": "^5.0.0",
+		"typescript-eslint": "^8.0.0"
 	}
 }
