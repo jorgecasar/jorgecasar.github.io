@@ -30,7 +30,7 @@ export const esUi = {
 	'contact.cta.title': '¿Trabajamos juntos?',
 	'contact.cta.text': 'Envíame un mensaje',
 	'mentoring.cta.title': '¿Te interesa la mentorización?',
-	'mentoring.cta.text': 'Reservame un hueco',
+	'mentoring.cta.text': 'Reserva un hueco',
 	'skills.1.title': 'Innovación digital',
 	'skills.1.tagline': 'Impulsado a crear experiencias digitales excepcionales y escalables.',
 	'skills.2.title': 'Superar desafíos',
