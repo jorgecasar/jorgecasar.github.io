@@ -31,8 +31,11 @@ const talkDate = data.talkDate && new Date(data.talkDate);
 							day: "numeric",
 							hour: "2-digit",
 							minute: "2-digit",
+							timeZone: "Europe/Madrid",
 						})
-					: talkDate.toLocaleDateString(lang)}
+					: talkDate.toLocaleDateString(lang, {
+							timeZone: "Europe/Madrid",
+						})}
 			</time>
 		)
 	}
