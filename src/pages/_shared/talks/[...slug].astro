@@ -8,7 +8,16 @@ import ContactCTA from "../../../components/shared/ContactCTA.astro";
 import Hero from "../../../components/Hero.astro";
 import Icon from "../../../components/Icon.astro";
 import Pill from "../../../components/Pill.astro";
+import {
+	getLangFromUrl,
+	useTranslatedPath,
+	useTranslations,
+} from "../../../i18n/utils.ts";
 import { calculateWidths } from "../../../utils/imageOptimization.js";
+
+const lang = getLangFromUrl(Astro.url);
+const translatePath = useTranslatedPath(lang);
+const t = useTranslations(lang);
 
 interface Props {
 	entry: CollectionEntry<"talks">;
@@ -17,6 +26,7 @@ interface Props {
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 const widths = calculateWidths([360, 636], entry.data.img.width);
+const talksUrl = translatePath("/talks");
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.description}>
@@ -24,8 +34,8 @@ const widths = calculateWidths([360, 636], entry.data.img.width);
 		<div class="stack gap-15">
 			<header>
 				<div class="wrapper stack gap-2">
-					<a class="back-link" href="/talks/"
-						><Icon icon="arrow-left" />Talks</a
+					<a class="back-link" href={talksUrl}
+						><Icon icon="arrow-left" />{t("nav.talks")}</a
 					>
 					<Hero title={entry.data.title} align="start">
 						<div class="details">
