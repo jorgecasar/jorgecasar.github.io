@@ -1,5 +1,5 @@
 ---
-import Icon from './Icon.astro';
+import Icon from "./Icon.astro";
 ---
 
 <theme-toggle>
@@ -33,7 +33,7 @@ import Icon from './Icon.astro';
 	}
 
 	.icon.light::before {
-		content: '';
+		content: "";
 		z-index: -1;
 		position: absolute;
 		inset: 0;
@@ -47,7 +47,7 @@ import Icon from './Icon.astro';
 
 	:global(.theme-dark) .icon.dark,
 	:global(html:not(.theme-dark)) .icon.light,
-	button[aria-pressed='false'] .icon.light {
+	button[aria-pressed="false"] .icon.light {
 		color: var(--accent-text-over);
 	}
 
@@ -69,27 +69,33 @@ import Icon from './Icon.astro';
 
 <script>
 	class ThemeToggle extends HTMLElement {
-		constructor() {
-			super();
-
-			const button = this.querySelector('button')!;
-
-			/** Set the theme to dark/light mode. */
-			const setTheme = (dark: boolean) => {
-				document.documentElement.classList[dark ? 'add' : 'remove']('theme-dark');
-				button.setAttribute('aria-pressed', String(dark));
-			};
-
+		button;
+		connectedCallback() {
+			this.button = this.querySelector("button")!;
 			// Toggle the theme when a user clicks the button.
-			button.addEventListener('click', () => setTheme(!this.isDark()));
-
+			this.button.addEventListener("click", this.clickHandler);
 			// Initialize button state to reflect current theme.
-			setTheme(this.isDark());
+			this.setTheme(this.isDark());
+		}
+
+		clickHandler = (event) => {
+			event.stopPropagation();
+			this.setTheme(!this.isDark());
+		};
+
+		/** Set the theme to dark/light mode. */
+		setTheme(dark: boolean) {
+			document.documentElement.classList[dark ? "add" : "remove"](
+				"theme-dark"
+			);
+			document.documentElement.dataset.theme = dark ? "dark" : "light";
+			const newEvent = new Event("theme-change", { bubbles: true });
+			this.dispatchEvent(newEvent);
 		}
 
 		isDark() {
-			return document.documentElement.classList.contains('theme-dark');
+			return document.documentElement.classList.contains("theme-dark");
 		}
 	}
-	customElements.define('theme-toggle', ThemeToggle);
+	customElements.define("theme-toggle", ThemeToggle);
 </script>
