@@ -19,7 +19,7 @@ const widths = calculateWidths([360, 600], data.img.width);
 const talkDate = data.talkDate && new Date(data.talkDate);
 ---
 
-<a class="card" href=`${translatePath('/talks', lang)}/${talkSlug}/`>
+<a class="card" href=`${translatePath('/talks', lang)}/${talkSlug}`>
 	<h2 class="title">{data.title}</h2>
 	{
 		talkDate && (

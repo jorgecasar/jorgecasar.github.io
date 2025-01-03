@@ -9,7 +9,6 @@ img: ../../../../public/assets/events/stem-gdgmenorca-2025.png
 imgAlt: STEM GDG Menorca
 description: |
     En esta charla haremos una breve introducción a los web components y cómo estos pueden mejorar la Experiencia de Usuario y unificar la Interfaz de Usuario. Iremos desde ejemplos simples de composición hasta ejemplos complejos con inyección de dependencias para integrarlos en arquitecturas hexagonales o modificar su funcionamiento según dónde los incorporemos. En resumen, un recorrido completo sobre las bases de los web components hasta cómo implementar i18n, signals, context. Todo lo que necesitas saber para empezar a incorporar web components en tus interfaces de usuario.
-slides: ./stem-gdgmenorca-2025/slides.md
 tags:
     - Javascript
     - Web Components
