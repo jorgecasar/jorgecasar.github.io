@@ -2,13 +2,13 @@
 interface Props {
 	title: string;
 	tagline?: string;
-	align?: 'start' | 'center';
+	align?: "start" | "center";
 }
 
-const { align = 'center', tagline, title } = Astro.props;
+const { align = "center", tagline, title } = Astro.props;
 ---
 
-<div class:list={['hero stack gap-4', align]}>
+<div class:list={["hero stack gap-4", align]}>
 	<div class="stack gap-2">
 		<h1 class="title">{title}</h1>
 		{tagline && <p class="tagline">{tagline}</p>}
@@ -18,37 +18,32 @@ const { align = 'center', tagline, title } = Astro.props;
 
 <style>
 	.hero {
-		font-size: var(--text-lg);
+		font-size: var(--font-size-2);
 		text-align: center;
 	}
 
 	.title,
 	.tagline {
-		max-width: 37ch;
 		margin-inline: auto;
+		max-inline-size: none;
 	}
 
 	.title {
-		font-size: var(--text-3xl);
-		color: var(--gray-0);
+		font-size: var(--font-size-8);
+	}
+
+	.tagline {
+		font-size: var(--font-size-4);
 	}
 
 	@media (min-width: 50em) {
 		.hero {
-			font-size: var(--text-xl);
-		}
-
-		.start {
 			text-align: start;
 		}
 
 		.start .title,
 		.start .tagline {
 			margin-inline: unset;
-		}
-
-		.title {
-			font-size: var(--text-5xl);
 		}
 	}
 </style>

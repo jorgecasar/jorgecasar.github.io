@@ -21,14 +21,14 @@ const { href } = Astro.props;
 		line-height: 1.1;
 		border-radius: 999rem;
 		overflow: hidden;
-		background: var(--gradient-accent-orange);
-		box-shadow: var(--shadow-md);
+		background: var(--gradient-accent);
+		box-shadow: var(--shadow-4);
 		white-space: nowrap;
 	}
 
 	@media (min-width: 20em) {
 		a {
-			font-size: var(--text-lg);
+			font-size: var(--font-size-3);
 		}
 	}
 
@@ -41,16 +41,10 @@ const { href } = Astro.props;
 		transition: background-color var(--theme-transition);
 		mix-blend-mode: overlay;
 	}
-
-	a:focus::after,
-	a:hover::after {
-		background-color: hsla(var(--gray-999-basis), 0.3);
-	}
-
 	@media (min-width: 50em) {
 		a {
 			padding: 1.125rem 2.5rem;
-			font-size: var(--text-xl);
+			font-size: var(--font-size-4);
 		}
 	}
 </style>

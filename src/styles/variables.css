@@ -1,0 +1,43 @@
+:where(html) {
+	--brand: var(--accent-regular);
+	--theme-transition: .2s var(--ease-in-out-1);
+	--gradient-stop-1: var(--accent-light);
+	--gradient-stop-2: var(--accent-regular);
+	--gradient-stop-3: var(--accent-dark);
+	--font-brand: var(--font-industrial);
+	font-family: var(--font-system-ui);
+}
+
+:where([data-theme=dark], .dark, .dark-theme) {
+	--surface-0: linear-gradient(180deg, #090b11 33%, var(--surface-1) 50%, #090b11 100%);
+	--accent-light: var(--purple-11);
+	--accent-regular: var(--purple-10);
+	--accent-dark: var(--purple-3);
+	--accent-overlay: hsla(280, 89%, 67%, .33);
+	--accent-subtle-overlay: hsla(281, 81%, 36%, .33);
+	--accent-text-over: var(--text-1);
+	--link-color: var(--accent-dark);
+	--gradient-stop-1: #4c11c6;
+	--gradient-subtle: linear-gradient(150deg, var(--gray-10) 19%, var(--gray-12) 81%);
+	--gradient-accent: var(--gradient-27);
+	--gradient-accent-orange: var(--gradient-27);
+	--gradient-stroke: linear-gradient(180deg, var(--gray-8), var(--gray-9));
+}
+
+:where([data-theme=light], .light, .light-theme) {
+	--surface-0: linear-gradient(180deg, #fff 33%, var(--surface-1) 50%, #fff 100%);
+	--accent-light: var(--purple-3);
+	--accent-regular: var(--purple-5);
+	--accent-dark: var(--purple-11);
+	--accent-overlay: hsla(280, 89%, 67%, .33);
+	--accent-subtle-overlay: var(--accent-overlay);
+	--accent-text-over: var(--text-1);
+	--link-color: var(--accent-regular);
+	--gradient-stop-1: var(--accent-light);
+	--gradient-stop-2: var(--accent-regular);
+	--gradient-stop-3: var(--accent-dark);
+	--gradient-subtle: linear-gradient(150deg, var(--gray-1) 19%, var(--gray-0) 150%);
+	--gradient-accent: var(--gradient-5);
+	--gradient-accent-orange: var(--gradient-5);
+	--gradient-stroke: linear-gradient(180deg, var(--gray-2), var(--gray-3));
+}

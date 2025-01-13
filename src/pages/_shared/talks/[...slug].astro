@@ -38,12 +38,15 @@ const talksUrl = translatePath("/talks");
 					<a class="back-link" href={talksUrl}
 						><Icon icon="arrow-left" />{t("nav.talks")}</a
 					>
-					<Hero title={entry.data.title} align="start">
+					<Hero
+						title={entry.data.title}
+						tagline={entry.data.description}
+						align="start"
+					>
 						<div class="details">
 							<div class="tags">
 								{entry.data.tags.map((t) => <Pill>{t}</Pill>)}
 							</div>
-							<p class="description">{entry.data.description}</p>
 						</div>
 					</Hero>
 				</div>
@@ -77,7 +80,7 @@ const talksUrl = translatePath("/talks");
 		<style>
 			header {
 				padding-bottom: 2.5rem;
-				border-bottom: 1px solid var(--gray-800);
+				border-bottom: 1px solid var(--surface-2);
 			}
 
 			.back-link {
@@ -100,7 +103,7 @@ const talksUrl = translatePath("/talks");
 			}
 
 			.description {
-				font-size: var(--text-lg);
+				font-size: var(--font-size-3);
 				max-width: 54ch;
 			}
 
@@ -126,19 +129,19 @@ const talksUrl = translatePath("/talks");
 				height: 100%;
 				object-fit: cover;
 				border-radius: 1.5rem;
-				box-shadow: var(--shadow-sm);
+				box-shadow: var(--shadow-3);
 				background: var(--gradient-subtle);
-				border: 1px solid var(--gray-800);
+				border: 1px solid var(--surface-2);
 			}
 
 			.content :global(blockquote) {
-				font-size: var(--text-lg);
+				font-size: var(--font-size-3);
 				font-family: var(--font-brand);
 				font-weight: 600;
 				line-height: 1.1;
 				padding-inline-start: 1.5rem;
 				border-inline-start: 0.25rem solid var(--accent-dark);
-				color: var(--gray-0);
+				color: var(--text-1);
 			}
 
 			.back-link,
@@ -174,7 +177,7 @@ const talksUrl = translatePath("/talks");
 				}
 
 				.content :global(blockquote) {
-					font-size: var(--text-2xl);
+					font-size: var(--font-size-5);
 				}
 			}
 		</style>
