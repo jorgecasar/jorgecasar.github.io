@@ -80,7 +80,7 @@ import Icon from "./Icon.astro";
 
 		clickHandler = (event) => {
 			event.stopPropagation();
-			this.setTheme(!this.isDark());
+			this.toggle();
 		};
 
 		/** Set the theme to dark/light mode. */
@@ -95,6 +95,10 @@ import Icon from "./Icon.astro";
 
 		isDark() {
 			return document.documentElement.classList.contains("theme-dark");
+		}
+
+		toggle() {
+			this.setTheme(!this.isDark());
 		}
 	}
 	customElements.define("theme-toggle", ThemeToggle);

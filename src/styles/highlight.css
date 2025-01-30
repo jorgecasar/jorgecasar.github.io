@@ -1,0 +1,128 @@
+.hljs {
+	display: block;
+	overflow-x: auto;
+	padding: 0.5em;
+}
+
+:where([data-theme=dark], .dark, .dark-theme) {
+	.hljs-tag,
+	.hljs-keyword,
+	.hljs-selector-tag,
+	.hljs-literal,
+	.hljs-strong,
+	.hljs-name {
+		color: var(--pink-6);
+	}
+
+	.hljs-code {
+		color: var(--cyan-3);
+	}
+
+	.hljs-class .hljs-title {
+		color: var(--gray-0);
+	}
+
+	.hljs-attribute,
+	.hljs-symbol,
+	.hljs-regexp,
+	.hljs-link {
+		color: var(--purple-5);
+	}
+
+	.hljs-string,
+	.hljs-bullet,
+	.hljs-subst,
+	.hljs-title,
+	.hljs-section,
+	.hljs-emphasis,
+	.hljs-type,
+	.hljs-built_in,
+	.hljs-builtin-name,
+	.hljs-selector-attr,
+	.hljs-selector-pseudo,
+	.hljs-addition,
+	.hljs-variable,
+	.hljs-template-tag,
+	.hljs-template-variable {
+		color: var(--lime-4);
+	}
+
+	.hljs-comment,
+	.hljs-quote,
+	.hljs-deletion,
+	.hljs-meta {
+		color: var(--sand-7);
+	}
+
+	.hljs-keyword,
+	.hljs-selector-tag,
+	.hljs-literal,
+	.hljs-doctag,
+	.hljs-title,
+	.hljs-section,
+	.hljs-type,
+	.hljs-selector-id {
+		font-weight: bold;
+	}
+}
+:where([data-theme=light], .light, .light-theme) {
+	.hljs-tag,
+	.hljs-keyword,
+	.hljs-selector-tag,
+	.hljs-literal,
+	.hljs-strong,
+	.hljs-name {
+		color: var(--pink-6);
+	}
+
+	.hljs-code {
+		color: var(--cyan-8);
+	}
+
+	.hljs-class .hljs-title {
+		color: var(--gray-12);
+	}
+
+	.hljs-attribute,
+	.hljs-symbol,
+	.hljs-regexp,
+	.hljs-link {
+		color: var(--purple-7);
+	}
+
+	.hljs-string,
+	.hljs-bullet,
+	.hljs-subst,
+	.hljs-title,
+	.hljs-section,
+	.hljs-emphasis,
+	.hljs-type,
+	.hljs-built_in,
+	.hljs-builtin-name,
+	.hljs-selector-attr,
+	.hljs-selector-pseudo,
+	.hljs-addition,
+	.hljs-variable,
+	.hljs-template-tag,
+	.hljs-template-variable {
+		color: var(--lime-8);
+	}
+
+	.hljs-comment,
+	.hljs-quote,
+	.hljs-deletion,
+	.hljs-meta {
+		color: var(--sand-4);
+	}
+
+	.hljs-keyword,
+	.hljs-selector-tag,
+	.hljs-literal,
+	.hljs-doctag,
+	.hljs-title,
+	.hljs-section,
+	.hljs-type,
+	.hljs-selector-id {
+		font-weight: bold;
+	}
+}

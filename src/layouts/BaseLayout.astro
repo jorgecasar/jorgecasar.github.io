@@ -6,6 +6,8 @@ import Footer from "../components/Footer.astro";
 import { getLangFromUrl } from "../i18n/utils";
 import noise from "../../public/assets/backgrounds/noise.png";
 
+import "../styles/global.css";
+
 const lang = getLangFromUrl(Astro.url);
 
 const imageNoise = (await getImage({ src: noise })).src;
@@ -65,7 +67,7 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
-<html lang={lang} class="theme-dark">
+<html lang={lang}>
 	<head>
 		<MainHead title={title} description={description} />
 		<slot name="head" />

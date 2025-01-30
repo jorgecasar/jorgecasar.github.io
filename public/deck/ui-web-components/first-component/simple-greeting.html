@@ -1,0 +1,47 @@
+<template id="simple-greeting-template">
+	<style>
+		p {
+			color: var(--accent-regular);
+		}
+	</style>
+	<p>Hello, <span>Somebody</span>!</p>
+</template>
+<script>
+ class SimpleGreeting extends HTMLElement {
+
+	constructor() {
+		super();
+		const { content } = document.getElementById(
+			"simple-greeting-template"
+		);
+		const clone = content.cloneNode(true);
+		this.attachShadow({ mode: "open" }).appendChild(clone);
+	}
+
+	get name() {
+		return this.getAttribute('name');
+	}
+
+	set name(value) {
+		this.setAttribute('name', value);
+	}
+
+	connectedCallback() {
+		this.render();
+	}
+
+	render() {
+		const span = this.shadowRoot.querySelector('span');
+		span.textContent = this.name;
+	}
+
+	static get observedAttributes() {
+		return ['name'];
+	}
+
+	attributeChangedCallback(name, oldValue, newValue) {
+		this.render();
+	}
+}
+customElements.define("simple-greeting", SimpleGreeting);
+</script>

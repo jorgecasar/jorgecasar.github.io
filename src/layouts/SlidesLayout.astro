@@ -1,0 +1,113 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import "reveal.js/dist/reveal.css";
+import "reveal.js/dist/theme/black.css";
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+	<style>
+		:root {
+			--r-background-color: var(--surface-1);
+			--r-main-font: var(--font-system-ui);
+			--r-main-font-size: var(--font-size-fluid-1);
+			--r-main-color: var(--text-2);
+			--r-block-margin: var(--size-2);
+			--r-heading-margin: 0 0 var(--size-5);
+			--r-heading-font: var(--font-brand);
+			--r-heading-color: var(--text-1);
+			--r-heading-line-height: var(--font-lineheight-1);
+			--r-heading-letter-spacing: var(--font-letterspacing-1);
+			--r-heading-text-transform: var(--r-heading-text-transform);
+			--r-heading-text-shadow: var(--shadow-1);
+			--r-heading-font-weight: var(--font-weight-6);
+			--r-heading1-text-shadow: var(--shadow-1);
+			--r-heading1-size: var(--font-size-fluid-3);
+			--r-heading2-size: var(--font-size-fluid-2);
+			--r-heading3-size: var(--font-size-fluid-1);
+			--r-heading4-size: var(--font-size-fluid-0);
+			--r-code-font: var(--font-monospace-code);
+			--r-link-color: var(--link-color);
+			--r-link-color-dark: var(--r-link-color-dark);
+			--r-link-color-hover: var(--r-link-color-hover);
+			--r-selection-background-color: var(--accent-regular);
+			--r-selection-color: var(--accent-text-over);
+			/* --r-overlay-element-bg-color: var(red);
+			--r-overlay-element-fg-color: var(blue); */
+		}
+		.reveal {
+			margin: 0 auto;
+			max-width: 100vw;
+			max-height: 80vh;
+			aspect-ratio: 16/9;
+		}
+
+		.slides :global(*) {
+			max-inline-size: none;
+		}
+		.slides :global(table) {
+			inline-size: 100%;
+		}
+		.slides :global(p),
+		.slides :global(ul),
+		.slides :global(ol),
+		.slides :global(dl) {
+			font-size: var(--font-size-fluid-2);
+		}
+
+		.slides :global(pre) {
+			font-size: var(--font-size-fluid-1);
+		}
+
+		.slides
+			:global(
+				:has([data-background-video], [data-background-image]) section
+			) {
+			background: color-mix(in srgb, var(--surface-1), transparent 50%);
+		}
+
+		.slides :global(.code-result) {
+			display: grid;
+			gap: var(--size-5);
+			grid-template-columns: 1fr 1fr;
+			align-self: stretch;
+		}
+		@media (min-width: 50em) {
+			.reveal {
+				max-width: 80vw;
+				max-height: 60vh;
+			}
+		}
+	</style>
+	<div class="reveal">
+		<div class="slides">
+			<slot />
+		</div>
+	</div>
+	<script>
+		import Reveal from "reveal.js";
+		import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
+		import Highlight from "reveal.js/plugin/highlight/highlight.esm.js";
+		import Notes from "reveal.js/plugin/notes/notes.esm.js";
+		import Zoom from "reveal.js/plugin/zoom/zoom.js";
+
+		let deck = new Reveal({
+			plugins: [Markdown, Highlight, Notes, Zoom],
+		});
+		deck.addKeyBinding(
+			{ keyCode: 84, key: "T", description: "Start timer" },
+			() => {
+				document.querySelector("theme-toggle")?.toggle();
+			}
+		);
+		deck.initialize({
+			embedded: true,
+			controls: false,
+			slideNumber: true,
+			showSlideNumber: "speaker",
+			backgroundTransition: "slide",
+			showNotes: "separate-page",
+		});
+	</script>
+</BaseLayout>
