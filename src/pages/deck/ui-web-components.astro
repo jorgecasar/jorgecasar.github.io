@@ -23,6 +23,8 @@ import contextList from "../../../public/deck/ui-web-components/manage-data/cont
 import ListWithPictureContext from "../../../public/deck/ui-web-components/manage-data/ListWithPictureContext.js?raw";
 import ListContextProvider from "../../../public/deck/ui-web-components/manage-data/ListContextProvider.js?raw";
 import ListContextProviderArtists from "../../../public/deck/ui-web-components/manage-data/ListContextProviderArtists.js?raw";
+import ContextExampleImports from "../../../public/deck/ui-web-components/manage-data/contextExampleImports.html";
+import ContextExampleHtml from "../../../public/deck/ui-web-components/manage-data/contextExampleHtml.html";
 
 import signalCount from "../../../public/deck/ui-web-components/manage-data/signalCount.js?raw";
 import SelectedItemsSignals from "../../../public/deck/ui-web-components/manage-data/SelectedItemsSignals.js?raw";
@@ -414,54 +416,15 @@ const description =
 		<section>
 			<h3>Uso</h3>
 			<pre>
-				<code class="language-javascript" data-line-numbers>{`<list-context-provider-empty class="drop-zone">
-	<list-with-picture-context draggable="true" />
-</list-context-provider-empty>
-
-<list-context-provider-artists class="drop-zone">
-</list-context-provider-artists>
-
-<list-context-provider class="drop-zone">
-</list-context-provider-artists>
-
-<list-context-provider-ccaa class="drop-zone">
-</list-context-provider-artists>`}</code>
+				<code class="language-html" data-line-numbers><ContextExampleHtml /></code>
 			</pre>
 		</section>
 
 		<section>
 			<h3>Mismo componentes en diferentes contextos</h3>
-			<script
-				type="module"
-				src="/deck/ui-web-components/manage-data/list-context-provider.js"
-			></script>
-			<script
-				type="module"
-				src="/deck/ui-web-components/manage-data/list-context-provider-empty.js"
-			></script>
-			<script
-				type="module"
-				src="/deck/ui-web-components/manage-data/list-context-provider-artists.js"
-			></script>
-			<script
-				type="module"
-				src="/deck/ui-web-components/manage-data/list-context-provider-ccaa.js"
-			></script>
-			<script
-				type="module"
-				src="/deck/ui-web-components/manage-data/list-with-picture-context.js"
-			></script>
+			<ContextExampleImports />
 			<div class="two-columns">
-				<list-context-provider-empty class="drop-zone"
-					><list-with-picture-context draggable="true"
-					></list-with-picture-context></list-context-provider-empty
-				>
-				<list-context-provider-artists class="drop-zone">
-				</list-context-provider-artists>
-				<list-context-provider class="drop-zone">
-				</list-context-provider>
-				<list-context-provider-ccaa class="drop-zone">
-				</list-context-provider-ccaa>
+				<ContextExampleHtml />
 			</div>
 		</section>
 
@@ -668,17 +631,17 @@ const description =
 			margin: 0 auto;
 		}
 
-		.drop-zone {
+		:global(.drop-zone) {
 			display: block;
 			inline-size: 100%;
 			block-size: var(--size-12);
 			margin: 0 auto;
 			border: 1px dashed var(--text-1) !important;
 		}
-		.drop-zone:empty {
+		:global(.drop-zone:empty) {
 			background: var(--surface-2);
 		}
-		[draggable="true"] {
+		:global([draggable="true"]) {
 			min-inline-size: var(--size-content-1);
 			block-size: var(--size-12);
 			border: 1px dashed var(--text-1) !important;
