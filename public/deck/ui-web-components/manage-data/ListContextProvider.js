@@ -9,14 +9,14 @@ export class ListContextProvider extends LitElement {
 		context: contextList
 	});
 
-	context = 'No implemented';
+	context = 'No implementado';
 
 	static properties = {
 		context: { type: String },
 	};
 
 	task = async () => {
-		throw new Error('Not implemented');
+		throw new Error('Task not implemented');
 	}
 
 	taskFactory = (host) => new Task(host, {

@@ -5,6 +5,6 @@ import { count } from './signalCount.js';
 export class SelectedItemsSignals extends SignalWatcher(LitElement) {
 
 	render() {
-		return html`<p>Selected: ${watch(count)}</p>`;
+		return html`<p>Seleccionados: ${watch(count)}</p>`;
 	}
 }

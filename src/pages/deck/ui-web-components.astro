@@ -14,8 +14,8 @@ import artists from "../../../public/deck/ui-web-components/data/artists.json";
 import ListWithPictureMixin from "../../../public/deck/ui-web-components/composition/ListWithPictureMixin.js?raw";
 import ListWithPicture from "../../../public/deck/ui-web-components/composition/ListWithPicture.js?raw";
 
-import ClockController from "../../../public/deck/ui-web-components/composition/ClockController.js?raw";
-import CurrentTime from "../../../public/deck/ui-web-components/composition/current-time.js?raw";
+import FetchController from "../../../public/deck/ui-web-components/composition/FetchController.js?raw";
+import ListWithPictureFetch from "../../../public/deck/ui-web-components/composition/list-with-picture-fetch.js?raw";
 
 import ListWithPictureTask from "../../../public/deck/ui-web-components/manage-data/ListWithPictureTask.js?raw";
 
@@ -29,6 +29,9 @@ import ContextExampleHtml from "../../../public/deck/ui-web-components/manage-da
 import signalCount from "../../../public/deck/ui-web-components/manage-data/signalCount.js?raw";
 import SelectedItemsSignals from "../../../public/deck/ui-web-components/manage-data/SelectedItemsSignals.js?raw";
 import ListWithPictureSignals from "../../../public/deck/ui-web-components/manage-data/ListWithPictureSignals.js?raw";
+
+import SelectedItemsSignalsI18n from "../../../public/deck/ui-web-components/i18n/SelectedItemsSignalsI18n.js?raw";
+import Localization from "../../../public/deck/ui-web-components/i18n/localization.js?raw";
 
 const cdnRegex = /https:\/\/cdn.skypack.dev\//g;
 const cleanCDN = (content) => content.replaceAll(cdnRegex, "");
@@ -49,9 +52,12 @@ const description =
 <SlidesLayout title={title} description={description}>
 	<section>
 		<section
-			data-background-image="/deck/ui-web-components/ui-web-components.png"
+			data-background-image="/deck/ui-web-components/backgrounds/ui-web-components.png"
 		>
-			<h1>{title}</h1>
+			<h1 class="r-fit-text">
+				Potencia el desarrollo<br />de tu interfaz con<br />Web
+				Components
+			</h1>
 		</section>
 	</section>
 	<section>
@@ -236,13 +242,13 @@ const description =
 
 	<section id="composition">
 		<section
-			data-background-image="https://miro.medium.com/v2/resize:fit:4800/format:webp/1*cXZURUeagvhSi-qU4fyHTA.jpeg"
+			data-background-image="/deck/ui-web-components/backgrounds/composition.png"
 		>
 			<h1>Composición</h1>
 		</section>
 
 		<section
-			data-background-image="https://images.stockcake.com/public/d/2/5/d25992e6-4001-46ca-8f73-b0e22b5806d8/floating-building-blocks-stockcake.jpg"
+			data-background-image="/deck/ui-web-components/backgrounds/component-composition.png"
 		>
 			<h2 class="r-fit-text">Composición de components</h2>
 			<p>
@@ -273,7 +279,7 @@ const description =
 		</section>
 
 		<section
-			data-background-image="https://images.stockcake.com/public/c/2/1/c21be229-104e-4210-8cd8-4d6d3173d508/colorful-cocktail-splash-stockcake.jpg"
+			data-background-image="/deck/ui-web-components/backgrounds/mixin.png"
 		>
 			<h2>Mixin</h2>
 			<p>
@@ -307,7 +313,7 @@ const description =
 		</section>
 
 		<section
-			data-background-image="https://images.stockcake.com/public/d/c/5/dc577ba4-6b2f-4117-9be0-203b61682ebe/gaming-controller-setup-stockcake.jpg"
+			data-background-image="/deck/ui-web-components/backgrounds/controller.png"
 		>
 			<h2>Controlador</h2>
 			<p>
@@ -317,36 +323,40 @@ const description =
 		</section>
 
 		<section>
-			<h3>Clock Controller</h3>
+			<h3>Controlador Fetch</h3>
 			<pre>
-				<code class="language-javascript" data-line-numbers="1|8-11|18"><Fragment set:html={cleanCDN(ClockController)} /></code>
+				<code class="language-javascript" data-line-numbers="1|3-6|8-13|16-26|28"><Fragment set:html={cleanCDN(FetchController)} /></code>
 			</pre>
 		</section>
 
 		<section>
-			<h3>Componente hora actual</h3>
+			<h3>Lista con imagen y fetch</h3>
 			<pre>
-				<code class="language-javascript" data-line-numbers="2|6|10|15-19"><Fragment set:html={cleanCDN(CurrentTime)} /></code>
+				<code class="language-javascript" data-line-numbers="2|7|13-18|27,31-33|"><Fragment set:html={cleanCDN(ListWithPictureFetch)} /></code>
 			</pre>
+		</section>
+		<section>
 			<h3>Resultado</h3>
 			<script
 				type="module"
-				src="/deck/ui-web-components/composition/current-time.js"
+				src="/deck/ui-web-components/composition/list-with-picture-fetch.js"
 			></script>
-			<current-time></current-time>
+			<list-with-picture-fetch value="artists"></list-with-picture-fetch>
 		</section>
 	</section>
-	<section id="data">
+	<section id="manage-data">
 		<section
-			data-background-image="https://embed.filekitcdn.com/e/rFR4zHWA5rgNSmZLnbTZWi/85f3hs4DDXBym8gtduuoR3"
+			data-background-image="/deck/ui-web-components/backgrounds/manage-data.png"
 		>
 			<h1>Manejando datos</h1>
 		</section>
-		<section>
-			<h2>Async Task</h2>
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/async-task.png"
+		>
+			<h2>Tarea Asíncrona</h2>
 			<p>
-				Es una operación asíncrona que realiza algún trabajo para
-				producir datos y devolverlos en una Promesa.
+				Es una operación asíncrona que realiza una acción para obtener
+				datos y devolverlos en una Promesa.
 			</p>
 		</section>
 		<section>
@@ -379,7 +389,9 @@ const description =
 				></script>
 			</div>
 		</section>
-		<section>
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/context.png"
+		>
 			<h2>Contexto</h2>
 			<p>
 				Es una forma de hacer que los datos estén disponibles para sin
@@ -428,12 +440,11 @@ const description =
 			</div>
 		</section>
 
-		<section>
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/signals.png"
+		>
 			<h2>Signals</h2>
-			<p>
-				Las Signals son estructuras de datos para gestionar el estado
-				observable.
-			</p>
+			<p>Son estructuras de datos para gestionar el estado observable.</p>
 		</section>
 		<section>
 			<h3>Crear signal</h3>
@@ -457,7 +468,7 @@ const description =
 		</section>
 
 		<section>
-			<h3>Select your favorites</h3>
+			<h3>Selecciona tus favoritos</h3>
 			<script
 				type="module"
 				src="/deck/ui-web-components/manage-data/list-with-picture-signals.js"
@@ -476,6 +487,95 @@ const description =
 					<list-with-picture-signals></list-with-picture-signals>
 				</list-context-provider-ccaa>
 			</div>
+		</section>
+	</section>
+	<section id="i18n">
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/i18n.png"
+		>
+			<h1 class="r-fit-text">Internacionalización</h1>
+		</section>
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/localization.png"
+		>
+			<h2>Localization</h2>
+			<p>
+				Es el proceso de soportar múltiples idiomas y regiones en tu app
+				y componentes.
+			</p>
+		</section>
+		<section>
+			<h2>Instalación</h2>
+			<p>Instala la biblioteca de cliente y la CLI</p>
+			<pre><code>
+npm i @lit/localize
+npm i -D @lit/localize-tools
+</code></pre>
+		</section>
+		<section>
+			<h3>Envuelve el texto en la función <code>msg</code></h3>
+			<pre>
+				<code class="language-javascript" data-line-numbers="3|17|11|18"><Fragment set:html={cleanCDN(SelectedItemsSignalsI18n)} /></code>
+			</pre>
+		</section>
+		<section>
+			<h3>
+				Crea un fichero de configuración <code>lit-localize.json</code>
+			</h3>
+			<pre><code class="language-json" data-line-numbers>{`{
+	"$schema": "https://raw.githubusercontent.com/lit/lit/main/packages/localize-tools/config.schema.json",
+	"sourceLocale": "es",
+	"targetLocales": ["en"],
+	"inputFiles": ["public/**/*.js"],
+	"output": {
+		"mode": "runtime",
+		"outputDir": "./public/generated/locales",
+		"localeCodesModule": "./public/generated/locale-codes.js"
+	},
+	"interchange": {
+		"format": "xliff",
+		"xliffDir": "./xliff/"
+	}
+}`}</code></pre>
+		</section>
+		<section>
+			<h3>
+				Ejecuta <code>lit-localize extract</code> para generar los ficheros
+				XLIFF.
+			</h3>
+		</section>
+		<section>
+			<h3>Edita el fichero XLIFF generado para añadir la traducción</h3>
+		</section>
+		<section>
+			<h3>
+				Ejecuta <code>lit-localize build</code> para generar una versión
+				localizada de tus textos.
+			</h3>
+		</section>
+		<section>
+			<h3>Modos de salida</h3>
+			<ul>
+				<li>Tiempo de ejecución</li>
+				<li>Transformación</li>
+			</ul>
+		</section>
+		<section>
+			<h3>Tiempo de ejecución</h3>
+			<pre>
+				<code class="language-javascript" data-line-numbers="2-3|5-9|11-15"><Fragment set:html={cleanCDN(Localization)} /></code>
+			</pre>
+		</section>
+		<section>
+			<script
+				type="module"
+				src="/deck/ui-web-components/i18n/localization.js"></script>
+			<script
+				type="module"
+				src="/deck/ui-web-components/i18n/selected-items-signals-i18n.js"
+			></script>
+			<h3>Selecciona tus favoritos</h3>
+			<selected-items-signals-i18n></selected-items-signals-i18n>
 		</section>
 	</section>
 	<section>

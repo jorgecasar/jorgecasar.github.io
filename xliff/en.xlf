@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<file target-language="en" source-language="es" original="lit-localize-inputs" datatype="plaintext">
+<body>
+<trans-unit id="h8013fc3b510c3183">
+  <source>Seleccionados: <x id="0" equiv-text="${num}"/></source>
+  <target>Selected: <x id="0" equiv-text="${num}"/></target>
+</trans-unit>
+</body>
+</file>
+</xliff>

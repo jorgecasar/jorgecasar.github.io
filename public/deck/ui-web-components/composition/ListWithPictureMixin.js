@@ -6,8 +6,8 @@ export const ListWithPictureMixin = (superClass) => class extends superClass {
 
 	static styles = listWithPictureStyles;
 
-	error(e) {
-		return html`<p class="error">${e}</p>`;
+	error() {
+		return html`<p class="error">There was an error</p>`;
 	}
 
 	pending() {

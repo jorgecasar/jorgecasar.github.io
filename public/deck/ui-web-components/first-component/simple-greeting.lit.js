@@ -13,11 +13,11 @@ class SimpleGreetingLit extends LitElement {
 
 	constructor() {
 		super();
-		this.name = 'Somebody';
+		this.name = 'alguien';
 	}
 
 	render() {
-		return html`<p>Hello, ${this.name}!</p>`;
+		return html`<p>Hola, ${this.name}!</p>`;
 	}
 }
 customElements.define('simple-greeting-lit', SimpleGreetingLit);

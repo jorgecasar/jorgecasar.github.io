@@ -4,7 +4,7 @@ const endpoint = '/deck/ui-web-components/data/artists.json';
 
 export class ListContextProviderArtists extends ListContextProvider {
 
-	context = 'Artists';
+	context = 'Artistas';
 
 	task = async ({ signal }) => {
 		const response = await fetch(endpoint, { signal });

@@ -1,0 +1,15 @@
+{
+	"$schema": "https://raw.githubusercontent.com/lit/lit/main/packages/localize-tools/config.schema.json",
+	"sourceLocale": "es",
+	"targetLocales": ["en"],
+	"inputFiles": ["public/**/*.js"],
+	"output": {
+		"mode": "runtime",
+		"outputDir": "./public/generated/locales",
+		"localeCodesModule": "./public/generated/locale-codes.js"
+	},
+	"interchange": {
+		"format": "xliff",
+		"xliffDir": "./xliff/"
+	}
+}
