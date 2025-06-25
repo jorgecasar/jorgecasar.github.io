@@ -6,7 +6,7 @@ event:
   dateStart: 2023-11-29 18:30:00 GMT+0200
   dateEnd: 2023-11-29 20:30:00 GMT+0200
 img: ../../../../public/assets/events/tech-sherpas-madrid-development-speed-2023-11-29.png
-imgAlt: ""
+imgAlt: "Round table where you can see the moderator and the participants."
 description: |
     ​This time we will have a round table where we will bring together a panel of technology leaders with extensive experience in team management to talk about Development Speed.
 tags:
@@ -15,13 +15,13 @@ tags:
     - Panel
 ---
 
-## El evento
+## The event
 
 > The reference community of the technology sector in Latin America
 
 This event is aimed at technology managers (CTOs, VPs and Engineering Directors) who want to boost the productivity of their teams.
 
-## La charla
+## The talk
 
 ​​During this session we explore topics such as:
 
@@ -29,7 +29,7 @@ This event is aimed at technology managers (CTOs, VPs and Engineering Directors)
 - How to improve key factors
 - How to measure the improvements applied
 
-## El vídeo
+## The video
 
 <lite-youtube videoid="tgkZJhaIX9w">
 

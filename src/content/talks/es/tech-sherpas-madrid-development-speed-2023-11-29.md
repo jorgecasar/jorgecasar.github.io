@@ -6,7 +6,7 @@ event:
   dateStart: 2023-11-29 18:30:00 GMT+0200
   dateEnd: 2023-11-29 20:30:00 GMT+0200
 img: ../../../../public/assets/events/tech-sherpas-madrid-development-speed-2023-11-29.png
-imgAlt: ""
+imgAlt: "Mesa Redonda donde se ve al moderador y los participantes."
 description: |
     ​Esta vez tendremos una mesa redonda donde reuniremos a un panel de líderes en tecnología con amplia experiencia en gestión de equipos para hablar sobre Velocidad de Desarrollo.
 tags:
