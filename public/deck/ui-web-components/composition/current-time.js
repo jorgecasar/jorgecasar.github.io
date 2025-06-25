@@ -1,4 +1,4 @@
-import { LitElement, html } from 'https://cdn.skypack.dev/lit';
+import { LitElement, html } from 'lit';
 import { ClockController } from './ClockController.js';
 
 class CurrentTime extends LitElement {

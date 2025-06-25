@@ -1,5 +1,5 @@
-import { SignalWatcher } from 'https://cdn.skypack.dev/@lit-labs/signals';
-import { html, css } from 'https://cdn.skypack.dev/lit';
+import { SignalWatcher } from '@lit-labs/signals';
+import { html, css } from 'lit';
 import { ListWithPictureContext } from './ListWithPictureContext.js';
 import { count } from './signalCount.js';
 

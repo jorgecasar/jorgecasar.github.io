@@ -1,4 +1,4 @@
-import { css } from 'https://cdn.skypack.dev/lit';
+import { css } from 'lit';
 
 export const listWithPictureStyles = css`
 :host {

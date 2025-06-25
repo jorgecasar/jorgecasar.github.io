@@ -1,0 +1,780 @@
+---
+import { Picture } from "astro:assets";
+import SlidesLayout from "../../layouts/SlidesLayout.astro";
+
+import { calculateWidths } from "../../utils/imageOptimization.js";
+
+import portrait from "../../../public/assets/portrait.jpg";
+import legoBuilding from "../../../public/deck/ui-web-components/lego-building-messy.png";
+import portraitDark from "../../../public/assets/portraitDark.jpg";
+
+import SimpleGreeting from "../../../public/deck/ui-web-components/first-component/simple-greeting.html";
+import SimpleGreetingLit from "../../../public/deck/ui-web-components/first-component/simple-greeting.lit.js?raw";
+import artists from "../../../public/deck/ui-web-components/data/artists.json";
+
+import ListWithPictureMixin from "../../../public/deck/ui-web-components/composition/ListWithPictureMixin.js?raw";
+import ListWithPicture from "../../../public/deck/ui-web-components/composition/ListWithPicture.js?raw";
+
+import FetchController from "../../../public/deck/ui-web-components/composition/FetchController.js?raw";
+import ListWithPictureFetch from "../../../public/deck/ui-web-components/composition/list-with-picture-fetch.js?raw";
+
+import ListWithPictureTask from "../../../public/deck/ui-web-components/manage-data/ListWithPictureTask.js?raw";
+
+import contextList from "../../../public/deck/ui-web-components/manage-data/contextList.js?raw";
+import ListWithPictureContext from "../../../public/deck/ui-web-components/manage-data/ListWithPictureContext.js?raw";
+import ListContextProvider from "../../../public/deck/ui-web-components/manage-data/ListContextProvider.js?raw";
+import ListContextProviderArtists from "../../../public/deck/ui-web-components/manage-data/ListContextProviderArtists.js?raw";
+import ContextExampleImports from "../../../public/deck/ui-web-components/manage-data/contextExampleImports.html";
+import ContextExampleHtml from "../../../public/deck/ui-web-components/manage-data/contextExampleHtml.html";
+
+import signalCount from "../../../public/deck/ui-web-components/manage-data/signalCount.js?raw";
+import SelectedItemsSignals from "../../../public/deck/ui-web-components/manage-data/SelectedItemsSignals.js?raw";
+import ListWithPictureSignals from "../../../public/deck/ui-web-components/manage-data/ListWithPictureSignals.js?raw";
+
+import SelectedItemsSignalsI18n from "../../../public/deck/ui-web-components/i18n/SelectedItemsSignalsI18n.js?raw";
+import Localization from "../../../public/deck/ui-web-components/i18n/localization.js?raw";
+
+const litLogo = await fetch(`https://lit.dev/images/logo.svg#full?raw`).catch(
+	(e) => ""
+);
+
+const widths = calculateWidths([364, 456], portrait.width);
+const sizes =
+	"(min-width: 1100px) 364px, (min-width: 800px) 33vw, (min-width: 420px) 364px, calc(100vw - 3rem)";
+const formats = ["avif", "webp"];
+---
+
+<SlidesLayout>
+	<script type="importmap">
+		{
+			"imports": {
+				"@lit-labs/signals": "https://ga.jspm.io/npm:@lit-labs/signals@0.1.2/index.js",
+				"@lit/context": "https://ga.jspm.io/npm:@lit/context@1.1.5/index.js",
+				"@lit/localize": "https://ga.jspm.io/npm:@lit/localize@0.12.2/lit-localize.js",
+				"@lit/task": "https://ga.jspm.io/npm:@lit/task@1.0.2/index.js",
+				"lit": "https://ga.jspm.io/npm:lit@3.3.0/index.js"
+			},
+			"scopes": {
+				"https://ga.jspm.io/": {
+					"@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@2.1.0/reactive-element.js",
+					"lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@4.2.0/lit-element.js",
+					"lit-html": "https://ga.jspm.io/npm:lit-html@3.3.0/lit-html.js",
+					"lit-html/": "https://ga.jspm.io/npm:lit-html@3.3.0/",
+					"lit/": "https://ga.jspm.io/npm:lit@3.3.0/",
+					"signal-polyfill": "https://ga.jspm.io/npm:signal-polyfill@0.2.2/dist/index.js"
+				}
+			}
+		}
+	</script>
+
+	<!-- ES Module Shims import maps polyfills -->
+	<script
+		async
+		src="https://ga.jspm.io/npm:es-module-shims@2.6.0/dist/es-module-shims.js"
+		crossorigin="anonymous"></script>
+
+	<section>
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/ui-web-components.png"
+		>
+			<h1 class="r-fit-text">
+				Potencia el desarrollo<br />de tu interfaz con<br />Web
+				Components
+			</h1>
+		</section>
+	</section>
+	<section>
+		<section>
+			<div class="two-columns">
+				<div class="r-stack">
+					<Picture
+						formats={formats}
+						alt="Lego building"
+						loading="lazy"
+						fetchpriority="high"
+						src={legoBuilding}
+						width={widths[0]}
+						widths={widths}
+						sizes={sizes}
+					/>
+				</div>
+				<div>
+					<h2>Proyecto que se va de las manos</h2>
+				</div>
+			</div>
+		</section>
+	</section>
+	<section id="about-me">
+		<div class="two-columns">
+			<div>
+				<h1>Jorge del Casar</h1>
+				<p>Head of Tech at ActioGlobal</p>
+				<p>Google Developer Expert</p>
+				<p>+20 years working on web</p>
+			</div>
+			<Picture
+				class="light"
+				formats={formats}
+				alt="Jorge del Casar"
+				loading="lazy"
+				fetchpriority="high"
+				src={portrait}
+				width={widths[0]}
+				widths={widths}
+				sizes={sizes}
+			/>
+			<Picture
+				class="dark"
+				formats={formats}
+				alt="Jorge del Casar"
+				loading="lazy"
+				fetchpriority="high"
+				src={portraitDark}
+				width={widths[0]}
+				widths={widths}
+				sizes={sizes}
+			/>
+		</div>
+	</section>
+	<section id="what-is-web-components">
+		<section
+			data-background-video="https://y.yarn.co/11150859-b36f-404f-ac26-2d645c2a2193.mp4"
+		>
+			<h1>¿Qué son los Web Components?</h1>
+		</section>
+		<section>
+			<div>
+				<p>Un conjunto de APIs para crear nuevas etiquetas HTML</p>
+				<ul>
+					<li>personalizadas</li>
+					<li>reutilizables</li>
+					<li>encapsuladas</li>
+				</ul>
+			</div>
+		</section>
+		<section>
+			<h1>¿De qué se componen?</h1>
+			<div class="fragment">
+				<p>3 APIs nativas del navegador</p>
+				<ul>
+					<li>Custom Elements</li>
+					<li>Shadow DOM</li>
+					<li>HTML Templates</li>
+				</ul>
+			</div>
+		</section>
+	</section>
+	<section id="first-web-component">
+		<section
+			data-background-video="https://y.yarn.co/5fc71fb8-a26c-4e33-a6d0-722c4a4ef0d2.mp4"
+		>
+			<h1>Tu primer Web Component</h1>
+		</section>
+		<section>
+			<h2>Código</h2>
+			<pre><code class="language-html" data-line-numbers="10|46|14-18|1-8|21-27|29-36|38-44"><SimpleGreeting /></code></pre>
+		</section>
+		<section>
+			<div>
+				<h2>Importar</h2>
+				<pre><code class="language-html" data-line-numbers>{'<script type="module" src="./simple-greeting.js"></script>'}</code></pre>
+			</div>
+			<div class="fragment">
+				<h2>Usar</h2>
+				<pre><code class="language-html" data-line-numbers>{'<simple-greeting name="World"></simple-greeting>'}</code></pre>
+			</div>
+			<div class="fragment">
+				<h2>Mostrar</h2>
+				<simple-greeting name="World"></simple-greeting>
+			</div>
+		</section>
+	</section>
+	<section id="lifecycle">
+		<section
+			data-background-video="https://y.yarn.co/d9b3463f-a4cd-4cc6-beca-0d13705f5b97.mp4"
+		>
+			<h1>El ciclo de vida</h1>
+		</section>
+		<section>
+			<h2 class="r-fit-text">connectedCallback</h2>
+			<p class="r-fit-text">
+				Invocado cuando se conecta por primera vez al DOM del documento.
+			</p>
+		</section>
+		<section>
+			<h2 class="r-fit-text">disconnectedCallback</h2>
+			<p class="r-fit-text">
+				Invocado cuando se desconecta del DOM del documento.
+			</p>
+		</section>
+		<section>
+			<h2 class="r-fit-text">adoptedCallback</h2>
+			<p class="r-fit-text">
+				Invocado cuando se mueve a un nuevo documento.
+			</p>
+		</section>
+		<section>
+			<h2 class="r-fit-text">attributeChangedCallback</h2>
+			<p class="r-fit-text">
+				Invocado cuando uno de los atributos es añadido, removido o
+				modificado.
+			</p>
+		</section>
+	</section>
+
+	<section id="lit-lib">
+		<section
+			data-background-video="https://y.yarn.co/97ed9101-8b77-44bc-a1f6-6981fd4bf879.mp4"
+		>
+			<h1>
+				<Fragment set:html={litLogo} />
+			</h1>
+		</section>
+		<section>
+			<p class="r-fit-text">
+				Lit es una librería sencilla para crear componentes web rápidos
+				y ligeros.
+			</p>
+		</section>
+
+		<section>
+			<h2>Código</h2>
+			<pre>
+		<code class="language-javascript" data-line-numbers="1-3|23|4-9|10-17|19-21"><Fragment set:html={SimpleGreetingLit} /></code>
+	</pre>
+		</section>
+		<section>
+			<div>
+				<h2>Importar</h2>
+				<pre><code class="language-html">{'<script type=" module" src="./simple-greeting.lit.js" />'}</code></pre>
+			</div>
+			<div class="fragment">
+				<h2>Usar</h2>
+				<pre><code class="language-html">{'<simple-greeting-lit name="Lit"></simple-greeting-lit>'}</code></pre>
+			</div>
+			<div class="fragment">
+				<h2>Mostrar</h2>
+				<script
+					type="module"
+					src="/deck/ui-web-components/first-component/simple-greeting.lit.js"
+				></script>
+				<simple-greeting-lit name="Lit"></simple-greeting-lit>
+			</div>
+		</section>
+	</section>
+
+	<section id="composition">
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/composition.png"
+		>
+			<h1>Composición</h1>
+		</section>
+
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/component-composition.png"
+		>
+			<h2 class="r-fit-text">Composición de components</h2>
+			<p>
+				El proceso de construir un componente grande y complejo a partir
+				de componentes más pequeños y simples.
+			</p>
+		</section>
+		<section>
+			<h3>Código</h3>
+			<pre><code class="language-html" data-line-numbers>{`<list-item>
+<img
+slot="picture"
+src="./piet_mondrian.jpg"
+/>
+<h3>Piet Mondrian</h3>
+</list-item>`}</code></pre>
+			<h3>Resultado</h3>
+			<script
+				type="module"
+				src="/deck/ui-web-components/composition/list-item.js"></script>
+			<list-item>
+				<img
+					slot="picture"
+					src="https://www.reprodart.com/kunst/piet_mondrian_11026/piet_mondrian_11026_preview-2.jpg"
+				/>
+				<h3>Piet Mondrian</h3>
+			</list-item>
+		</section>
+
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/mixin.png"
+		>
+			<h2>Mixin</h2>
+			<p>
+				Son un patrón para compartir código entre clases utilizando
+				JavaScript estándar.
+			</p>
+		</section>
+
+		<section>
+			<h3>Mixin de Lista con Imagen</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="5|7|9-11|13-15|17-22|24-26|28-33"><Fragment set:html={ListWithPictureMixin} /></code>
+	</pre>
+		</section>
+
+		<section>
+			<h3>Lista con Imagen usando un Mixin</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="2-4|7,12|15-19"><Fragment set:html={ListWithPicture} /></code>
+	</pre>
+		</section>
+
+		<section>
+			<h3>Resultado</h3>
+			<script
+				type="module"
+				src="/deck/ui-web-components/composition/list-with-picture.js"
+			></script>
+			<list-with-picture items={JSON.stringify(artists)}
+			></list-with-picture>
+		</section>
+
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/controller.png"
+		>
+			<h2>Controlador</h2>
+			<p>
+				Es un objeto que puede conectarse al ciclo de actualización
+				reactiva de un componente.
+			</p>
+		</section>
+
+		<section>
+			<h3>Controlador Fetch</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="1|3-6|8-13|16-26|28"><Fragment set:html={FetchController} /></code>
+	</pre>
+		</section>
+
+		<section>
+			<h3>Lista con imagen y fetch</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="2|7|13-18|27,31-33|"><Fragment set:html={ListWithPictureFetch} /></code>
+	</pre>
+		</section>
+		<section>
+			<h3>Resultado</h3>
+			<script
+				type="module"
+				src="/deck/ui-web-components/composition/list-with-picture-fetch.js"
+			></script>
+			<list-with-picture-fetch value="artists"></list-with-picture-fetch>
+		</section>
+	</section>
+	<section id="manage-data">
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/manage-data.png"
+		>
+			<h1>Manejando datos</h1>
+		</section>
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/async-task.png"
+		>
+			<h2>Tarea Asíncrona</h2>
+			<p>
+				Es una operación asíncrona que realiza una acción para obtener
+				datos y devolverlos en una Promesa.
+			</p>
+		</section>
+		<section>
+			<h3>Code</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="1|9|13|14|15-17|23-27"><Fragment set:html={ListWithPictureTask} /></code>
+	</pre>
+		</section>
+		<section>
+			<div class="two-columns">
+				<div>
+					<h3>Código</h3>
+					<pre><code class="language-html" data-line-numbers>{`<list-with-picture-task endpoint="/api/artists"></list-with-picture-task>`}</code></pre>
+					<h3>Resultado</h3>
+					<list-with-picture-task
+						endpoint="/deck/ui-web-components/data/artists.json"
+					></list-with-picture-task>
+				</div>
+				<div>
+					<h3>Código</h3>
+					<pre><code class="language-html" data-line-numbers>{`<list-with-picture-task endpoint="/api/ccaa"></list-with-picture-task>`}</code></pre>
+					<h3>Resultado</h3>
+					<list-with-picture-task
+						endpoint="/deck/ui-web-components/data/ccaa.json"
+					></list-with-picture-task>
+				</div>
+				<script
+					type="module"
+					src="/deck/ui-web-components/manage-data/list-with-picture-task.js"
+				></script>
+			</div>
+		</section>
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/context.png"
+		>
+			<h2>Contexto</h2>
+			<p>
+				Es una forma de hacer que los datos estén disponibles para sin
+				tener que vincular manualmente propiedades a cada componente
+			</p>
+		</section>
+		<section>
+			<h3>Crear contexto</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers><Fragment set:html={contextList} /></code>
+	</pre>
+		</section>
+
+		<section>
+			<h3>Consumir contexto</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="1|3|8-14|16-21"><Fragment set:html={ListWithPictureContext} /></code>
+	</pre>
+		</section>
+		<section>
+			<h3>Proveer contexto</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="2|4|8-10|12-16|18-20|22-25|29"><Fragment set:html={ListContextProvider} /></code>
+	</pre>
+		</section>
+
+		<section>
+			<h3>Proveer contexto artistas</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="7|9-13"><Fragment set:html={ListContextProviderArtists} /></code>
+	</pre>
+		</section>
+
+		<section>
+			<h3>Uso</h3>
+			<pre>
+		<code class="language-html" data-line-numbers><ContextExampleHtml /></code>
+	</pre>
+		</section>
+
+		<section>
+			<h3>Mismo componentes en diferentes contextos</h3>
+			<ContextExampleImports />
+			<div class="two-columns">
+				<ContextExampleHtml />
+			</div>
+		</section>
+
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/signals.png"
+		>
+			<h2>Signals</h2>
+			<p>Son estructuras de datos para gestionar el estado observable.</p>
+		</section>
+		<section>
+			<h3>Crear signal</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers><Fragment set:html={signalCount} /></code>
+	</pre>
+		</section>
+
+		<section>
+			<h3>Mostrar signal</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="1,5|3|8"><Fragment set:html={SelectedItemsSignals} /></code>
+	</pre>
+		</section>
+
+		<section>
+			<h3>Asignar signal</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="1,6|4|23,26"><Fragment set:html={ListWithPictureSignals} /></code>
+	</pre>
+		</section>
+
+		<section>
+			<h3>Selecciona tus favoritos</h3>
+			<script
+				type="module"
+				src="/deck/ui-web-components/manage-data/list-with-picture-signals.js"
+			></script>
+			<script
+				type="module"
+				src="/deck/ui-web-components/manage-data/selected-items-signals.js"
+			></script>
+
+			<selected-items-signals></selected-items-signals>
+			<div class="two-columns">
+				<list-context-provider-artists>
+					<list-with-picture-signals></list-with-picture-signals>
+				</list-context-provider-artists>
+				<list-context-provider-ccaa>
+					<list-with-picture-signals></list-with-picture-signals>
+				</list-context-provider-ccaa>
+			</div>
+		</section>
+	</section>
+	<section id="i18n">
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/i18n.png"
+		>
+			<h1 class="r-fit-text">Internacionalización</h1>
+		</section>
+		<section
+			data-background-image="/deck/ui-web-components/backgrounds/localization.png"
+		>
+			<h2>Localization</h2>
+			<p>
+				Es el proceso de soportar múltiples idiomas y regiones en tu app
+				y componentes.
+			</p>
+		</section>
+		<section>
+			<h2>Instalación</h2>
+			<p>Instala la biblioteca de cliente y la CLI</p>
+			<pre><code>
+npm i @lit/localize
+npm i -D @lit/localize-tools
+</code></pre>
+		</section>
+		<section>
+			<h3>Envuelve el texto en la función <code>msg</code></h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="3|17|11|18"><Fragment set:html={SelectedItemsSignalsI18n} /></code>
+	</pre>
+		</section>
+		<section>
+			<h3>
+				Crea un fichero de configuración <code>lit-localize.json</code>
+			</h3>
+			<pre><code class="language-json" data-line-numbers>{`{
+"$schema": "https://raw.githubusercontent.com/lit/lit/main/packages/localize-tools/config.schema.json",
+"sourceLocale": "es",
+"targetLocales": ["en"],
+"inputFiles": ["public/**/*.js"],
+"output": {
+"mode": "runtime",
+"outputDir": "./public/generated/locales",
+"localeCodesModule": "./public/generated/locale-codes.js"
+},
+"interchange": {
+"format": "xliff",
+"xliffDir": "./xliff/"
+}
+}`}</code></pre>
+		</section>
+		<section>
+			<h3>
+				Ejecuta <code>lit-localize extract</code> para generar los ficheros
+				XLIFF.
+			</h3>
+		</section>
+		<section>
+			<h3>Edita el fichero XLIFF generado para añadir la traducción</h3>
+		</section>
+		<section>
+			<h3>
+				Ejecuta <code>lit-localize build</code> para generar una versión
+				localizada de tus textos.
+			</h3>
+		</section>
+		<section>
+			<h3>Modos de salida</h3>
+			<ul>
+				<li>Tiempo de ejecución</li>
+				<li>Transformación</li>
+			</ul>
+		</section>
+		<section>
+			<h3>Tiempo de ejecución</h3>
+			<pre>
+		<code class="language-javascript" data-line-numbers="2-3|5-9|11-15"><Fragment set:html={Localization} /></code>
+	</pre>
+		</section>
+		<section>
+			<script
+				type="module"
+				src="/deck/ui-web-components/i18n/localization.js"></script>
+			<script
+				type="module"
+				src="/deck/ui-web-components/i18n/selected-items-signals-i18n.js"
+			></script>
+			<h3>Selecciona tus favoritos</h3>
+			<selected-items-signals-i18n></selected-items-signals-i18n>
+		</section>
+	</section>
+	<section>
+		<section>
+			<h1>Conclusión</h1>
+			<ul>
+				<li>
+					<a
+						href="https://es.wikipedia.org/wiki/Algoritmo_divide_y_vencer%C3%A1s"
+						>Principio de Rubik</a
+					>: divide y vencerás
+				</li>
+				<li>
+					<a href="https://es.wikipedia.org/wiki/SOLID"
+						>Principios SOLID</a
+					>: bajo acoplamiento y alta cohesión
+				</li>
+			</ul>
+		</section>
+		<section>
+			<h2>Referencias</h2>
+			<ul class="two-columns">
+				<li>
+					<a
+						href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"
+						>Web Components (MDN)
+					</a>
+				</li>
+				<li>
+					<a href="https://lit.dev/">Lit </a>
+				</li>
+				<li>
+					<a
+						href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends#mix-ins"
+						>Class mixins (MDN)
+					</a>
+				</li>
+				<li>
+					<a
+						href="https://www.typescriptlang.org/docs/handbook/mixins.html"
+						>Mixins (TypeScript handbook)</a
+					>
+				</li>
+				<li>
+					<a href="https://component.kitchen/elix/mixins"
+						>Mixin conventions</a
+					>
+				</li>
+				<li>
+					<a href="https://lit.dev/docs/composition/controllers/"
+						>Lit Controllers
+					</a>
+				</li>
+				<li>
+					<a
+						href="https://lit.dev/docs/components/lifecycle/#reactive-update-cycle"
+						>Lit reactive update cycle</a
+					>
+				</li>
+				<li>
+					<a
+						href="https://github.com/webcomponents-cg/community-protocols/blob/main/proposals/context.md"
+						>Context Community Protocol
+					</a>
+				</li>
+				<li>
+					<a href="https://lit.dev/docs/data/context/">Lit context</a>
+				</li>
+				<li>
+					<a href="https://github.com/tc39/proposal-signals"
+						>TC39 proposal signals</a
+					>
+				</li>
+				<li>
+					<a href="https://lit.dev/docs/data/signals/">Lit signals</a>
+				</li>
+				<li>
+					<a href="https://github.com/proposal-signals/signal-utils"
+						>signal-utils</a
+					>
+				</li>
+			</ul>
+		</section>
+	</section>
+	<section>
+		<section>
+			<h1 class="r-fit-text">¡Gracias!</h1>
+		</section>
+		<section>
+			<h2>¿Preguntas?</h2>
+		</section>
+	</section>
+
+	<script>
+		const dropZones = Array.from(document.querySelectorAll(".drop-zone"));
+		let draggedElement;
+		for (const zone of dropZones) {
+			zone.addEventListener("dragover", (e) => {
+				e.preventDefault();
+			});
+
+			zone.addEventListener("drop", (e) => {
+				e.preventDefault();
+				zone.classList.remove("drag-over");
+
+				if (draggedElement) {
+					zone.appendChild(draggedElement);
+				}
+			});
+		}
+
+		document.body.addEventListener("dragstart", (e) => {
+			draggedElement = e.target;
+		});
+
+		document.body.addEventListener("dragend", (e) => {
+			draggedElement = null;
+		});
+	</script>
+
+	<style>
+		:root {
+			--lit-logo-text-color: var(--text-2);
+		}
+
+		:global([data-theme="light"] #about-me .dark) {
+			display: none;
+		}
+
+		:global([data-theme="dark"] #about-me .light) {
+			display: none;
+		}
+
+		#about-me {
+			text-align: left;
+		}
+
+		#about-me {
+			grid-template-columns: repeat(2, auto);
+		}
+
+		#about-me picture {
+			grid-row: 1;
+			grid-column: 1;
+		}
+		#about-me img {
+			border-radius: var(--radius-drawn-6);
+			box-shadow: var(--shadow-4);
+		}
+
+		#lit-lib :global(svg) {
+			inline-size: var(--size-15);
+			margin: 0 auto;
+		}
+
+		:global(.drop-zone) {
+			display: block;
+			inline-size: 100%;
+			block-size: var(--size-12);
+			margin: 0 auto;
+			border: 1px dashed var(--text-1) !important;
+		}
+		:global(.drop-zone:empty) {
+			background: var(--surface-2);
+		}
+		:global([draggable="true"]) {
+			min-inline-size: var(--size-content-1);
+			block-size: var(--size-12);
+			border: 1px dashed var(--text-1) !important;
+		}
+		.two-columns {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			align-items: center;
+			gap: 2rem;
+			list-style: none;
+		}
+	</style>
+</SlidesLayout>

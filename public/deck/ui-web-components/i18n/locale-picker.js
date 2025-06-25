@@ -1,5 +1,5 @@
-import { html, LitElement } from 'https://cdn.skypack.dev/lit';
-import { updateWhenLocaleChanges } from 'https://cdn.skypack.dev/@lit/localize';
+import { html, LitElement } from 'lit';
+import { updateWhenLocaleChanges } from '@lit/localize';
 import { getLocale, setLocaleFromUrl } from './localization.js';
 import { allLocales } from '../../../generated/locale-codes.js';
 

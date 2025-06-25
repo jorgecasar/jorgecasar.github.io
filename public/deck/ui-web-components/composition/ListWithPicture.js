@@ -1,4 +1,4 @@
-import { LitElement } from 'https://cdn.skypack.dev/lit';
+import { LitElement } from 'lit';
 import { ListWithPictureMixin } from './ListWithPictureMixin.js';
 
 export class ListWithPicture extends ListWithPictureMixin(LitElement) {

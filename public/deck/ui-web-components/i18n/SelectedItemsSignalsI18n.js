@@ -1,6 +1,6 @@
-import { SignalWatcher, watch } from 'https://cdn.skypack.dev/@lit-labs/signals';
-import { html, LitElement } from 'https://cdn.skypack.dev/lit';
-import { msg, updateWhenLocaleChanges } from 'https://cdn.skypack.dev/@lit/localize';
+import { SignalWatcher, watch } from '@lit-labs/signals';
+import { html, LitElement } from 'lit';
+import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { count } from '../manage-data/signalCount.js';
 import './locale-picker.js';
 

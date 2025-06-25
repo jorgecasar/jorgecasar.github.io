@@ -1,4 +1,4 @@
-import { configureLocalization } from 'https://cdn.skypack.dev/@lit/localize';
+import { configureLocalization } from '@lit/localize';
 // Generated via output.localeCodesModule
 import { sourceLocale, targetLocales } from '../../../generated/locale-codes.js';
 

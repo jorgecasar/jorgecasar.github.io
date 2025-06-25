@@ -1,5 +1,5 @@
-import { ContextConsumer } from 'https://cdn.skypack.dev/@lit/context';
-import { LitElement } from 'https://cdn.skypack.dev/lit';
+import { ContextConsumer } from '@lit/context';
+import { LitElement } from 'lit';
 import { contextList } from './contextList.js';
 import { ListWithPictureMixin } from '../composition/ListWithPictureMixin.js';
 

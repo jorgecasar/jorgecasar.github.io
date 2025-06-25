@@ -1,4 +1,4 @@
-import { html, nothing } from 'https://cdn.skypack.dev/lit';
+import { html, nothing } from 'lit';
 import { FetchController } from './FetchController.js';
 import './list-with-picture.js';
 import { ListWithPicture } from './ListWithPicture.js';

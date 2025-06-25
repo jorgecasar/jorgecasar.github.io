@@ -1,4 +1,4 @@
-import { html, css, LitElement } from 'https://cdn.skypack.dev/lit';
+import { html, css, LitElement } from 'lit';
 
 export class ListItem extends LitElement {
 	static styles = css`

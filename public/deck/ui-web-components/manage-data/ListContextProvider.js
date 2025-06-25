@@ -1,6 +1,6 @@
-import { ContextProvider } from 'https://cdn.skypack.dev/@lit/context';
-import { Task } from 'https://cdn.skypack.dev/@lit/task';
-import { LitElement, html } from 'https://cdn.skypack.dev/lit';
+import { ContextProvider } from '@lit/context';
+import { Task } from '@lit/task';
+import { LitElement, html } from 'lit';
 import { contextList } from './contextList.js';
 
 export class ListContextProvider extends LitElement {

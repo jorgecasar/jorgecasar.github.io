@@ -1,5 +1,5 @@
-import { SignalWatcher, watch } from 'https://cdn.skypack.dev/@lit-labs/signals';
-import { html, LitElement } from 'https://cdn.skypack.dev/lit';
+import { SignalWatcher, watch } from '@lit-labs/signals';
+import { html, LitElement } from 'lit';
 import { count } from './signalCount.js';
 
 export class SelectedItemsSignals extends SignalWatcher(LitElement) {

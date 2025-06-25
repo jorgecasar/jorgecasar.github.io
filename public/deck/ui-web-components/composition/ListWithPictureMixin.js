@@ -1,4 +1,4 @@
-import { html } from 'https://cdn.skypack.dev/lit';
+import { html } from 'lit';
 import { listWithPictureStyles } from './listWithPictureStyles.css.js';
 import './list-item.js';
 

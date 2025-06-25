@@ -1,5 +1,5 @@
-import { Task } from 'https://cdn.skypack.dev/@lit/task';
-import { LitElement } from 'https://cdn.skypack.dev/lit';
+import { Task } from '@lit/task';
+import { LitElement } from 'lit';
 
 import { ListWithPictureMixin } from '../composition/ListWithPictureMixin.js';
 
