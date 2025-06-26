@@ -1,7 +1,11 @@
 {
 	"speakers": 3,
 	"businessIntelligence": 1,
-	"frontend": 2,
+	"frontend": 7,
+	"backend": 2,
+	"full-stack": 2,
+	"cloud": 1,
+	"mobile": 1,
 	"entrepreneurship": 1,
 	"userExperience": 1
 }

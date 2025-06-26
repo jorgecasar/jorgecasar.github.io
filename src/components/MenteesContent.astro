@@ -17,10 +17,12 @@ const totalMentees = Object.values(mentees).reduce(
 </p>
 <ul>
 	{
-		Object.entries(mentees).map(([key, value]) => (
-			<li>
-				{t(`rol.${key}` as keyof (typeof ui)[typeof lang])}: {value}
-			</li>
-		))
+		Object.entries(mentees)
+			.sort(([_1, value1], [_2, value2]) => (value1 < value2 ? 1 : -1))
+			.map(([key, value]) => (
+				<li>
+					{t(`rol.${key}` as keyof (typeof ui)[typeof lang])}: {value}
+				</li>
+			))
 	}
 </ul>

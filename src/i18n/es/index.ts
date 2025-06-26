@@ -58,6 +58,9 @@ export const esUi = {
 	"rol.entrepreneurship": "Emprendimiento",
 	"rol.userExperience": "Experience de Usuario",
 	"rol.businessIntelligence": "Business Intelligence",
+	"rol.full-stack": "Fullstack",
+	"rol.cloud": "Cloud",
+	"rol.mobile": "Mobile",
 } as const;
 
 export const esRoutes = {

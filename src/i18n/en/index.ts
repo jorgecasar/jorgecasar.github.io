@@ -51,13 +51,16 @@ export const enUi = {
 	"skills.3.tagline":
 		"Community of experienced Google technology experts, influencers, and thought leaders.",
 	"mentees.content":
-		"{totalMentees} people from different sectors have already received mentoring:",
+		"<strong>{totalMentees}</strong> people from different sectors have already received mentoring:",
 	"rol.frontend": "Frontend",
 	"rol.backend": "Backend",
 	"rol.speakers": "Speakers",
 	"rol.entrepreneurship": "Entrepreneurship",
 	"rol.userExperience": "User Experience",
 	"rol.businessIntelligence": "Business Intelligence",
+	"rol.full-stack": "Fullstack",
+	"rol.cloud": "Cloud",
+	"rol.mobile": "Mobile",
 } as const;
 
 export const enRoutes = {
